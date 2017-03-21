@@ -1,0 +1,222 @@
+.tp-bullets.simplebullets.round .bullet{
+    width: 12px;
+    height: 12px;
+    border-radius: 50% !important;
+    background: #d8d8d8;
+}
+.tp-bannershadow.tp-shadow1 {	background-size:100% 100%; width:890px; height:60px; bottom:-60px}
+.tp-bannershadow.tp-shadow2 {	background-size:100% 100%; width:890px; height:60px;bottom:-60px}
+.tp-bannershadow.tp-shadow3 {	background-size:100% 100%; width:890px; height:60px;bottom:-60px}
+body.page-header-fixed.page-sidebar-closed-hide-logo{
+	background-color: #fff !important;
+}
+.portlet.light>.portlet-title>.caption>.caption-subject{
+  font-size: 22px !important;
+}
+.portlet-body{
+  padding-bottom: 0px;
+  padding-top: 5px;
+}
+.portlet.light.portlet-fit{
+  margin-bottom: 0px;
+}
+@media (min-width: 592px){
+  .col-custom-md{
+    width: 16.6%;
+  }
+  .col-custom-sd{
+    width: 12.5%;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  .col-custom-md-offset{
+    margin-left: 25%;
+  }
+}
+.mt-element-overlay .mt-overlay-1 .mt-overlay{
+  background-color: rgba(100,0,0, 0.2);
+}
+.mt-element-card .mt-card-item .mt-card-content .mt-card-name.small{
+  font-size: 13px;
+}
+.page-footer{
+  background-color: #000;
+  text-align: center;
+  padding: 20px;
+  height: 50px;
+}
+.page-footer-inner{
+  float: none;
+}
+
+.userback-button-container .userback-button {
+    position: fixed;
+    z-index: 10000200;
+    margin: 0;
+    border-radius: 3px 3px 0 0;
+    background-color: #3E3F3A;
+    background-image: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    font-family: Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    letter-spacing: normal;
+    word-spacing: normal;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-font-smoothing: antialiased;
+    text-align: center;
+    padding: 0px;
+    left: auto;
+    right: -35px;
+    top: 30%;
+    width: 100px;
+    height: 25px;
+    border: 0px;
+    box-sizing: border-box;
+    animation: feedbackZoomInUp 0.2s linear;
+    transform: scale(1.0) rotate(270deg);
+}
+.userback-button-container .userback-button:hover {
+    transform: scale(1.1) rotate(270deg);
+}
+
+.userback-button-container .userback-button button.btn{
+  padding: 3px 6px;
+}
+.owl-slider .item{
+  margin: 5px;
+}
+
+.ui-pnotify{
+  width: 320px;
+  cursor: auto;
+  right: 30px;
+  top: 65px;
+  position: fixed;
+  height: auto;
+  z-index: 9999;
+}
+.ui-pnotify-container{
+  box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+  padding: 18px;
+  border: none;
+  height: 100%;
+  margin: 0;
+  border-radius: 4px!important;
+}
+
+.ui-pnotify .content-image .menu-icon {
+  font-size: 36px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 12px;
+  display: block;
+  float: left;
+  text-align: center;
+  color: #f85d2c !important;
+}
+
+.ui-pnotify-button{
+  margin-top: 10px;
+  text-align: right;
+}
+
+.icon-cross:before {
+    content: "\e678";
+}
+
+.ui-pnotify-closer{
+  cursor: pointer;
+  visibility: visible;
+  right: 8px;
+  position: absolute;
+  top: 4px;
+  font-size: 18px;
+  float: right;
+  margin-left: .2em;
+}
+
+
+#clockdiv{
+	font-family: sans-serif;
+	color: #fff;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+}
+
+#clockdiv > div{
+	/*padding: 10px;*/
+	border-radius: 3px;
+	background: rgba(0,0,0,0.3);
+	display: inline-block;
+}
+
+#clockdiv div > span{
+	padding: 15px;
+	border-radius: 3px;
+	/*background: #00816A;*/
+	display: inline-block;
+}
+
+.leader-card-name{
+  font-family: sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+}
+.leader-card-address{
+  font-size: 15px;
+}
+
+.mt-element-card .mt-card-item .mt-card-avatar{
+  margin-bottom: 0px;
+}
+
+.mt-card-avatar-footer{
+  display: inline-flex;
+  width: 100%;
+}
+
+.mt-card-avatar-footer-section{
+  float: none;
+  padding: 15px 15px 0px 15px;
+}
+.page-content{
+  background: #f8f8f8;
+  padding-top: 50px;
+}
+.server-time-panel{
+  background: white;
+  border-bottom: 1px solid #eee;
+  height: 140px;
+  margin-bottom: 40px;
+  padding-top: 45px;
+  text-align: center;
+}
+.date-label{
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  font-size: 4rem;
+  color: black;
+  padding: 16px 25px;
+  height: 80px;
+}
+.time-label{
+  width: 80px;
+  height: 80px;
+  line-height: 30px;
+  padding: 8px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+.time-label p{
+  margin: 0px;
+}
+.time-label span{
+  font-size: 1.5rem;
+  color: #909090;
+}

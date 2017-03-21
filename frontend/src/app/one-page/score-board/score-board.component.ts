@@ -1,0 +1,125 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LanguageService } from '../../language.service';
+import { StateService } from '../../state.service';
+import { AuthenticateService, USER_SIGNED_INFO, USER_TYPE } from '../../authenticate.service';
+import { GeneralService } from '../../general.service';
+import { Score } from '../../model/score.type';
+import 'rxjs/add/operator/toPromise';
+
+@Component({
+  selector: 'app-score-board',
+  templateUrl: 'score-board.component.html',
+  styleUrls: ['score-board.component.css']
+})
+export class ScoreBoardComponent implements OnInit {
+  public errorMessage: string = "";
+  public successMessage: string = "";
+  public scores: Score[];
+  public curPage:number = 1;
+  public totalCount:number = 0;
+  public itemsPerPage:number = 10;
+  public current_item: number = 0;
+  public searchString: string = "";
+  public typeStrings: string[] = [this.tr("INDIVIDUAL"), this.tr("INSTITUTION"), this.tr("SCHOOL")];
+  public sortField: string = "id";
+  public sortDirection: boolean = false;
+  public loadingCount: number = 0;
+  public isDestroyed: boolean = false;
+  public searchFilter: string = "name";
+  public USER_SIGNED_INFO: any = USER_SIGNED_INFO;
+  public USER_TYPE = USER_TYPE;
+  public ageGroup: any = {
+    4: "3~5",
+    6: "5~8",
+    9: "8~11",
+    12: "11~13",
+    15: "13~18",
+    20: "18~"
+  };
+  constructor(public generalService:GeneralService, public authService: AuthenticateService, public lang: LanguageService, public router: Router, public appState: StateService) {
+    this.scores = [];
+    this.appState.setLoading(this.tr("LOADING_TEXT"));
+    this.refreshTable({page: this.curPage});
+    this.appState.set("one_page_menu_selected", 2);
+  }
+  refreshTable(event){
+    this.loadingCount ++;
+    this.generalService.getScores((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.sortField, this.sortDirection, this.searchString, this.searchFilter).toPromise()
+     .then(result => {
+       if(result)
+       {
+         this.errorMessage = "";
+         this.totalCount = this.generalService.totalCount;
+         this.scores = this.generalService.scores;
+         this.loadingCount --;
+         this.current_item = 0;
+         if(this.loadingCount == 0 && !this.isDestroyed){
+           let me = this;
+          //  setTimeout(function(){me.refreshTable({page: me.curPage});}, 5000);
+         }
+       }
+       else
+       {
+         this.errorMessage = this.tr("GET_FAILED");//"Please check your email and password again.";
+       }
+       this.appState.closeLoading();
+     });
+  }
+
+  sort(sortField){
+    if(this.sortField == sortField){
+      if(!this.sortDirection)
+        this.sortDirection = true;
+      else
+      {
+        this.sortField = "id";
+        this.sortDirection = false;
+      }
+    }
+    else{
+      this.sortField = sortField;
+      this.sortDirection = false;
+    }
+    this.refreshTable({page: this.curPage});
+  }
+
+  search(){
+    this.refreshTable({page: this.curPage});
+  }
+
+  ngOnInit() {
+    this.isDestroyed = false;
+  }
+  ngOnDestroy(){
+    this.isDestroyed = true;
+  }
+
+  followUser(){
+    this.appState.setLoading(this.tr("LOADING_TEXT"));
+    this.generalService.followUser(this.scores[this.current_item].id, !this.scores[this.current_item].is_current_user_following).subscribe(res => {
+      if(res){
+        this.scores[this.current_item].is_current_user_following = !this.scores[this.current_item].is_current_user_following;
+      }
+      this.appState.closeLoading();
+      if(this.scores[this.current_item].is_current_user_following)
+        this.scores[this.current_item].followingUsers.push(this.authService.currentUser);
+      else{
+        for(let i = 0; i < this.scores[this.current_item].followingUsers.length; i++){
+          if(this.scores[this.current_item].followingUsers[i].id == this.authService.currentUser.id){
+            this.scores[this.current_item].followingUsers.splice(i, 1);
+          }
+        }
+      }
+    },
+    error =>{
+      this.errorMessage = "Network Error.";
+      this.appState.closeLoading();
+    });
+  }
+
+  tr(tran: string): string
+  {
+    return this.lang.tr("scoreboard." + tran);
+  }
+}

@@ -1,0 +1,19 @@
+div.form-group div.input-icon i{
+  padding-top: 4px;
+}
+.form-control{
+	height: 34px;
+}
+.login .content .form-actions{
+		background: #fff;
+    border-bottom: 0px;
+}
+.login .content .form-control:active, .login .content .form-control{
+		background: #fff;
+}
+select.form-control option{
+	height: 24px;
+}
+.show{
+  display: block;
+}

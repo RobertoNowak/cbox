@@ -1,0 +1,166 @@
+<div class="header" [class.scrolled] = "scrollPos > 0">
+  <div class="container">
+    <a class="mobi-toggler"><i class="fa fa-bars"></i></a>
+    <div class="logo-mid">
+      <a class="" [routerLink]="['/home']"><img src="assets/img/logo-mid.png" alt="MillionMitzvot.com" class="logo-mid"></a>
+    </div>
+    <div class="header-navigation pull-right font-transform-inherit" style="    height: 75px;">
+      <ul>
+        <li  class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 1">
+          <a [routerLink]="['/home']">
+            {{tr('HOME')}}
+          </a>
+        </li>
+        <li class="main-menu-li dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown">
+            {{tr('ABOUT')}}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a [routerLink]="['/director_board/']">{{tr('BOARD_OF_DIRECTORS')}}</a></li>
+            <li><a [routerLink]="['/contact/']">{{tr('CONTACTUS')}}</a></li>
+            <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.ADMIN"><a [routerLink]="['/contact-admin/']">Talk to Customers</a></li>
+          </ul>
+        </li>
+        <li  class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 2" >
+          <a class="" [routerLink]="['/score']">
+            {{tr('SCOREBOARD')}}
+          </a>
+        </li>
+        <!-- <li  class="main-menu-li"  [class.active]= "appState.get('one_page_menu_selected') == 5">
+          <a class="" [routerLink]="['/home/director_board']">
+            {{tr('BOARD_OF_DIRECTORS')}}
+          </a>
+        </li> -->
+        <li class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 6" >
+          <a class="" [routerLink]="['/sell']">
+            {{tr('SELLBOARD')}}
+          </a>
+        </li>
+        <li class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 9" [class.dropdown] = "authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER">
+          <a class="dropdown-toggle" data-toggle = "dropdown" [routerLink]="['/selldonate']">
+            {{tr('SELLDONATE')}}
+          </a>
+          <ul class = "dropdown-menu" *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER">
+            <li><a [routerLink]="['/selldonate']">{{tr('SELLDONATE')}}</a></li>
+            <li><a [routerLink]="['/profile/donate']">{{tr('DONATE')}}</a></li>
+          </ul>
+        </li>
+        <li class="main-menu-li" *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role == USER_TYPE.ADMIN">
+          <a class="" href="{{SERVER_URL}}/admin">
+            Admin
+          </a>
+        </li>
+        <li class="main-menu-li dropdown" *ngIf = "authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN" [class.active]= "appState.get('one_page_menu_selected') == 3">
+          <a class="dropdown-toggle" data-toggle="dropdown">
+            {{tr('PROFILE')}}
+            <span class="badge badge-danger" style="position: absolute; left: auto; bottom: 20px; top: auto; right: 20px;" [class.hidden] = "general.unread_messages == 0">{{general.unread_messages}}</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a [routerLink]="['/profile/']">{{tr('EDIT_PROFILE')}}</a></li>
+            <li>
+              <a href="{{SERVER_URL}}/messages">Messages</a>
+              <span class="badge badge-danger" style="position: absolute; left: auto; bottom: 10px; top: auto; right: 5px;" [class.hidden] = "general.unread_messages == 0">{{general.unread_messages}}</span>
+            </li>
+            <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER" class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 8" >
+              <a class="" [routerLink]="['/report']">
+                {{tr('REPORT')}}
+              </a>
+            </li>
+            <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.MEMBER"><a [routerLink]="['/profile/boxes']">{{tr('BOXES')}}</a></li>
+            <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER"><a [routerLink]="['/profile/members']">{{tr('MEMBERS')}}</a></li>
+            <li><a [routerLink]="['/profile/changePassword']">{{tr('CHANGE_PASSWORD')}}</a></li>
+            <li><a href="{{SERVER_URL}}/logout">{{tr('SIGN_OUT')}}</a></li>
+          </ul>
+        </li>
+        <li class="main-menu-li" [class.hidden] = "authenticate.isLoggedIn() != USER_SIGNED_INFO.VALIDATING">
+          <a class="">
+            <i class="fa fa-spinner fa-spin fa-fw" aria-hidden="true" style="font-size: 24px;color: rgb(253, 129, 163); margin-top: 2px;"></i>
+          </a>
+        </li>
+        <li class="main-menu-li" [class.hidden] = "authenticate.isLoggedIn() != USER_SIGNED_INFO.NOT_SIGNED_IN">
+          <a class="" href="{{SERVER_URL}}/login">
+            {{tr('SIGN_IN')}}
+          </a>
+        </li>
+        <li style="padding-top:20px">
+          <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".mobile-navigation">
+            <span class="fa fa-list"></span>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="mobile-navigation collapse">
+    <ul class="nav nav-pills nav-stacked">
+      <li  [class.active]= "appState.get('one_page_menu_selected') == 1">
+        <a class="mobile-menu-item" [routerLink]="['/home']" onclick="$('.mobile-navigation').removeClass('in');">
+          {{tr('HOME')}}
+        </a>
+      </li>
+      <li   [class.active]= "appState.get('one_page_menu_selected') == 2" >
+        <a class="mobile-menu-item" [routerLink]="['/score']" onclick="$('.mobile-navigation').removeClass('in');">
+          {{tr('SCOREBOARD')}}
+        </a>
+      </li>
+      <li    [class.active]= "appState.get('one_page_menu_selected') == 5">
+        <a class="mobile-menu-item" [routerLink]="['/director_board']" onclick="$('.mobile-navigation').removeClass('in');">
+          {{tr('BOARD_OF_DIRECTORS')}}
+        </a>
+      </li>
+      <li  [class.active]= "appState.get('one_page_menu_selected') == 6" >
+        <a class="mobile-menu-item" [routerLink]="['/sell']" onclick="$('.mobile-navigation').removeClass('in');">
+          {{tr('SELLBOARD')}}
+        </a>
+      </li>
+      <li  [class.active]= "appState.get('one_page_menu_selected') == 9" >
+        <a class="mobile-menu-item" [routerLink]="['/selldonate']" onclick="$('.mobile-navigation').removeClass('in');">
+          {{tr('SELLDONATE')}}
+        </a>
+      </li>
+      <li [class.active]= "appState.get('one_page_menu_selected') == 7" >
+        <a class="mobile-menu-item" [routerLink]="['/contact']" onclick="$('.mobile-navigation').removeClass('in');">
+          {{tr('CONTACTUS')}}
+        </a>
+      </li>
+
+
+      <li class="dropdown" [class.hidden] = "!authenticate.isLoggedIn()" [class.active]= "appState.get('one_page_menu_selected') == 3">
+        <a class="mobile-menu-item dropdown-toggle" data-toggle="dropdown">
+          {{tr('PROFILE')}}
+        </a>
+        <ul class="">
+          <li class="mobile-menu-item"><a [routerLink]="['/profile/']" onclick="$('.mobile-navigation').removeClass('in');">{{tr('EDIT_PROFILE')}}</a></li>
+          <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role == USER_TYPE.MEMBER" class="mobile-menu-item"><a [routerLink]="['/profile/donate']" onclick="$('.mobile-navigation').removeClass('in');">{{tr('DONATE')}}</a></li>
+          <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER" class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 8" >
+            <a class="" [routerLink]="['/report']">
+              {{tr('REPORT')}}
+            </a>
+          </li>
+          <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.MEMBER" class="mobile-menu-item"><a [routerLink]="['/profile/boxes']" onclick="$('.mobile-navigation').removeClass('in');">{{tr('BOXES')}}</a></li>
+          <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER" class="mobile-menu-item"><a [routerLink]="['/profile/members']" onclick="$('.mobile-navigation').removeClass('in');">{{tr('MEMBERS')}}</a></li>
+          <li class="mobile-menu-item"><a href="{{SERVER_URL}}/logout">{{tr('SIGN_OUT')}}</a></li>
+        </ul>
+      </li>
+      <li  [class.hidden] = "authenticate.isLoggedIn()">
+        <a class="mobile-menu-item " class="" href="{{SERVER_URL}}/login">
+          {{tr('SIGN_IN')}}
+        </a>
+      </li>
+      <li class="main-menu-li dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">
+            Sign In/Up
+        </a>
+        <ul class="dropdown-menu">
+                <li><a href="{{SERVER_URL}}/login">Sign In</a></li>
+                <li><a href="{{SERVER_URL}}/register">Sign Up</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- <div class="" style="    text-align: center;">
+  <a class="" [routerLink]="['/home']"><img src="assets/img/logo-big.png" alt="MillionMitzvot.com" class="logo-big"></a>
+</div> -->
+
+<router-outlet></router-outlet>
