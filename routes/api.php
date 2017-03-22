@@ -53,6 +53,8 @@ $api->version('v1', function ($api) {
         $api->post('/resetDailyDepositAll', 'DepositController@resetDailyDepositAll');
         $api->get('/getDeviceInfo', 			'DepositController@getDeviceInfo');
         $api->get('/getDeviceCountry', 	'DepositController@getDeviceCountry');
+        $api->get('/getNewDeviceID', 			'DepositController@getNewDevID');
+        
         $api->get('/resetDevice',		'DepositController@resetDeviceDeposit');
 
         $api->group(['middleware' => ['auth'], 'prefix' => 'donate'], function($api) {

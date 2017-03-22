@@ -9,6 +9,7 @@ use App\Models\Box;
 use App\Models\Coin;
 use App\Models\Deposit;
 use App\Models\Currencyt;
+use App\Models\Option;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -225,6 +226,15 @@ class DepositController extends BaseController
       DB::table('cbox_boxes')
             ->update(['d_count' => 0]);
       $res['success'] = true;
+      return $res;
+    }
+
+    public function getNewDevID(Request $request){
+      $maxId = Option::where('key', 'max_device_id')->first()['value'];
+      $res['success'] = true;
+      $res['id'] = $maxId + 1;
+      $maxId = Option::where('key', 'max_device_id')->update(array('value' => $maxId + 1));
+      $res['cbox_end'] = "end";
       return $res;
     }
 }
