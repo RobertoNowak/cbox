@@ -14,9 +14,9 @@
       <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN">{{scores[current_item].is_current_user_following > 0?"Unfollow": "Follow"}}</button>
       <div class="user-info" *ngIf = "authService.currentUser != null">
         <h4 class="scoreboard-sidebar-header">Your Mitzvot</h4>
-        <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.daily_count}}/{{authService.currentUser.goal_daily}}</span></p>
-        <p class="scoreboard-sidebar-content">This Week <span class="pull-right">{{authService.currentUser.weekly_count}}/{{authService.currentUser.goal_weekly}}</span></p>
-        <p class="scoreboard-sidebar-content">This Month <span class="pull-right">{{authService.currentUser.monthly_count}}/{{authService.currentUser.goal_monthly}}</span></p>
+        <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.goal_daily}}/{{authService.currentUser.daily_count}}</span></p>
+        <p class="scoreboard-sidebar-content">This Week <span class="pull-right">{{authService.currentUser.goal_weekly}}/{{authService.currentUser.weekly_count}}</span></p>
+        <p class="scoreboard-sidebar-content">This Month <span class="pull-right">{{authService.currentUser.goal_monthly}}/{{authService.currentUser.monthly_count}}</span></p>
       </div>
       <div class="user-info" *ngIf = "authService.currentUser != null">
         <h4 class="scoreboard-sidebar-header">Your C-Box</h4>

@@ -10,7 +10,7 @@ import { environment } from '../../../environments';
 
 import { SellBox } from '../../model/sell_box.type';
 import { Donate } from '../../model/donate.type';
-import 'rxjs/add/operator/toPromise';
+
 declare var jQuery:any;
 
 @Component({
@@ -45,8 +45,8 @@ export class SellBoardComponent implements OnInit {
 
     this.appState.setLoading(this.tr("LOADING_TEXT"));
     this.token = authenticateService.token;
-    this.onePageService.getSellBoxes().toPromise()
-     .then(result => {
+    this.onePageService.getSellBoxes().subscribe(
+     result => {
        if (result.success) {
            this.sellBoxes = result.data;
            this.curSellBox = this.sellBoxes[0];
@@ -58,8 +58,8 @@ export class SellBoardComponent implements OnInit {
      });
 
      this.appState.setLoading('Loading ...');
-     this.profileService.getAllDonates(0,5,'', 'name').toPromise()
-      .then(result => {
+     this.profileService.getAllDonates(0,5,'', 'name').subscribe(
+      result => {
         if(result != true)
           this.errorMessage = 'Donates Load Error';
         this.appState.closeLoading();

@@ -5,7 +5,7 @@ import { StateService } from '../../../state.service';
 import { AuthenticateService, USER_TYPE } from '../../../authenticate.service';
 import { ProfileService } from '../profile.service';
 import { Box } from '../../..//model/box.type';
-import 'rxjs/add/operator/toPromise';
+
 @Component({
   selector: 'app-change-password',
   templateUrl: 'change-password.component.html',

@@ -5,7 +5,7 @@ import { StateService } from '../state.service';
 import { GeneralService } from '../general.service';
 import { AuthenticateService, USER_SIGNED_INFO, USER_TYPE } from '../authenticate.service';
 import { environment } from '../../environments';
-import 'rxjs/add/operator/toPromise';
+
 declare var jQuery:any;
 declare var document:any;
 @Component({

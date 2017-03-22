@@ -4,7 +4,7 @@ import { LanguageService } from '../../language.service';
 import { StateService } from '../../state.service';
 import { ProfileService } from './profile.service';
 import { AuthenticateService, USER_TYPE } from '../../authenticate.service';
-import 'rxjs/add/operator/toPromise';
+
 import { TimerObservable } from "rxjs/observable/TimerObservable";
 declare var jQuery:any;
 @Component({

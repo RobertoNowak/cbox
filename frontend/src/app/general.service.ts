@@ -6,6 +6,7 @@ import { Score } from './model/score.type';
 import { Leader } from './model/leader.type';
 import { Router } from '@angular/router';
 import { AuthenticateService } from './authenticate.service';
+import 'rxjs/add/operator/map'
 @Injectable()
 export class GeneralService {
   public serverUrl: string = environment.serverUrl;

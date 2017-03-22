@@ -5,7 +5,7 @@ import { environment } from '../environments';
 import { RegisterUser } from './model/user_register.type';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/share';
-
+import 'rxjs/add/operator/map';
 export const USER_SIGNED_INFO = {
   SIGNED_IN: 1,
   VALIDATING: 2,

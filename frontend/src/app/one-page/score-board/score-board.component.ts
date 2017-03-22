@@ -5,7 +5,6 @@ import { StateService } from '../../state.service';
 import { AuthenticateService, USER_SIGNED_INFO, USER_TYPE } from '../../authenticate.service';
 import { GeneralService } from '../../general.service';
 import { Score } from '../../model/score.type';
-import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'app-score-board',
@@ -45,8 +44,8 @@ export class ScoreBoardComponent implements OnInit {
   }
   refreshTable(event){
     this.loadingCount ++;
-    this.generalService.getScores((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.sortField, this.sortDirection, this.searchString, this.searchFilter).toPromise()
-     .then(result => {
+    this.generalService.getScores((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.sortField, this.sortDirection, this.searchString, this.searchFilter).subscribe(
+     result => {
        if(result)
        {
          this.errorMessage = "";

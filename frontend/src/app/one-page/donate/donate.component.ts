@@ -9,7 +9,7 @@ import { AuthenticateService, USER_SIGNED_INFO, USER_TYPE } from '../../authenti
 
 import { SellBox } from '../../model/sell_box.type';
 import { Donate } from '../../model/donate.type';
-import 'rxjs/add/operator/toPromise';
+
 declare var jQuery:any;
 
 
@@ -43,8 +43,8 @@ export class DonateComponent implements OnInit {
       this.selDonate = new Donate();
 
       this.appState.setLoading(this.tr("LOADING_TEXT"));
-      this.onePageService.getSellBoxes().toPromise()
-       .then(result => {
+      this.onePageService.getSellBoxes().subscribe(
+       result => {
          if (result.success) {
              this.sellBoxes = result.data;
              this.curSellBox = this.sellBoxes[0];
@@ -158,8 +158,8 @@ export class DonateComponent implements OnInit {
    approve(index){
      let donate_id = this.profileService.donates[index].id;
      this.appState.setLoading('Loading ...');
-     this.profileService.approveDonate(donate_id).toPromise()
-      .then(result => {
+     this.profileService.approveDonate(donate_id).subscribe(
+      result => {
         if(result != true)
           this.errorMessage = "Can't approve. Please check the site now.";
         else
@@ -182,8 +182,8 @@ export class DonateComponent implements OnInit {
 
    refreshDonate(event){
      this.appState.setLoading('Loading ...');
-     this.profileService.getAllDonates((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.searchString, this.searchFilter).toPromise()
-      .then(result => {
+     this.profileService.getAllDonates((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.searchString, this.searchFilter).subscribe(
+      result => {
         if(result != true)
           this.errorMessage = 'Donates Load Error';
         this.totalCount = this.profileService.donate_count;

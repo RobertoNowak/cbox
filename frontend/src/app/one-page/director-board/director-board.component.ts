@@ -4,7 +4,7 @@ import { LanguageService } from '../../language.service';
 import { StateService } from '../../state.service';
 import { GeneralService } from '../../general.service';
 import { AuthenticateService } from '../../authenticate.service';
-import 'rxjs/add/operator/toPromise';
+
 declare var jQuery:any;
 @Component({
   selector: 'app-director-board',

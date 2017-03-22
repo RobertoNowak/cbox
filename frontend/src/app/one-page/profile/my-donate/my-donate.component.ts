@@ -8,7 +8,6 @@ import { ProfileService } from '../profile.service';
 
 import { Donate } from '../../../model/donate.type';
 
-import 'rxjs/add/operator/toPromise';
 declare var jQuery:any;
 
 @Component({
@@ -23,8 +22,8 @@ export class MyDonateComponent implements OnInit {
   constructor(public lang: LanguageService, public router: Router, public appState: StateService, public generalService: GeneralService, public onePageService:OnePageService, public profileService: ProfileService, public elementRef: ElementRef) {
     this.model = new Donate();
     this.appState.setLoading('Loading ...');
-    this.profileService.getDonate().toPromise()
-     .then(result => {
+    this.profileService.getDonate().subscribe(
+     result => {
        if(result){
          this.model = profileService.myDonate;
        }

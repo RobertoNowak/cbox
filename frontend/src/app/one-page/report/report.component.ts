@@ -6,7 +6,6 @@ import { GeneralService } from '../../general.service';
 import { OnePageService } from '../one-page.service';
 import { AuthenticateService, USER_SIGNED_INFO, USER_TYPE } from '../../authenticate.service';
 
-import 'rxjs/add/operator/toPromise';
 declare var jQuery:any;
 @Component({
   selector: 'app-report',
@@ -38,8 +37,8 @@ export class ReportComponent implements OnInit {
 
   refreshTable(event){
     this.appState.setLoading('Loading Transaction Histroy...');
-    this.onePageService.getTransactionHistory().toPromise()
-     .then(result => {
+    this.onePageService.getTransactionHistory().subscribe(
+     result => {
        if(result.success)
        {
          console.log(result);
@@ -75,8 +74,8 @@ export class ReportComponent implements OnInit {
         return;
     }
     this.appState.setLoading('Get Paid...');
-    this.onePageService.getPaid(this.paid_amount, this.password).toPromise()
-     .then(result => {
+    this.onePageService.getPaid(this.paid_amount, this.password).subscribe(
+     result => {
        if(result)
        {
         this.successMessage = 'Get Paid Success';

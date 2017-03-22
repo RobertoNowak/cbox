@@ -7,7 +7,7 @@ import { AuthenticateService, USER_TYPE, USER_SIGNED_INFO } from '../../../authe
 import { ProfileService } from '../profile.service';
 import { RegisterUser } from '../../..//model/user_register.type';
 // import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
-import 'rxjs/add/operator/toPromise';
+
 declare var jQuery:any;
 
 @Component({

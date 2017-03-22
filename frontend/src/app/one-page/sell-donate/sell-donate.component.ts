@@ -9,7 +9,6 @@ import { AuthenticateService, USER_SIGNED_INFO } from '../../authenticate.servic
 
 import { SellBox } from '../../model/sell_box.type';
 import { Donate } from '../../model/donate.type';
-import 'rxjs/add/operator/toPromise';
 declare var jQuery:any;
 
 
@@ -45,8 +44,8 @@ export class SellDonateComponent implements OnInit {
 
       this.appState.setLoading(this.tr("LOADING_TEXT"));
       this.token = authenticateService.token;
-      this.onePageService.getSellBoxes().toPromise()
-       .then(result => {
+      this.onePageService.getSellBoxes().subscribe(
+       result => {
          if (result.success) {
              this.sellBoxes = result.data;
              this.curSellBox = this.sellBoxes[0];
@@ -58,14 +57,6 @@ export class SellDonateComponent implements OnInit {
        });
 
        this.refreshDonate({page: this.curPage});
-      //  this.appState.setLoading('Loading ...');
-      //  this.profileService.getAllDonates().toPromise()
-      //   .then(result => {
-      //     if(result != true)
-      //       this.errorMessage = 'Donates Load Error';
-      //     this.appState.closeLoading();
-      //   });
-
     }
     ngOnInit() {
       if (!jQuery.fancybox) {
@@ -178,8 +169,8 @@ export class SellDonateComponent implements OnInit {
    approve(index){
      let donate_id = this.profileService.donates[index].id;
      this.appState.setLoading('Loading ...');
-     this.profileService.approveDonate(donate_id).toPromise()
-      .then(result => {
+     this.profileService.approveDonate(donate_id).subscribe(
+      result => {
         if(result != true)
           this.errorMessage = "Can't approve. Please check the site now.";
         else
@@ -202,33 +193,13 @@ export class SellDonateComponent implements OnInit {
 
    refreshDonate(event){
      this.appState.setLoading('Loading ...');
-     this.profileService.getAllDonates((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.searchString, this.searchFilter).toPromise()
-      .then(result => {
+     this.profileService.getAllDonates((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.searchString, this.searchFilter).subscribe(
+      result => {
         if(result != true)
           this.errorMessage = 'Donates Load Error';
         this.totalCount = this.profileService.donate_count;
         this.appState.closeLoading();
       });
-  //    this.loadingCount ++;
-  //    this.generalService.getScores((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.sortField, this.sortDirection, this.searchString).toPromise()
-  //     .then(result => {
-  //       if(result)
-  //       {
-  //         this.errorMessage = "";
-  //         this.totalCount = this.generalService.totalCount;
-  //         this.scores = this.generalService.scores;
-  //         this.loadingCount --;
-  //         if(this.loadingCount == 0 && !this.isDestroyed){
-  //           let me = this;
-  //          //  setTimeout(function(){me.refreshTable({page: me.curPage});}, 5000);
-  //         }
-  //       }
-  //       else
-  //       {
-  //         this.errorMessage = this.tr("GET_FAILED");//"Please check your email and password again.";
-  //       }
-  //       this.appState.closeLoading();
-  //     });
    }
 
    get donatesSelected(){

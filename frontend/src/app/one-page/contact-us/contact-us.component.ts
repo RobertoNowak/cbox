@@ -7,7 +7,6 @@ import { OnePageService } from '../one-page.service';
 
 import { ContactMessage } from '../../model/contact_message.type';
 
-import 'rxjs/add/operator/toPromise';
 declare var jQuery:any;
 
 @Component({
@@ -42,8 +41,8 @@ export class ContactUsComponent implements OnInit {
     // this.model.image = this.image_data.image;
     // this.model.birthday = jQuery('#input-birthday').val();
     this.appState.setLoading(this.tr("LOADING_TEXT"));
-    this.onePageService.sendContactMessage(this.model).toPromise()
-     .then(result => {
+    this.onePageService.sendContactMessage(this.model).subscribe(
+     result => {
        if(result)
        {
          this.successMessage = this.tr("SUCCESS_MESSAGE");

@@ -22,6 +22,15 @@
         "../node_modules/video.js/dist/video-js.min.css"
       ],
       "scripts": [
+        "assets/global/js/jquery.min.js",
+        "assets/global/js/jquery-migrate.min.js",
+        "assets/global/js/bootstrap.min.js",
+        "assets/global/js/bootstrap-datepicker.min.js",
+        "assets/global/js/owl.carousel.min.js",
+        "assets/global/js/bootstrap-fileinput.js",
+        "assets/global/plugins/fancybox/source/jquery.fancybox.pack.js",
+        "assets/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js",
+        "assets/global/plugins/slider-revolution-slider/rs-plugin/js/jquery.themepunch.tools.min.js",
         "assets/global/js/cropper.min.js",
         "assets/global/js/jquery.thooClock.js",
         "../node_modules/video.js/dist/video.min.js",

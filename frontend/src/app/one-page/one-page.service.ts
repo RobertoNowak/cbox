@@ -6,7 +6,7 @@ import { AuthenticateService } from '../authenticate.service';
 import { StateService } from '../state.service';
 import { LanguageService } from '../language.service';
 import { Router } from '@angular/router';
-
+import 'rxjs/add/operator/map'
 import { SellBox } from '../model/sell_box.type';
 import { ContactMessage } from '../model/contact_message.type';
 

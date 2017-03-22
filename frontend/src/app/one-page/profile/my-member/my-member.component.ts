@@ -6,7 +6,6 @@ import { AuthenticateService } from '../../../authenticate.service';
 import { ProfileService } from '../profile.service';
 import { Member } from '../../..//model/member.type';
 import { SelectComponent} from 'ng2-select/ng2-select';
-import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'app-my-member',
@@ -71,8 +70,8 @@ export class MyMemberComponent implements OnInit {
     member.boxes = this.model.boxes;
     member.password = this.model.password;
     this.appState.setLoading(this.tr("LOADING_TEXT"));
-    this.profileService.addMember(this.model).toPromise()
-     .then(result => {
+    this.profileService.addMember(this.model).subscribe(
+     result => {
        if(result.success){
          this.errorMessage = "";
          this.reloadMemberData();
@@ -95,8 +94,8 @@ export class MyMemberComponent implements OnInit {
     member.email = this.model.email;
     member.boxes = this.model.boxes;
     this.appState.setLoading(this.tr("LOADING_TEXT"));
-    this.profileService.updateMember(this.model).toPromise()
-     .then(result => {
+    this.profileService.updateMember(this.model).subscribe(
+     result => {
        if(result.success){
          this.profileService.members[this.dev_index].name = this.model.name;
          this.profileService.members[this.dev_index].email = this.model.email;
@@ -112,8 +111,8 @@ export class MyMemberComponent implements OnInit {
   removeMember(){
     let member:Member = this.profileService.members[this.dev_index];
     this.appState.setLoading(this.tr("LOADING_TEXT"));
-    this.profileService.removeMember(member).toPromise()
-     .then(result => {
+    this.profileService.removeMember(member).subscribe(
+     result => {
        if(result){
          this.errorMessage = "";
          this.profileService.members.splice(this.dev_index, 1);

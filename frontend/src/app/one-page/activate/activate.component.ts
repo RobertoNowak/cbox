@@ -5,7 +5,6 @@ import { StateService } from '../../state.service';
 import { GeneralService } from '../../general.service';
 import { OnePageService } from '../one-page.service';
 
-import 'rxjs/add/operator/toPromise';
 declare var jQuery:any;
 
 @Component({

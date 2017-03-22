@@ -7,7 +7,6 @@ import { OnePageService } from '../one-page.service';
 import { environment } from '../../../environments';
 import { ContactMessage } from '../../model/contact_message.type';
 
-import 'rxjs/add/operator/toPromise';
 declare var jQuery:any;
 
 @Component({

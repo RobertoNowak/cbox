@@ -2,6 +2,14 @@
     <span style="color: #EC307C;">Edit</span> Profile
 </h4>
 <div class="content-form-page">
+  <div class="alert alert-success " [class.hidden] = "successMessage == ''">
+    <button type="button" class="close" (click) = "successMessage = ''"></button>
+    <p>{{successMessage}}</p>
+  </div>
+  <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
+    <button type="button" class="close" (click) = "errorMessage = ''"></button>
+    <p>{{errorMessage}}</p>
+  </div>
   <form class="form-horizontal" role="form" #profileForm="ngForm">
   <div class="row">
     <div class="col-md-7 col-sm-7">
@@ -116,14 +124,6 @@
             <label class="col-md-2 control-label">{{(model.monthly_count - model.goal_monthly > 0)?"+":""}}{{model.monthly_count - model.goal_monthly}}</label>
           </div>
         </fieldset>
-        <div class="alert alert-success " [class.hidden] = "successMessage == ''">
-          <button type="button" class="close" (click) = "successMessage = ''"></button>
-          <p>{{successMessage}}</p>
-        </div>
-        <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-          <button type="button" class="close" (click) = "errorMessage = ''"></button>
-          <p>{{errorMessage}}</p>
-        </div>
         <div class="row">
           <div class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20" style="text-align:center;">
             <button type="submit" class="btn btn-primary green" (click) = "updateProfile(profileForm);">{{tr("UPDATE_PROFILE")}}</button>
@@ -137,6 +137,7 @@
             </div>
             <div>
                 <a class="btn green" (click) = "image_box_dialog.show();">{{tr("EDIT_PROFILE_IMAGE")}} </a>
+                <button type="submit" class="btn btn-primary green" (click) = "updateProfile(profileForm);">{{tr("UPDATE_PROFILE")}}</button>
             </div>
         </div>
     </div>

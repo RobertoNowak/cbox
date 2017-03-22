@@ -7,7 +7,7 @@ import { GeneralService } from '../../general.service';
 import { OnePageService } from '../one-page.service';
 import { ProfileService } from '../profile/profile.service';
 import { AuthenticateService, USER_SIGNED_INFO, USER_TYPE } from '../../authenticate.service';
-import 'rxjs/add/operator/toPromise';
+
 import { Observable, Subscription } from 'rxjs/Rx';
 declare var jQuery:any;
 declare var videojs: any;
@@ -113,8 +113,8 @@ export class HomeComponent implements OnInit {
 
   refreshPage(){
     let me = this;
-    this.generalService.getGeneralInfo().toPromise()
-     .then(result => {
+    this.generalService.getGeneralInfo().subscribe(
+     result => {
       //  if(!this.isDestroyed)
         // setTimeout(function(){me.refreshPage();}, 5000);
      });
