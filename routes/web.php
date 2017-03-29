@@ -32,9 +32,18 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::resource('donates', 'DonatesController');
     Route::post('donates/approve/{id}', 'DonatesController@approve');
     Route::post('donates/unapprove/{id}', 'DonatesController@unapprove');
+    Route::get('upload_video/', 'AdminController1@index');
+    Route::post('upload_video/', 'AdminController1@upload_video');
+    Route::get('upload_firmware/', 'AdminController1@upload_firmware');
+    Route::post('upload_firmware/', 'AdminController1@upload_firmware_post');
+
+    Route::get('acceptticket/{id}', 'AdminController@acceptTicket');
     Route::get('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
     Route::post('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
 });
+Route::get('customer_support', 'MessageController@customerSupport');
+Route::post('customer_support', 'MessageController@newMessage');
+
 Route::post('message/{id}', 'MessageController@removeChatHistory')->name('message.readAll');
 Route::post('contactAdmin', 'MessageController@contactAdmin')->name('contactAdmin');
 Route::get('messages', 'MessageController@index')->name('messages');

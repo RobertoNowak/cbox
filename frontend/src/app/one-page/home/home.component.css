@@ -194,7 +194,7 @@ body.page-header-fixed.page-sidebar-closed-hide-logo{
   border-bottom: 1px solid #eee;
   height: 140px;
   margin-bottom: 40px;
-  padding-top: 45px;
+  padding-top: 30px;
   text-align: center;
 }
 .date-label{
@@ -219,4 +219,11 @@ body.page-header-fixed.page-sidebar-closed-hide-logo{
 .time-label span{
   font-size: 1.5rem;
   color: #909090;
+}
+iframe{
+  padding: 0px;
+  border: none;
+  height: 500px;
+  width: 100%;
+  float: none;
 }

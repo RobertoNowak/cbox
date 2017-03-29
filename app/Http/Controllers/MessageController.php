@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Nahid\Talk\Facades\Talk;
 use Auth;
@@ -12,6 +13,7 @@ use View;
 use DB;
 use Config;
 use Validator;
+use Mail;
 class MessageController extends Controller
 {
     protected $authUser;
@@ -19,6 +21,8 @@ class MessageController extends Controller
     {
         $this->middleware('auth');
         $user = Auth::user();
+        if($user == null)
+            return redirect('/');
         Talk::setAuthUserId(Auth::user()->id);
 
         View::composer('partials.peoplelist', function($view) {
@@ -139,6 +143,42 @@ class MessageController extends Controller
 
             return response()->json(['status'=>'errors', 'msg'=>'something went wrong'], 401);
         }
+    }
+
+    public function customerSupport(Request $request){
+        return view('messages.customer_support');
+    }
+
+    public function newMessage(Request $request){
+        $params = $request->only(['message']);
+        $user = Auth::user();
+        $ticketData = [];
+        $ticketData['requester_id'] = $user->id;
+        $ticketData['message'] = $params['message'];
+        Ticket::unguard();
+        $ticket = Ticket::create($ticketData);
+        Ticket::reguard();
+        $mail_to = [];
+        $admins = User::join('role_user', function($join){
+                    $join->on('users.id', '=', 'role_user.user_id');
+                    })
+                    ->join('roles', function($join){
+                    $join->on('roles.id', '=', 'role_user.role_id');
+                    })
+                    ->where('roles.name', '=', config('constants.ADMIN_USER'))
+                    ->get();
+        foreach($admins as $admin){
+            $mail_to[] = $admin->email;
+        }
+        $_message = $params['message'];
+        $url = url('admin/acceptticket/'.$ticket->id);
+        $data = array('url'=>$url, 'message_1'=>$_message, 'user' => $user);
+        Mail::send('mail/chat_request_mail', $data, function($message) use($mail_to) {
+            $message->to($mail_to, 'The user is connecting to customer service.')->subject
+                ("The user is connecting to customer service.");
+            $message->from('noreply@milionmitzvot.com','MilionMitzvot');
+        });
+        return view('messages.customer_support');
     }
 
     public function tests()

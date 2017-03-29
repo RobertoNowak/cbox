@@ -7,7 +7,9 @@ use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
 use Session;
-
+use App\Models\Ticket;
+use Config;
+use Auth;
 class AdminController extends Controller
 {
     /**
@@ -55,5 +57,23 @@ class AdminController extends Controller
         Session::flash('flash_message', 'Permission granted!');
 
         return redirect('admin/roles');
+    }
+
+    public function acceptTicket($id){
+        $ticket = Ticket::find($id)->first();
+        if($ticket == null || $ticket->del_flg == config('constants.ITEM_IS_DELETE'))
+        {
+            Session::flash('flash_message', 'This ticket is not available now.');
+            return redirect('admin');
+        }
+        if($ticket->accepter_id > 0)
+        {
+            Session::flash('flash_message', 'This ticket is assigned to other customer.');
+            return redirect('admin');
+        }
+        $user = Auth::user();
+        $ticket->accepter_id = $user->id;
+        $ticket->save();
+        return redirect('message/'.$ticket->requester_id);
     }
 }

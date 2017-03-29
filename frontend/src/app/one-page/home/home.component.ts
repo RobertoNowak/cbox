@@ -99,15 +99,21 @@ export class HomeComponent implements OnInit {
     jQuery('.fullwidthabnner').show();
     jQuery('.fullwidthabnner').revolution({
         sliderType: "hero",
-        startheight:417,
-        startwidth:1150,
+        startheight:517,
+        startwidth: 950,
 
         hideCaptionAtLimit:0,         // It Defines if a caption should be shown under a Screen Resolution ( Basod on The Width of Browser)
         hideAllCaptionAtLilmit:0,       // Hide all The Captions if Width of Browser is less then this value
         hideSliderAtLimit:0,          // Hide the whole slider, and stop also functions if Width of Browser is less than this value
 
         shadow:1,                               //0 = no Shadow, 1,2,3 = 3 Different Art of Shadows  (No Shadow in Fullwidth Version !)
-        fullWidth:"on"                          // Turns On or Off the Fullwidth Image Centering in FullWidth Modus
+        fullWidth:"off",                          // Turns On or Off the Fullwidth Image Centering in FullWidth Modus
+        delay: 1000,
+        hideThumbs: true,
+        fullScreen: "off",
+        touchenabled:"on",                      // Enable Swipe Function : on/off
+        onHoverStop:"off",                       // Stop Banner Timet at Hover on Slide on/off
+        fullScreenOffsetContainer: ""
     });
   }
 
@@ -127,12 +133,13 @@ export class HomeComponent implements OnInit {
       this.paySuccess = params && params['member_pay_success'];
       console.log(params);
     });
-    this.initRevoSlider();
+    // this.initRevoSlider();
   }
 
   ngOnDestroy() {
     this.isDestroyed = true;
     this.timerSubscription.unsubscribe();
+    // jQuery('.fullwidthabnner').revolution('destroy');
   }
 
   tr(tran: string): string

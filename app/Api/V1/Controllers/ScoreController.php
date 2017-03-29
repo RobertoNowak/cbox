@@ -151,7 +151,7 @@ class ScoreController extends BaseController
     }
 
     public function getTime(){
-        $time =  DB::select(DB::raw("SELECT  DATE_FORMAT('1997-10-04 22:23:00', '%b, %d, %Y') as date, TIME_TO_SEC(CURRENT_TIME()) AS time"));
+        $time =  DB::select(DB::raw("SELECT  DATE_FORMAT(now(), '%b, %d, %Y') as date, TIME_TO_SEC(CURRENT_TIME()) AS time"));
         $res['success'] = true;
         $res['data']['date'] = $time[0]->date;
         $res['data']['time'] = $time[0]->time;
@@ -175,7 +175,7 @@ class ScoreController extends BaseController
         $mail_to[] = $admin->email;
       }
       Mail::send('mail/contact_mail', $data, function($message) use($contact, $mail_to) {
-         $message->to($mail_to, 'Tutorials Point')->subject
+         $message->to($mail_to, 'The user wants contact.')->subject
             ($contact['subject']);
          $message->from('noreply@milionmitzvot.com','MilionMitzvot');
       });

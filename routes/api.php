@@ -54,7 +54,12 @@ $api->version('v1', function ($api) {
         $api->get('/getDeviceInfo', 			'DepositController@getDeviceInfo');
         $api->get('/getDeviceCountry', 	'DepositController@getDeviceCountry');
         $api->get('/getNewDeviceID', 			'DepositController@getNewDevID');
+        $api->get('/getFirmwareVersion', 			'DepositController@getFirmwareVersion');
+        $api->get('/getFirmwareContent', 			'DepositController@getFirmwareData');
+        $api->get('/getSoundFileCount', 			'DepositController@getSoundFileCount');
+        $api->get('/getSoundContent', 			'DepositController@getSoundContent');
         
+
         $api->get('/resetDevice',		'DepositController@resetDeviceDeposit');
 
         $api->group(['middleware' => ['auth'], 'prefix' => 'donate'], function($api) {

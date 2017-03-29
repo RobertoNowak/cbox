@@ -212,7 +212,7 @@ class DepositController extends BaseController
         // $res['status'] = "err";
         // $res['cbox_end'] = "end";
         $res["success"] = false;
-        $res["error"] = json_encode($validator->errors()->all());
+        $res["message"] = "The data is not correct.";
         return $res;
       }
       Deposit::where('device_id', $param['uid'])
@@ -230,10 +230,114 @@ class DepositController extends BaseController
     }
 
     public function getNewDevID(Request $request){
+      DB::beginTransaction();
       $maxId = Option::where('key', 'max_device_id')->first()['value'];
-      $res['success'] = true;
-      $res['id'] = $maxId + 1;
+      $res['status'] = "ok";
+      $res['id'] = dechex($maxId + 1);
+      while(strlen($res['id']) < 8)
+        $res['id'] = '0'.$res['id'];
       $maxId = Option::where('key', 'max_device_id')->update(array('value' => $maxId + 1));
+      $res['cbox_end'] = "end";
+      DB::commit();
+      return $res;
+    }
+
+    public function getFirmwareVersion(Request $request){
+      $major_version = Option::where('key', 'firmware_major_version')->first()['value'];
+      $minor_version = Option::where('key', 'firmware_minor_version')->first()['value'];
+      $res['status'] = "ok";
+      $res['major_version'] = $major_version;
+      $res['minor_version'] = $minor_version;
+      $res['cbox_end'] = "end";
+      return $res;
+    }
+
+    public function getFirmwareData(Request $request){
+      $param = $request->only(['uid', 'tracknumber']);
+      $validator = Validator::make($param, ['tracknumber'   => 'required|numeric']);
+      if ($validator->fails()) {
+        // $res['status'] = "err";
+        // $res['cbox_end'] = "end";
+        $res["status"] = "err";
+        $res["message"] = "The data is not correct.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $fileName = Option::where('key', 'firmware_file_name')->first()['value'];
+      $fileName = base_path('/firmware/'.$fileName);
+      $file = fopen($fileName, "rb");
+      $filesize = filesize($fileName);
+      $seek_start = $param['tracknumber'] * 512;
+      $content="";
+      $size=0;
+      if($filesize > $seek_start){
+        fseek($file, $seek_start);
+        $contents = fread($file, 512);
+        $contents = unpack("C*",$contents);
+        $content = "";
+        for($i = 1; $i <= count($contents); $i++){
+          $temp = dechex($contents[$i]);
+          while(strlen($temp) < 2)
+            $temp = '0'.$temp;
+          $content .= $temp;
+        }
+        $size = strlen($content);
+      }
+      fclose($file);
+      $res['status'] = "ok";
+      $res['uid'] = $param['uid'];
+      $res['tracknumber'] = $param['tracknumber'];
+      $res['size'] = "".$size;
+      $res['content'] = $content;
+      $res['cbox_end'] = "end";
+      return $res;
+    }
+
+    public function getSoundFileCount(Request $request){
+      $sound_file_count = Option::where('key', 'sound_file_count')->first()['value'];
+      $res['status'] = "ok";
+      $res['sound_file_count'] = $sound_file_count;
+      $res['cbox_end'] = "end";
+      return $res;
+    }
+
+    public function getSoundContent(Request $request){
+      $param = $request->only(['uid', 'filenumber', 'tracknumber']);
+      $validator = Validator::make($param, ['tracknumber'   => 'required|numeric', 'filenumber' => 'required|numeric']);
+      if ($validator->fails()) {
+        // $res['status'] = "err";
+        // $res['cbox_end'] = "end";
+        $res["status"] = "err";
+        $res["message"] = "The data is not correct.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $fileName = base_path('/dev_sounds/sound_'.$param['filenumber']);
+      $file = fopen($fileName, "rb");
+      $filesize = filesize($fileName);
+      $seek_start = $param['tracknumber'] * 512;
+      $content="";
+      $size=0;
+      if($filesize > $seek_start){
+        fseek($file, $seek_start);
+        $contents = fread($file, 512);
+        $contents = unpack("C*",$contents);
+        $content = "";
+        for($i = 1; $i <= count($contents); $i++){
+          $temp = dechex($contents[$i]);
+          while(strlen($temp) < 2)
+            $temp = '0'.$temp;
+          $content .= $temp;
+        }
+        $size = strlen($content);
+      }
+      fclose($file);
+      $res['status'] = "ok";
+      $res['uid'] = $param['uid'];
+      $res['filenumber'] = $param['filenumber'];
+      $res['tracknumber'] = $param['tracknumber'];
+      $res['size'] = "".$size;
+      $res['content'] = $content;
       $res['cbox_end'] = "end";
       return $res;
     }
