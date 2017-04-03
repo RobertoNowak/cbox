@@ -113,6 +113,7 @@ div.caption>button.search{
   top: auto;
   bottom: 0px;
   width: 100%;
+  z-index: 999999;
 }
 .page-footer-inner{
   float: none;
@@ -164,6 +165,7 @@ button.btn.follow-btn{
 }
 .page-content{
   background-color: #f8f8f8;
+  margin-bottom: 50px;
 }
 button.btn.search-filter{
   background: #E54176;
@@ -175,4 +177,50 @@ button.btn.search-filter{
 .leader-tile{
   width: 100%;
   display: inline-flex;
+}
+tr.table-row.selected td{
+  background: #FFE599;
+}
+.table-hover>tbody>tr:hover, .table-hover>tbody>tr:hover>td {
+    background: #FFF5B9!important;
+}
+.search-area{
+  display: inline-flex; 
+  border: 1px solid #ddd; 
+  border-radius: 5px !important; 
+  margin-right: 10px;    
+  padding: 3px 12px !important;
+}
+.min-width-name{
+  min-width: 200px;
+}
+
+@media(max-width: 1300px){
+  .right-panel{
+    display: none;
+  }
+  .container{
+    max-width: calc(100% - 340px);
+    margin-left: 310px;
+    margin-right: auto;
+  }
+}
+@media(max-width: 1000px){
+  .left-panel{
+    display: none;
+  }
+  .container{
+    max-width: calc(100% - 40px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media(max-width: 500px){
+  .search-area{
+    margin-top: 10px;
+    margin-right: 0px;
+  }
+  .min-width-name{
+    min-width: 100px;
+  }
 }

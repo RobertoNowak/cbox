@@ -4,7 +4,7 @@ import { LanguageService } from '../../language.service';
 import { StateService } from '../../state.service';
 import { GeneralService } from '../../general.service';
 import { OnePageService } from '../one-page.service';
-
+import { AuthenticateService, USER_SIGNED_INFO } from '../../authenticate.service';
 import { ContactMessage } from '../../model/contact_message.type';
 
 declare var jQuery:any;
@@ -18,11 +18,11 @@ export class ContactUsComponent implements OnInit {
   public errorMessage = "";
   public successMessage = "";
   public model:ContactMessage;
-
-  constructor(public lang: LanguageService, public router: Router, public appState: StateService, public generalService: GeneralService, public onePageService:OnePageService) {
-  this.appState.set("one_page_menu_selected", 7);
-  this.model = new ContactMessage();
- }
+  public USER_SIGNED_INFO = USER_SIGNED_INFO;
+  constructor(public lang: LanguageService, public router: Router, public appState: StateService, public authService: AuthenticateService, public generalService: GeneralService, public onePageService:OnePageService) {
+    this.appState.set("one_page_menu_selected", 7);
+    this.model = new ContactMessage();
+  }
 
   ngOnInit() {
     this.appState.set('is_on_contact_us', true);
@@ -48,6 +48,7 @@ export class ContactUsComponent implements OnInit {
        {
          this.successMessage = this.tr("SUCCESS_MESSAGE");
          this.errorMessage = "";
+         this.model = new ContactMessage();
        }
        else
        {

@@ -65,7 +65,9 @@
         }
     },
     scrollToBottom: function() {
-       this.$chatHistory.scrollTop(this.$chatHistory[0].scrollHeight);
+       setTimeout(function(){
+          this.$chatHistory.scrollTop(this.$chatHistory[0].scrollHeight);
+        }, 200);
     },
     getCurrentTime: function() {
       return new Date().toLocaleTimeString().

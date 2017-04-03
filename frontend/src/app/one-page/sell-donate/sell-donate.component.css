@@ -128,7 +128,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .donate-content{
   padding: 5px;
-  border: 1px solid #545454;
+  border: 1px solid #c4c4c4;
   margin:5px;
 }
 
@@ -164,4 +164,30 @@ button.btn.search-filter{
   border: none;
   border-radius: 5px !important;
   padding: 10px 22px;
+}
+.portlet.light>.portlet-title>.search-area{
+  display: inline-flex; 
+  border: 1px solid #ddd; 
+  border-radius: 5px !important; 
+  margin-right: 10px;    
+  padding: 3px 12px !important;
+  float: left;
+}
+.portlet.light>.portlet-title>.search-filter{
+  float: left;
+}
+@media(max-width: 500px){
+  .portlet.light>.portlet-title>.search-area{
+    float: right;
+    margin-right: 0px;
+  }
+  .portlet.light>.portlet-title>.search-filter{
+    float: right;
+    margin-top: 5px;
+    margin-left: 300px;
+    display: block;
+  }
+  .col-xs-12{
+    float: none !important;
+  }
 }

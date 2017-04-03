@@ -17,7 +17,7 @@
         <!-- BEGIN CONTENT -->
         <div class="col-md-12 col-sm-12">
           <div class="product-page">
-            <div class="row" style="margin-top: 30px;">
+            <div class="row">
               <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
                 <button class="close" (click) = "errorMessage = ''"></button>
                 <p>{{errorMessage}}</p>
@@ -25,11 +25,11 @@
               <div class="col-sm-12">
                 <div class="col-sm-12 portlet light portlet-fit">
                   <div class="portlet-title">
-                      <div class="caption pull-left" style=" display: inline-flex; border: 1px solid #ddd; border-radius: 5px !important; margin-right: 10px;    padding: 3px 12px !important;">
+                      <div class="caption search-area">
                         <i class="fa fa-search" style="margin-top: 10px;"></i>
                         <input class="form-control" [(ngModel)]="searchString" placeholder="Search" (keyup.enter)="search();" style="border: none;">
                       </div>
-                      <div class="btn-group pull-left" dropdown>
+                      <div class="btn-group search-filter" dropdown>
                         <button type="button" class="btn btn-primary search-filter" dropdownToggle>
                           Search Filter <span class="caret"></span>
                         </button>
@@ -66,16 +66,16 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-12" *ngFor = "let donate of profileService.donates; let i = index;">
-                  <div class="col-sm-12" *ngIf = "donate.del_flg == 0 || (authenticateService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN )">
-                    <div class="col-md-12 col-ms-12 donate-content">
+              <div class="col-xs-12" *ngFor = "let donate of profileService.donates; let i = index;">
+                  <div class="col-xs-12" *ngIf = "donate.del_flg == 0 || (authenticateService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN )">
+                    <div class="col-md-12 col-xs-12 donate-content">
                       <div class="checkbox" style="display: inline; float: left; margin-top: 68px;">
                         <label style="font-size: 10pt;">
                           <input type="checkbox" [(ngModel)] = "donate.isSelected">
                           <span></span>
                         </label>
                       </div>
-                      <div class="col-xs-12 col-md-9" style="padding:5px;">
+                      <div class="col-xs-11 col-md-9" style="padding:5px;">
                         <img class="donate-image" src="{{donate.picture}}" alt="" >
                         <span style="font-size: 20px;padding: 5px;"><strong>{{donate.name}}</strong></span><br>
                         <div class="" style="word-wrap: break-word;height: 80px;overflow: hidden;margin: 10px 0px;">
@@ -96,7 +96,7 @@
                     </div>
                   </div>
               </div>
-              <div class="col-sm-12">
+              <div class="col-xs-12">
                 <div class="paging_bootstrap_number pull-right" style="text-align:right;">
                   <pagination class=""
                               [(ngModel)]="curPage"

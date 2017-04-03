@@ -227,3 +227,18 @@ iframe{
   width: 100%;
   float: none;
 }
+.server-time-panel > div{
+  text-align: center;
+  display: inline-flex;
+}
+@media(max-width: 500px){
+  .server-time-panel > div{
+    display: block;
+  }
+  .year-month-day-label{
+    width: calc(100% - 40px);
+  }
+  .server-time-panel{
+    height: 220px;
+  }
+}

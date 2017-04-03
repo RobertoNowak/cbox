@@ -23,7 +23,7 @@
 </div>
 <div class="chat-window" [class.active] = "appState.get('is_chat_window_open')" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && appState.get('is_on_contact_us')">
 	<a class="icon" (click) = "toggleChat()"> <i class="fa fa-comments"></i></a>
-	<iframe class = "col-xs-12 form-control" frameborder="0" allowfullscreen style="height: 100%;" src = "http://10.70.1.3:8080/customer_support"></iframe>
+	<iframe class = "col-xs-12 form-control" frameborder="0" allowfullscreen style="height: 100%;" src = "/customer_support"></iframe>
 	<button type="button" class="close" (click)="toggleChat()" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>

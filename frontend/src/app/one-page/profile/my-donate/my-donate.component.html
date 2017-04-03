@@ -86,3 +86,44 @@
   </div>
   </form>
 </div>
+<div bsModal #image_box_dialog="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Add Box" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="max-width: 450px;">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="image_box_dialog.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3><i class="fa fa-edit"></i>Crop Image</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form" style="display: block;" #editboxForm = "ngForm">
+          <div class="row">
+            <fieldset>
+              <div class="fileinput fileinput-new col-sm-12" data-provides="fileinput">
+                  <div class="fileinput-new thumbnail">
+                    <!-- <img src="{{image_src}}" alt=""> -->
+                    <!-- <img-cropper #cropper [settings]="cropperSettings"></img-cropper> -->
+                    <div class="cropper" id = "cropper" style="width: 400px; height: 400px;">
+                    </div>
+                  </div>
+                  <!-- <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div> -->
+                  <div style="    text-align: center;">
+                      <span class="btn default btn-file blue">
+                        <span class="fileinput-new">Select different image</span>
+                        <input type="file" name="..." (change)="fileChange(input)" #input>
+                      </span>
+                  </div>
+              </div>
+            </fieldset>
+            <fieldset style="text-align: right;padding-right: 30px;margin-top: 30px;">
+              <div class="">
+                <button class="btn btn-primary green" (click)="saveImage(); image_box_dialog.hide();">{{tr("SAVE")}}</button>
+                <button class="btn red" (click)="image_box_dialog.hide();">{{tr("CANCEL")}}</button>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
