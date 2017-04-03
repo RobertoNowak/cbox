@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\ResetDailyDepositsAll::class
     ];
 
     /**
@@ -26,6 +26,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $filePath = env('SCHEDULE_FILE_OPATH', 'schedule.log');
+        $schedule->command('ResetDailyDepositsAll')->withoutOverlapping()->sendOutputTo($filePath)
+                    ->everyMinute();
+                //  ->dailyAt('00:00');
     }
 
     /**

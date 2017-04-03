@@ -7,9 +7,8 @@
             @foreach($messages as $message)
                 @if($message->sender->id == auth()->user()->id)
                     <li class="clearfix" id="message-{{$message->id}}">
-                        <div class="message-data align-right">
+                        <div class="message-sender-data align-right">
                             <span class="message-data-time" >{{$message->humans_time}} ago</span> &nbsp; &nbsp;
-                            <span class="message-data-name" >{{$message->sender->name}}</span>
                             <a href="#" class="talkDeleteMessage" data-message-id="{{$message->id}}" title="Delete Message"><i class="fa fa-close"></i></a>
                         </div>
                         <div class="message other-message float-right">
@@ -20,7 +19,9 @@
 
                     <li id="message-{{$message->id}}">
                         <div class="message-data">
-                            <span class="message-data-name"> <a href="#" class="talkDeleteMessage" data-message-id="{{$message->id}}" title="Delete Messag"><i class="fa fa-close" style="margin-right: 3px;"></i></a>{{$message->sender->name}}</span>
+                            <span class="message-user-image">
+                                <img src="{{@$user->image_url}}" onerror="this.src='assets/global/img/default_avatar.jpg'" class="avatar img-responsive" />
+                            </span>
                             <span class="message-data-time">{{$message->humans_time}} ago</span>
                         </div>
                         <div class="message my-message">
@@ -47,6 +48,9 @@
         });
     }
     document.addEventListener( 'DOMContentLoaded', function () {
+        setTimeout(function(){
+            $('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
+        }, 100);
         readMessages();
     }, false );
 </script>

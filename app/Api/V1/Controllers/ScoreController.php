@@ -55,7 +55,8 @@ class ScoreController extends BaseController
 
         $data['search'] = is_null($data['search'])?"":$data['search'];
         $data['filter'] = is_null($data['filter'])?"":$data['filter'];
-
+        if($data['filter'] == 'name')
+          $data['filter'] = 'users.name';
         $dCountTable = DB::raw("(
             SELECT users.id as user_id, sum(cbox_boxes.d_count) as d_count, roles.name as role FROM users
             join role_user on (role_user.user_id = users.id)
@@ -68,8 +69,46 @@ class ScoreController extends BaseController
         if(Auth::check()){
           $user = Auth::user();
           $curuser_id = $user->id;
+          //Following users
+          $base_query = DB::table('users')
+                      ->join('role_user', function($join){
+                            $join->on('users.id', '=', 'role_user.user_id');
+                      })
+                      ->join('roles', function($join){
+                            $join->on('roles.id', '=', 'role_user.role_id');
+                      })
+                      ->join('cbox_following', function($join) use($user){
+                        $join->on('cbox_following.follow_user_id', '=', 'users.id');
+                        $join->where('cbox_following.user_id', '=', $user->id);
+                      })
+                      ->leftjoin('cbox_boxes', function($join){
+                        $join->on('users.id', '=', 'cbox_boxes.user_id');
+                        $join->where('cbox_boxes.del_flg', '<>' , config('constants.ITEM_IS_DELETE'));
+                      })
+                      ->leftjoin('cbox_deposits', function($join){
+                            $join->on('cbox_boxes.device_id', '=', 'cbox_deposits.device_id');
+                      })
+                      ->leftjoin('cbox_currencyts', function($join){
+                            $join->on('cbox_deposits.currencyt', '=', 'cbox_currencyts.currencyt');
+                      })
+                      // ->where('cbox_deposits.del_flg', '<>' , config('constants.ITEM_IS_DELETE'))
+                      ->where('users.del_flg', '<>' , config('constants.ITEM_IS_DELETE'))
+                      ->where('roles.name', '<>', config('constants.ADMIN_USER'))
+                      ->select('users.id', 'users.name', 'users.address', 'users.country', 'users.age', 'users.image_url', DB::raw('count(cbox_deposits.id) as deposit_count'), DB::raw('count(Distinct cbox_boxes.id) as box_count'))
+                      ->groupby('users.id');
+          $follow_users = $base_query->get();
+          foreach ($follow_users as $follower) {
+            $follower->image_url = $follower->image_url?url('/').$follower->image_url:"";
+          }
+          $res['data']['following'] = $follow_users;
         }
         $total_query = DB::table('users')
+                      ->join('role_user', function($join){
+                            $join->on('users.id', '=', 'role_user.user_id');
+                      })
+                      ->join('roles', function($join){
+                            $join->on('roles.id', '=', 'role_user.role_id');
+                      })
                       ->leftjoin('cbox_boxes', function($join){
                             $join->on('users.id', '=', 'cbox_boxes.user_id')->where('cbox_boxes.del_flg', '<>', config('constants.ITEM_IS_DELETE'));
                       })
@@ -84,12 +123,15 @@ class ScoreController extends BaseController
                           $join->on('cbox_following.follow_user_id', '=', 'users.id');
                           $join->where('cbox_following.user_id', '=', $curuser_id);
                       })
+                      ->where('users.del_flg', '<>' , config('constants.ITEM_IS_DELETE'))
+                      ->where('roles.name', '<>', config('constants.ADMIN_USER'))
                       ->select(
                                 'users.id',
-                                'users.name',
+                                'users.name as name',
                                 'users.email',
                                 'users.age',
                                 'users.school',
+                                'users.address',
                                 'users.city',
                                 'users.country',
                                 'users.birthday',
@@ -106,43 +148,6 @@ class ScoreController extends BaseController
         $total = count($total_query->get());
 
         $users = $total_query->offset($data['start'])->take($data['length'])->get();
-        $lifeLeader = array();
-        foreach ($users as $user) {
-          $user->image_url = $user->image_url?url('/').$user->image_url:"";
-          $base_query = DB::table('users')
-                      ->join('role_user', function($join){
-                            $join->on('users.id', '=', 'role_user.user_id');
-                      })
-                      ->join('roles', function($join){
-                            $join->on('roles.id', '=', 'role_user.role_id');
-                      })
-                      ->join('cbox_following', function($join) use($user){
-                        $join->on('cbox_following.user_id', '=', 'users.id');
-                        $join->where('cbox_following.follow_user_id', '=', $user->id);
-                      })
-                      ->join('cbox_boxes', function($join){
-                            $join->on('users.id', '=', 'cbox_boxes.user_id');
-                      })
-                      ->leftjoin('cbox_deposits', function($join){
-                            $join->on('cbox_boxes.device_id', '=', 'cbox_deposits.device_id');
-                      })
-                      ->leftjoin('cbox_currencyts', function($join){
-                            $join->on('cbox_deposits.currencyt', '=', 'cbox_currencyts.currencyt');
-                      })
-                      // ->where('cbox_deposits.del_flg', '<>' , config('constants.ITEM_IS_DELETE'))
-                      ->where('cbox_boxes.del_flg', '<>' , config('constants.ITEM_IS_DELETE'))
-                      ->where('users.del_flg', '<>' , config('constants.ITEM_IS_DELETE'))
-                      ->select('users.id', 'users.name', 'users.address', 'users.country', 'users.age', 'users.image_url', DB::raw('count(cbox_deposits.id) as deposit_count'), DB::raw('sum(cbox_deposits.amount*cbox_currencyts.rate*(CASE cbox_deposits.del_flg WHEN 0 THEN 1 ELSE 0 END)) as amount'), DB::raw('count(Distinct cbox_boxes.id) as box_count'))
-                      ->groupby('users.id')
-                      ->orderby('deposit_count', 'DESC')
-                      ->take(15);
-          $follow_users = $base_query->get();
-          foreach ($follow_users as $follower) {
-            $follower->image_url = $follower->image_url?url('/').$follower->image_url:"";
-          }
-          $user->followingUsers = $follow_users;
-          $lifeLeader[] = $user;
-        }
 
         $res['success'] = true;
         $res['data']['total'] = $total;

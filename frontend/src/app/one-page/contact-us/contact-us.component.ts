@@ -25,10 +25,11 @@ export class ContactUsComponent implements OnInit {
  }
 
   ngOnInit() {
+    this.appState.set('is_on_contact_us', true);
   }
 
   ngOnDestroy() {
-
+    this.appState.set('is_on_contact_us', false);
   }
 
   sendContactMessage(contactForm){
@@ -54,6 +55,10 @@ export class ContactUsComponent implements OnInit {
        }
        this.appState.closeLoading();
      });
+  }
+
+  openChatWindow(){
+    this.appState.set('is_chat_window_open', true);
   }
 
   tr(tran: string): string

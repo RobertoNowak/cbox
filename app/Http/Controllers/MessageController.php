@@ -146,7 +146,10 @@ class MessageController extends Controller
     }
 
     public function customerSupport(Request $request){
-        return view('messages.customer_support');
+        $user = Auth::user();
+        $ticket = Ticket::where('requester_id', $user->id)->where('del_flg', config('constants.ITEM_IS_LIVE'))->where('accepter_id', 0)->first();
+        
+        return view('messages.customer_support', compact('ticket'));
     }
 
     public function newMessage(Request $request){
@@ -178,7 +181,17 @@ class MessageController extends Controller
                 ("The user is connecting to customer service.");
             $message->from('noreply@milionmitzvot.com','MilionMitzvot');
         });
-        return view('messages.customer_support');
+        // return view('messages.customer_support');
+        return redirect('/customer_support');
+    }
+
+    public function isTicketClosed($id){
+        $user = Auth::user();
+        $ticket = Ticket::where('requester_id', $user->id)->where('id', $id)->where('del_flg', config('constants.ITEM_IS_LIVE'))->where('accepter_id', '<>', 0)->first();
+        if($ticket != null)
+            return response()->json(['success'=>true, 'accepter'=>$ticket->accepter_id], 200);
+        else
+            return response()->json(['success'=>false], 200);
     }
 
     public function tests()

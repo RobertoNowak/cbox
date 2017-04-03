@@ -10,6 +10,7 @@ use Session;
 use App\Models\Ticket;
 use Config;
 use Auth;
+use Nahid\Talk\Facades\Talk;
 class AdminController extends Controller
 {
     /**
@@ -60,18 +61,20 @@ class AdminController extends Controller
     }
 
     public function acceptTicket($id){
-        $ticket = Ticket::find($id)->first();
+        $ticket = Ticket::where('id', $id)->first();
         if($ticket == null || $ticket->del_flg == config('constants.ITEM_IS_DELETE'))
         {
             Session::flash('flash_message', 'This ticket is not available now.');
-            return redirect('admin');
+            return view('admin.dashboard');
         }
         if($ticket->accepter_id > 0)
         {
             Session::flash('flash_message', 'This ticket is assigned to other customer.');
-            return redirect('admin');
+            return view('admin.dashboard');
         }
         $user = Auth::user();
+        Talk::setAuthUserId($ticket->requester_id);
+        Talk::sendMessageByUserId($user->id, $ticket->message);
         $ticket->accepter_id = $user->id;
         $ticket->save();
         return redirect('message/'.$ticket->requester_id);

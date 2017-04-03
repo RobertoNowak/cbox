@@ -2,59 +2,90 @@
 <html >
   <head>
     <meta charset="UTF-8">
-      <meta name="csrf-token" content="{{csrf_token()}}">
-    <title>Talk Message</title>
-    
-    
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <link rel="stylesheet" href="{{asset('chat/css/reset.css')}}">
-
     <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
-
-        <link rel="stylesheet" href="{{asset('chat/css/style.css')}}">
-
-    
-    
-    
+    <link rel="stylesheet" href="{{asset('chat/css/style.css')}}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link href="assets/global/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/css/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/bootstrap/css/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/bootstrap/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="assets/global/bootstrap/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" /> -->
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/css/owl.carousel.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/css/owl.theme.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/plugins/slider-revolution-slider/rs-plugin/css/settings.css" rel="stylesheet">
+    <link href="assets/global/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <link href="assets/one-page/css/settings.css" rel="stylesheet">
+    <link href="assets/one-page/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="assets/one-page/css/red.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="assets/global/css/layout.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="assets/global/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" /> -->
+    <link href="assets/global/css/login.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/css/layout.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/global/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!-- Styles -->
+    <link href="/css/app.css" rel="stylesheet">
   </head>
 
   <body>
-<div class="header">
-    <div class="container header-brand">
-        <a href="{{url('/')}}" class="brand">Talk Message</a>
-    </div>
-</div>
-      <div class="container clearfix body">
-   @include('partials.peoplelist')
-    
-    <div class="chat">
-      <div class="chat-header clearfix">
-        @if(isset($user))
-            <img src="{{@$user->avatar}}" alt="avatar" />
-        @endif
-        <div class="chat-about">
-            @if(isset($user))
-                <div class="chat-with">{{'Chat with ' . @$user->name}}</div>
-            @else
-                <div class="chat-with">No Thread Selected</div>
-            @endif
+    <div class="header">
+        <div class="container header-brand">
+            <h3 class="text-center">MillionMitzvot support</h3>
         </div>
-        <i class="fa fa-star"></i>
-      </div> <!-- end chat-header -->
-      
-      @yield('content')
-      
-      <div class="chat-message clearfix">
-      <form action="" method="post" id="talkSendMessage">
-            <textarea name="message-data" id="message-data" placeholder ="Type your message" rows="3"></textarea>
-            <input type="hidden" name="_id" value="{{@request()->route('id')}}">
-            <button type="submit">Send</button>
-      </form>
-
-      </div> <!-- end chat-message -->
-      
-    </div> <!-- end chat -->
-    
-  </div> <!-- end container -->
+    </div>
+    <div class="clearfix body">
+        @include('partials.peoplelist')
+        
+        <div class="chat">
+            <div class="chat-header clearfix">
+                @if(isset($user))
+                    <img src="{{@$user->image_url}}" onerror="this.src='assets/global/img/default_avatar.jpg'" class="avatar img-responsive" />
+                @endif
+                <div class="chat-about">
+                    @if(isset($user))
+                        <div class="chat-with">{{'To ' . @$user->name}}</div>
+                    @else
+                        <div class="chat-with">No Thread Selected</div>
+                    @endif
+                </div>
+                <i class="fa fa-star"></i>
+            </div> <!-- end chat-header -->
+                
+            @yield('content')
+            
+            <div class="footer" style="background: white; width: 100%; padding: 10px; top: auto; bottom: 0px;">
+                <form action="" method="post" id="talkSendMessage">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <fieldset>
+                                <div class="form-group margin-top-0 margin-bottom-0">
+                                    <div class="col-xs-8" style="width: calc(100% - 95px); padding-right: 0px;">
+                                        <textarea class="form-control" name="message-data" id="message-data" placeholder ="Type your message here" style="height: 80px; resize: none;"></textarea>
+                                    </div>
+                                    <div class="col-xs-4" style="width: 80px;padding: 0px; margin-left: 10px;">
+                                        <button class="btn btn-sm btn-primary" type="submit" style="width: 100%; height: 80px;">Send</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_id" value="{{@request()->route('id')}}"/>
+                </form>
+            </div>
+        
+        </div> <!-- end chat -->
+        
+    </div> <!-- end container -->
 
 
       <script>

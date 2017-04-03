@@ -32,7 +32,7 @@
         <i class="fa fa-bars"></i>
         <span style="font-weight: normal;">Following</span> Leaders
       </h4>
-      <div class="leader-tile" *ngFor = "let leader of scores[current_item].followingUsers">
+      <div class="leader-tile" *ngFor = "let leader of generalService.followingUser">
         <img onerror="this.src='assets/global/img/default_avatar.jpg'" src = "{{leader.image_url}}" class="avatar small" style="border-radius: 50% !important;"/>
         <div style="width: calc(100% - 75px); padding-bottom: 10px; border-bottom: 1px solid #ccc;">
           <div class="col-xs-8" style="padding-left: 0px;">

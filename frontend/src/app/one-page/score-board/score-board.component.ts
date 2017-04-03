@@ -102,11 +102,11 @@ export class ScoreBoardComponent implements OnInit {
       }
       this.appState.closeLoading();
       if(this.scores[this.current_item].is_current_user_following)
-        this.scores[this.current_item].followingUsers.push(this.authService.currentUser);
+        this.generalService.followingUser.push(this.scores[this.current_item]);
       else{
-        for(let i = 0; i < this.scores[this.current_item].followingUsers.length; i++){
-          if(this.scores[this.current_item].followingUsers[i].id == this.authService.currentUser.id){
-            this.scores[this.current_item].followingUsers.splice(i, 1);
+        for(let i = 0; i < this.generalService.followingUser.length; i++){
+          if(this.generalService.followingUser[i].id == this.authService.currentUser.id){
+            this.generalService.followingUser.splice(i, 1);
           }
         }
       }

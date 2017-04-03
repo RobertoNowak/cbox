@@ -9,6 +9,8 @@ export class StateService {
     this.state.admin_menu_selected = 1;
     this.state.login_message = "";
     this.state.one_page_menu_selected = 1;
+    this.state.is_chat_window_open = false;
+    this.state.is_on_contact_us = false;
   }
   // already return a clone of the current state
   get state() {

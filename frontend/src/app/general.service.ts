@@ -23,6 +23,7 @@ export class GeneralService {
   public organizations: any[] = [];
   public isGeneralInfoFirstLoad:boolean = true;
   public unread_messages: number = 0;
+  public followingUser: any[] = [];
   constructor(private http: Http, public authService: AuthenticateService) {
     this.dailyLeaders = [];
     this.lifeLeaders = [];
@@ -47,6 +48,7 @@ export class GeneralService {
                     res.data.data[i].image_url += "?v=" + image_v;
                   }
                 this.scores = res.data.data;
+                this.followingUser = res.data.following;
                 this.totalCount = res.data.total;
                 return true;
             } else {

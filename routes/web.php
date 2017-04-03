@@ -43,6 +43,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
 });
 Route::get('customer_support', 'MessageController@customerSupport');
 Route::post('customer_support', 'MessageController@newMessage');
+Route::get('isTicketClosed/{id}', 'MessageController@isTicketClosed');
 
 Route::post('message/{id}', 'MessageController@removeChatHistory')->name('message.readAll');
 Route::post('contactAdmin', 'MessageController@contactAdmin')->name('contactAdmin');

@@ -18,7 +18,7 @@
           <ul class="dropdown-menu">
             <li><a [routerLink]="['/director_board/']">{{tr('BOARD_OF_DIRECTORS')}}</a></li>
             <li><a [routerLink]="['/contact/']">{{tr('CONTACTUS')}}</a></li>
-            <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.ADMIN"><a [routerLink]="['/contact-admin/']">Talk to Customers</a></li>
+            <!--<li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.ADMIN"><a [routerLink]="['/contact-admin/']">Talk to Customers</a></li>-->
           </ul>
         </li>
         <li  class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 2" >

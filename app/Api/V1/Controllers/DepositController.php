@@ -16,12 +16,24 @@ use DB;
 
 class DepositController extends BaseController
 {
+    public function checkDevID($uId){
+      $box = Box::where('device_id', $uId)->first();
+      if($box != null)
+        return true;
+      return false;
+    }
 
     public function getDeviceInfo(Request $request){
       $param = $request->only(['uid']);
       $validator = Validator::make($param, ['uid'   => 'required|numeric']);
       if ($validator->fails()) {
         $res['status'] = "err";
+        $res['cbox_end'] = "end";
+        return $res;
+      }
+      if(!$this->checkDevID($param['uid']))
+      {
+        $res['status'] = "unregistered";
         $res['cbox_end'] = "end";
         return $res;
       }
@@ -37,50 +49,48 @@ class DepositController extends BaseController
                     })->select(DB::raw('count(cbox_deposits.id) as deposit_count'), DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate*(CASE cbox_deposits.del_flg WHEN 0 THEN 1 ELSE 0 END)) as decimal(10,2)) as amount') );
       $result1 = $query1->get();
       $date = date("Y-m-d");
-      $query2 = DB::table('cbox_deposits')
-                    ->leftjoin('cbox_currencyts', function($join){
-                          $join->on('cbox_deposits.currencyt', '=', 'cbox_currencyts.currencyt');
-                    })
-                    ->leftjoin('cbox_boxes', function($join){
-                          $join->on('cbox_boxes.device_id', '=', 'cbox_deposits.device_id')->where('cbox_boxes.del_flg', '<>', config('constants.ITEM_IS_DELETE'));
-                    })
-                    ->where('cbox_deposits.device_id', $param['uid'])
-                    ->where('cbox_deposits.created_at', '>', $date)
-                    ->select('cbox_boxes.d_count as deposit_count', DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate*(CASE cbox_deposits.del_flg WHEN 0 THEN 1 ELSE 0 END)) as decimal(10,2)) as amount') );
-      $result2 = $query2->get();
-      $query3 = DB::table('cbox_deposits')
-                    ->leftjoin('cbox_currencyts', function($join){
-                          $join->on('cbox_deposits.currencyt', '=', 'cbox_currencyts.currencyt');
-                    })->where('cbox_deposits.created_at', '>', $date)
-                    ->select(DB::raw('count(cbox_deposits.id) as deposit_count'), DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate*(CASE cbox_deposits.del_flg WHEN 0 THEN 1 ELSE 0 END)) as decimal(10,2)) as amount') );
-      $result3 = $query3->get();
+      // $query2 = DB::table('cbox_deposits')
+      //               ->leftjoin('cbox_currencyts', function($join){
+      //                     $join->on('cbox_deposits.currencyt', '=', 'cbox_currencyts.currencyt');
+      //               })
+      //               ->leftjoin('cbox_boxes', function($join){
+      //                     $join->on('cbox_boxes.device_id', '=', 'cbox_deposits.device_id')->where('cbox_boxes.del_flg', '<>', config('constants.ITEM_IS_DELETE'));
+      //               })
+      //               ->where('cbox_deposits.device_id', $param['uid'])
+      //               ->where('cbox_deposits.created_at', '>', $date)
+      //               ->select('cbox_boxes.d_count as deposit_count');
+      // $result2 = $query2->get();
+      // $query3 = DB::table('cbox_deposits')
+      //               ->leftjoin('cbox_currencyts', function($join){
+      //                     $join->on('cbox_deposits.currencyt', '=', 'cbox_currencyts.currencyt');
+      //               })->where('cbox_deposits.created_at', '>', $date)
+      //               ->select(DB::raw('count(cbox_deposits.id) as deposit_count'), DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate*(CASE cbox_deposits.del_flg WHEN 0 THEN 1 ELSE 0 END)) as decimal(10,2)) as amount') );
+      // $result3 = $query3->get();
 
       $deposit_count = Box::select(DB::raw('sum(d_count) as deposit_count'))->first()['deposit_count'];
-
+      $dtime_box_cnt = Box::where('device_id', $param['uid'])->first()->d_count;
       $res['status'] = "ok";
-      if ($result != null && $result1 != null && $result2 != null && $result3 != null) {
+      if ($result != null && $result1 != null) {
         $result = $result[0];
         $result1 = $result1[0];
-        $result2 = $result2[0];
-        $result3 = $result3[0];
         $res['lftime_cnt'] = strval($result1->deposit_count);
-        $res['lftime_dollar'] = $result1->amount;
+        if($result1->amount == null || $result1->amount == 0)
+          $res['lftime_dollar'] = '0.00';
+        else
+          $res['lftime_dollar'] = $result1->amount;
         $res['lftime_box_cnt'] = strval($result->deposit_count);
-        $res['lftime_box_dollar'] = $result->amount;
+        if($result->amount == null || $result->amount == 0)
+        $res['lftime_box_dollar'] = '0.00';
+        else
+          $res['lftime_box_dollar'] = $result->amount;
         $res['dtime_cnt'] = strval($deposit_count);
-        if(!isset($result3->amount)){
-          $res['dtime_dollar'] = "0";
-        }
-        else{
-          $res['dtime_dollar'] = $result3->amount;
-        }
-        $res['dtime_box_cnt'] = strval($result2->deposit_count);
-        if(!isset($result2->amount)){
-          $res['dtime_box_dollar'] = "0";
-        }
-        else{
-          $res['dtime_box_dollar'] = $result2->amount;
-        }
+        // if(!isset($result3->amount)){
+        //   $res['dtime_dollar'] = "0";
+        // }
+        // else{
+        //   $res['dtime_dollar'] = $result3->amount;
+        // }
+        $res['dtime_box_cnt'] = strval($dtime_box_cnt);
       } else {
         $res['status'] = "err";
       }
@@ -95,6 +105,12 @@ class DepositController extends BaseController
       $validator = Validator::make($param, ['uid'   => 'required|numeric']);
       if ($validator->fails()) {
         $res['status'] = "err";
+        return $res;
+      }
+      if(!$this->checkDevID($param['uid']))
+      {
+        $res['status'] = "unregistered";
+        $res['cbox_end'] = "end";
         return $res;
       }
       $box = Box::where('device_id', $param['uid'])->first();
@@ -120,6 +136,12 @@ class DepositController extends BaseController
       $validator = Validator::make($param, ['uid'   => 'required|numeric', 'cnt'   => 'required|numeric', 'data'   => 'required']);
       if ($validator->fails()) {
         $res['status'] = "err";
+        $res['cbox_end'] = "end";
+        return $res;
+      }
+      if(!$this->checkDevID($param['uid']))
+      {
+        $res['status'] = "unregistered";
         $res['cbox_end'] = "end";
         return $res;
       }
