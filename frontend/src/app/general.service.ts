@@ -24,13 +24,26 @@ export class GeneralService {
   public isGeneralInfoFirstLoad:boolean = true;
   public unread_messages: number = 0;
   public followingUser: any[] = [];
+  public firmware_version: any = {major_version: 0, minor_version: 0};
   constructor(private http: Http, public authService: AuthenticateService) {
     this.dailyLeaders = [];
     this.lifeLeaders = [];
     this.topInstitution = [];
     this.topSchool = [];
     this.getUnreadMessageCount();
+    this.getFirmwareVersion();
   }
+
+  getFirmwareVersion(){
+    this.authService.get('/api/v1/getFirmwareVersion')
+        .subscribe((response: Response) => {
+            let res:any = response.json();
+            if (res.status == 'ok') {
+              this.firmware_version = {major_version: res.major_version, minor_version: res.minor_version};
+            }
+        }, error => {});
+  }
+
   getScores(start:number, length: number, sort_item: string, sort_rule: boolean, search: string, filter: string):Observable<boolean> {
     let sort_rule_string: string = "asc";
     if(sort_rule)

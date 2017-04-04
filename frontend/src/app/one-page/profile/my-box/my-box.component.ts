@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../../language.service';
 import { StateService } from '../../../state.service';
+import { GeneralService } from '../../../general.service';
 import { AuthenticateService, USER_TYPE, USER_SIGNED_INFO } from '../../../authenticate.service';
 import { ProfileService } from '../profile.service';
 import { Box } from '../../..//model/box.type';
@@ -28,7 +29,7 @@ export class MyBoxComponent implements OnInit {
     EUR : "Europe"
   };
   public country_codes = ["CNY", "USD", "EUR"];
-  constructor(public authService:AuthenticateService, public lang: LanguageService, public router: Router, public appState: StateService, public profileService: ProfileService) {
+  constructor(public authService:AuthenticateService, public lang: LanguageService, public general: GeneralService, public router: Router, public appState: StateService, public profileService: ProfileService) {
     this.model = new Box();
     this.appState.setLoading(this.tr("LOADING_TEXT"));
     this.profileService.getBoxes().subscribe(
@@ -72,11 +73,15 @@ export class MyBoxComponent implements OnInit {
     let box:Box = new Box();//this.profileService.boxes[this.dev_index];
     box.device_id = this.profileService.boxes[this.dev_index].device_id;
     box.country_code = this.model.country_code;
+    box.major_version = this.model.major_version;
+    box.minor_version = this.model.minor_version;
     this.appState.setLoading(this.tr("LOADING_TEXT"));
     this.profileService.updateBox(this.model).subscribe(
      result => {
        if(result){
          this.profileService.boxes[this.dev_index].country_code = this.model.country_code;
+         this.profileService.boxes[this.dev_index].major_version = this.model.major_version;
+         this.profileService.boxes[this.dev_index].minor_version = this.model.minor_version;
          this.errorMessage = "";
          this.edit_box_dialog.hide();
        }
@@ -114,6 +119,29 @@ export class MyBoxComponent implements OnInit {
        this.appState.closeLoading();
      });
   }
+
+  setModelData(box){
+    this.model.device_id=box.device_id; 
+    this.model.country_code = box.country_code;
+    this.model.major_version = box.major_version;
+    this.model.minor_version = box.minor_version;
+  }
+  
+  updateFirmware(device_id){
+    this.appState.setLoading(this.tr("LOADING_TEXT"));
+    this.profileService.updateFirmware(device_id).subscribe(
+     result => {
+       if(result){
+         this.errorMessage = "";
+         this.profileService.boxes[this.dev_index].update_flag = 1;
+         this.successMessage = "Firmware update has been booked. Please restart your box to update firmware.";
+       }
+       else
+         this.errorMessage = this.tr("RESET_BOX_FAILED");
+       this.appState.closeLoading();
+     });
+  }
+
   ngOnInit() {
   }
 

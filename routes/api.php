@@ -38,6 +38,7 @@ $api->version('v1', function ($api) {
             $api->post('/', 	'BoxController@Add');
             $api->put('/', 		'BoxController@Update');
             $api->delete('/', 'BoxController@Remove');
+            $api->post('/updateBoxFirmware', 'BoxController@UpdateFirmware');
         });
         $api->group(['middleware' => ['auth'], 'prefix' => 'members'], function($api) {
             $api->get('/', 		'MemberController@Find');
@@ -58,7 +59,7 @@ $api->version('v1', function ($api) {
         $api->get('/getFirmwareContent', 			'DepositController@getFirmwareData');
         $api->get('/getSoundFileCount', 			'DepositController@getSoundFileCount');
         $api->get('/getSoundContent', 			'DepositController@getSoundContent');
-        
+        $api->get('/isFirmwareUpdateBooked', 			'DepositController@isFirmwareUpdateBooked');
 
         $api->get('/resetDevice',		'DepositController@resetDeviceDeposit');
 

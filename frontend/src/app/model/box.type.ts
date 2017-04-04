@@ -10,6 +10,9 @@ export class Box {
   public amount: number;
   public deposit_amount: number;
   public secretCode: string;
+  public major_version: number;
+  public minor_version: number;
+  public update_flag: number;
   constructor(){
     this.id = 0;
     this.device_id = 0;
@@ -22,5 +25,8 @@ export class Box {
     this.amount = 0;
     this.deposit_amount = 0;
     this.secretCode = "";
+    this.major_version = 1;
+    this.minor_version = 0;
+    this.update_flag = 0;
   }
 }

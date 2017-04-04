@@ -116,6 +116,9 @@
             '</li>';
 
             $('#talkMessages').append(html);
+            setTimeout(function(){
+                $('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
+            }, 100);
         }
 
     </script>

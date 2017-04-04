@@ -3,12 +3,17 @@
 </h4>
 <div class="content-form-page">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-6">
         <div class="btn-group" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN">
             <button class="btn sbold green add-box-btn" *ngIf="authService.currentUser.role == USER_TYPE.INDIVIDUAL" (click) = "model.device_id = 0; model.location = ''; add_box_dialog.show();">{{tr("ADD_NEW")}}
                 <i class="fa fa-plus"></i>
             </button>
         </div>
+    </div>
+    <div class="col-xs-6">
+      <label class="pull-right" style = "margin-top: 15px;">
+        Current Firmware Version: {{general.firmware_version.major_version}}.{{general.firmware_version.minor_version}}
+      </label>
     </div>
   </div>
   <div class="row">
@@ -38,25 +43,28 @@
         <table class="table table-striped table-bordered table-advance table-hover table-checkable order-column dataTable" role="grid">
           <thead>
             <tr role="row">
-              <th class="sorting" tabindex="0"  rowspan="1" colspan="1"  style="width: 7%;">
+              <th class="sorting" tabindex="0"  rowspan="1" colspan="1"  style="width: 6%;">
                 {{tr("DEVICE_ID")}}
               </th>
-              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 12%;">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 9%;">
                 {{tr("LOCATION")}}
               </th>
-              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 12%;">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 9%;">
                 {{tr("DAILY_COUNT")}}
               </th>
-              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 12%;">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 9%;">
                 {{tr("LIFETIME_COUNT")}}
               </th>
-              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 12%;">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 9%;">
                 {{tr("AMOUNT_IN_BOX")}}
               </th>
-              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 12%;">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 9%;">
                 {{tr("TOTAL_AMOUNT_DEPOSITED")}}
               </th>
-              <th class="sorting" tabindex="0"  rowspan="1" colspan="1" style="width: 30%;">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width: 9%;">
+                Version
+              </th>
+              <th class="sorting" tabindex="0"  rowspan="1" colspan="1" style="width: 40%;">
                 {{tr("ACTION")}}
               </th>
             </tr>
@@ -77,10 +85,12 @@
               <td class=""> {{box.lifetime_count}} </td>
               <td class=""> {{box.deposit_amount}}</td>
               <td class=""> {{box.amount}}</td>
+              <td class=""> {{box.major_version}}.{{box.minor_version}}</td>
               <td>
-                <button type="button" class="btn btn-primary green" (click)="model.device_id=box.device_id; model.country_code = box.country_code; dev_index = i; edit_box_dialog.show();">{{tr("EDIT")}}</button>
+                <button type="button" class="btn btn-primary green" (click)="setModelData(box); dev_index = i; edit_box_dialog.show();">{{tr("EDIT")}}</button>
                 <button type="button" class="btn btn-warning blue" (click)="device_id = box.device_id; dev_index = i; reset_box_dialog.show();">{{tr("RESET")}}</button>
                 <button type="button" class="btn red" (click)="device_id = box.device_id; dev_index = i; remove_box_dialog.show();">{{tr("REMOVE")}}</button>
+                <button type="button" class="btn orange" (click)="dev_index = i; updateFirmware(box.device_id);" [disabled] = "box.update_flag == 1">Firmware Update</button>
               </td>
             </tr>
           </tbody>
@@ -116,6 +126,18 @@
                 <label class="col-lg-4 control-label">{{tr("SECRET_CODE")}}<span class="require">*</span></label>
                 <div class="col-lg-8">
                   <input type="text" class="form-control" name="secretCode" required="true" [(ngModel)]="model.secretCode">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Major Version<span class="require">*</span></label>
+                <div class="col-lg-8">
+                  <input type="number" class="form-control" name="major_version" required="true" [(ngModel)]="model.major_version">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Minor Version<span class="require">*</span></label>
+                <div class="col-lg-8">
+                  <input type="number" class="form-control" name="minor_version" required="true" [(ngModel)]="model.minor_version">
                 </div>
               </div>
               <div class="form-group">
@@ -166,6 +188,18 @@
                 <label class="col-lg-4 control-label">{{tr("DEVICE_ID")}}<span class="require">*</span></label>
                 <div class="col-lg-8">
                   <input type="text" class="form-control" name="device_id" required="true" disabled [(ngModel)]="model.device_id">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Major Version<span class="require">*</span></label>
+                <div class="col-lg-8">
+                  <input type="number" class="form-control" name="major_version" required="true" [(ngModel)]="model.major_version">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Minor Version<span class="require">*</span></label>
+                <div class="col-lg-8">
+                  <input type="number" class="form-control" name="minor_version" required="true" [(ngModel)]="model.minor_version">
                 </div>
               </div>
               <div class="form-group">

@@ -363,4 +363,29 @@ class DepositController extends BaseController
       $res['cbox_end'] = "end";
       return $res;
     }
+
+    public function isFirmwareUpdateBooked(Request $request){
+      $param = $request->only(['uid']);
+      $validator = Validator::make($param, ['uid'   => 'required|numeric']);
+      if ($validator->fails()) {
+        // $res['status'] = "err";
+        // $res['cbox_end'] = "end";
+        $res["status"] = "err";
+        $res["message"] = "The data is not correct.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $box = Box::where('device_id', $param['uid'])->first();
+      if($box == null){
+        $res["status"] = "err";
+        $res["message"] = "The box does not exist.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $res['status'] = "ok";
+      $res['uid'] = $param['uid'];
+      $res['updateBooked'] = "".$box->update_flg;
+      $res['cbox_end'] = "end";
+      return $res;
+    }
 }

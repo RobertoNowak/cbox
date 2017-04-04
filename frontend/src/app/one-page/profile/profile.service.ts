@@ -8,6 +8,7 @@ import { Member } from '../../model/member.type';
 import { Donate } from '../../model/donate.type';
 import { AuthenticateService } from '../../authenticate.service';
 import { StateService } from '../../state.service';
+import { GeneralService } from '../../general.service';
 import { LanguageService } from '../../language.service';
 import { Router } from '@angular/router';
 @Injectable()
@@ -21,7 +22,7 @@ export class ProfileService {
   public donate_count:number = 0;
   initToken(){
   }
-  constructor(private http: Http, private router: Router, private authService: AuthenticateService, private stateService: StateService, private languageService: LanguageService) {
+  constructor(private http: Http, private router: Router, private authService: AuthenticateService, private general: GeneralService, private stateService: StateService, private languageService: LanguageService) {
     this.initToken();
   }
 
@@ -64,6 +65,11 @@ export class ProfileService {
             let res:any = response.json();
             if (res.success == true) {
                 this.boxes = res.data;
+                for(let i = 0; i < this.boxes.length; i++)
+                  if(this.boxes[i].major_version != res.major_version || this.boxes[i].minor_version != res.minor_version)
+                    this.boxes[i].update_flag = 0;
+                  else
+                    this.boxes[i].update_flag = 1;
                 return true;
             } else
               return false;
@@ -111,6 +117,20 @@ export class ProfileService {
             return false;
         }, error=>{return false;});
   }
+
+  updateFirmware(device_id): Observable<boolean>{
+    let data:any = {device_id: device_id};
+    let headers = new Headers();
+    return this.authService.post('/api/v1/boxes/updateBoxFirmware', data)
+        .map((response: Response) => {
+          let res:any = response.json();
+          if (res.success == true) {
+            return true;
+          } else
+            return false;
+        }, error=>{return false;});
+  }
+
   resetBox(box:Box):Observable<boolean>{
     this.initToken();
     let data:any = {uid: box.device_id};

@@ -105,7 +105,7 @@ export class ScoreBoardComponent implements OnInit {
         this.generalService.followingUser.push(this.scores[this.current_item]);
       else{
         for(let i = 0; i < this.generalService.followingUser.length; i++){
-          if(this.generalService.followingUser[i].id == this.authService.currentUser.id){
+          if(this.generalService.followingUser[i].id == this.scores[this.current_item].id){
             this.generalService.followingUser.splice(i, 1);
           }
         }

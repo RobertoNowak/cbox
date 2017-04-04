@@ -6,6 +6,7 @@ use Config;
 use Validator;
 use App\User;
 use App\Models\Box;
+use App\Models\Option;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -42,11 +43,15 @@ class BoxController extends BaseController
                 })
                 ->where('cbox_boxes.user_id', '='  , $user->id)
                 ->where('cbox_boxes.del_flg', '<>' , config('constants.ITEM_IS_DELETE'))
-                ->select('cbox_boxes.id', 'cbox_boxes.device_id', 'cbox_boxes.country_code', 'cbox_boxes.d_count', DB::raw('count(cbox_deposits.id) as lifetime_count'), DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate) as decimal(10,2)) as amount'), DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate*(CASE cbox_deposits.del_flg WHEN 2 THEN 0 ELSE 1 END)) as decimal(10,2)) as deposit_amount'))
+                ->select('cbox_boxes.id', 'cbox_boxes.device_id', 'cbox_boxes.country_code', 'cbox_boxes.d_count', 'cbox_boxes.major_version', 'cbox_boxes.minor_version', DB::raw('count(cbox_deposits.id) as lifetime_count'), DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate) as decimal(10,2)) as amount'), DB::raw('cast(sum(cbox_deposits.amount*cbox_currencyts.rate*(CASE cbox_deposits.del_flg WHEN 2 THEN 0 ELSE 1 END)) as decimal(10,2)) as deposit_amount'))
                 ->groupby('cbox_boxes.device_id');
       $boxes = $query->get();
       $res['success'] = true;
       $res['data'] = $boxes;
+      $major_version = Option::where('key', 'firmware_major_version')->first()['value'];
+      $minor_version = Option::where('key', 'firmware_minor_version')->first()['value'];
+      $res['major_version'] = $major_version;
+      $res['minor_version'] = $minor_version;
       return $res;
     }
 
@@ -57,10 +62,12 @@ class BoxController extends BaseController
           $res['message'] = 'You have not permission to manage boxes.';
           return $res;
       }
-      $boxData = $request->only(['device_id', 'country_code', 'secretCode']);
+      $boxData = $request->only(['device_id', 'country_code', 'secretCode', 'major_version', 'minor_version']);
       $validator = Validator::make($boxData, [
         'device_id'    => 'required|numeric',
-        'country_code' => 'required'
+        'country_code' => 'required',
+        'major_version' => 'required|numeric',
+        'minor_version' => 'required|numeric'
       ]);
       if ($validator->fails()) {
         $res["success"] = false;
@@ -103,8 +110,13 @@ class BoxController extends BaseController
           $res['message'] = 'You have not permission to manage boxes.';
           return $res;
       }
-      $boxData = $request->only(['device_id', 'country_code']);
-      $validator = Validator::make($boxData, ['device_id'   => 'required|numeric', 'country_code'   => 'required']);
+      $boxData = $request->only(['device_id', 'country_code', 'major_version', 'minor_version']);
+      $validator = Validator::make($boxData, [
+        'device_id'    => 'required|numeric',
+        'country_code' => 'required',
+        'major_version' => 'required|numeric',
+        'minor_version' => 'required|numeric'
+      ]);
       if ($validator->fails()) {
         $res["success"] = false;
         $res["message"] = "The data is not correct.";
@@ -126,6 +138,8 @@ class BoxController extends BaseController
       }
 
       $box['country_code'] = $boxData['country_code'];
+      $box['major_version'] = $boxData['major_version'];
+      $box['minor_version'] = $boxData['minor_version'];
       $box->save();
       $res['success'] = true;
       return $res;
@@ -160,6 +174,27 @@ class BoxController extends BaseController
           return $res;
       }
       $box['del_flg'] = config('constants.ITEM_IS_DELETE');
+      $box->save();
+      $res['success'] = true;
+      return $res;
+    }
+
+    public function UpdateFirmware(Request $request){
+      $user = Auth::user();
+      if(!$user->can('BOX_MANAGE')) {
+          $res['success'] = false;
+          $res['message'] = 'You have not permission to manage boxes.';
+          return $res;
+      }
+      $boxData = $request->only(['device_id']);
+      $validator = Validator::make($boxData, ['device_id'   => 'required|numeric']);
+      if ($validator->fails()) {
+        $res["success"] = false;
+        $res["message"] = "The data is not correct.";
+        return $res;
+      }
+      $box = Box::where('device_id', $boxData['device_id'])->first();
+      $box->update_flg = 1;
       $box->save();
       $res['success'] = true;
       return $res;
