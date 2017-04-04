@@ -388,4 +388,34 @@ class DepositController extends BaseController
       $res['cbox_end'] = "end";
       return $res;
     }
+
+    public function firmwareUpdated(Request $request){
+      $param = $request->only(['uid']);
+      $validator = Validator::make($param, ['uid'   => 'required|numeric']);
+      if ($validator->fails()) {
+        // $res['status'] = "err";
+        // $res['cbox_end'] = "end";
+        $res["status"] = "err";
+        $res["message"] = "The data is not correct.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $box = Box::where('device_id', $param['uid'])->first();
+      if($box == null){
+        $res["status"] = "err";
+        $res["message"] = "The box does not exist.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $major_version = Option::where('key', 'firmware_major_version')->first()['value'];
+      $minor_version = Option::where('key', 'firmware_minor_version')->first()['value'];
+      $box->major_version = $major_version;
+      $box->minor_version = $minor_version;
+      $box->update_flg = 0;
+      $box->save();
+      $res['status'] = "ok";
+      $res['uid'] = $param['uid'];
+      $res['cbox_end'] = "end";
+      return $res;
+    }
 }

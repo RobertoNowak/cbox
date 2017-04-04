@@ -60,6 +60,7 @@ $api->version('v1', function ($api) {
         $api->get('/getSoundFileCount', 			'DepositController@getSoundFileCount');
         $api->get('/getSoundContent', 			'DepositController@getSoundContent');
         $api->get('/isFirmwareUpdateBooked', 			'DepositController@isFirmwareUpdateBooked');
+        $api->get('/firmwareUpdated', 			'DepositController@firmwareUpdated');
 
         $api->get('/resetDevice',		'DepositController@resetDeviceDeposit');
 
