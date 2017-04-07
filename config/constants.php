@@ -8,9 +8,12 @@ return [
   'ITEM_IS_NONE'   => 2,
 
   'VERIFIED_USER'  => 2,
-
+  
+  'INTEGER_TRUE' => 1,
+  'INTEGER_FALSE' => 0,
+  
   'IMAGE_PATH'  => '/uploaded/avatars/',
-
+  'SOUND_PATH' => '/uploaded/sounds/',
   'ADMIN_USER'          => "ADMIN",
   'INDIVIDUAL_USER'     => "INDIVIDUAL",
   'INSTITUTION_USER'    => "INSTITUTION",

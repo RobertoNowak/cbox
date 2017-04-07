@@ -12,7 +12,8 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "nahid/talk": "^2.1",
-        "netshell/paypal": "dev-master"
+        "netshell/paypal": "dev-master",
+        "pbmedia/laravel-ffmpeg": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -8,6 +8,7 @@ use App\User;
 use App\Models\Box;
 use App\Models\Coin;
 use App\Models\Deposit;
+use App\Models\Sound;
 use App\Models\Currencyt;
 use App\Models\Option;
 use Illuminate\Http\Request;
@@ -316,9 +317,27 @@ class DepositController extends BaseController
     }
 
     public function getSoundFileCount(Request $request){
+      $param = $request->only(['uid']);
+      $validator = Validator::make($param, ['uid' => 'required|numeric']);
+      if ($validator->fails()) {
+        $res["status"] = "err";
+        $res["message"] = "The data is not correct.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
       $sound_file_count = Option::where('key', 'sound_file_count')->first()['value'];
       $res['status'] = "ok";
-      $res['sound_file_count'] = $sound_file_count;
+      $box = Box::where('device_id', $param['uid'])->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->first();
+      if($box == null){
+        $res["status"] = "unregistered";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $sounds = Sound::where('user_id', $box->user_id)->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->orderby('id')->get();
+      if(count($sounds) > 0)
+        $res['sound_file_count'] = "".count($sounds);
+      else
+        $res['sound_file_count'] = "".$sound_file_count;
       $res['cbox_end'] = "end";
       return $res;
     }
@@ -334,7 +353,24 @@ class DepositController extends BaseController
         $res["cbox_end"] = "end";
         return $res;
       }
+      $box = Box::where('device_id', $param['uid'])->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->first();
+      if($box == null){
+        $res["status"] = "unregistered";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $sounds = Sound::where('user_id', $box->user_id)->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->orderby('id')->get();
       $fileName = base_path('/dev_sounds/sound_'.$param['filenumber']);
+      if(count($sounds) > 0){
+        if($param['filenumber'] >= count($sounds)){
+          $res["status"] = "err";
+          $res["message"] = "The data is not correct.";
+          $res["cbox_end"] = "end";
+          return $res;
+        }
+        $sound = $sounds[$param['filenumber']];
+        $fileName = base_path('/public'.$sound->file_url);
+      }
       $file = fopen($fileName, "rb");
       $filesize = filesize($fileName);
       $seek_start = $param['tracknumber'] * 512;
@@ -375,10 +411,9 @@ class DepositController extends BaseController
         $res["cbox_end"] = "end";
         return $res;
       }
-      $box = Box::where('device_id', $param['uid'])->first();
+      $box = Box::where('device_id', $param['uid'])->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->first();
       if($box == null){
-        $res["status"] = "err";
-        $res["message"] = "The box does not exist.";
+        $res["status"] = "unregistered";
         $res["cbox_end"] = "end";
         return $res;
       }
@@ -400,10 +435,9 @@ class DepositController extends BaseController
         $res["cbox_end"] = "end";
         return $res;
       }
-      $box = Box::where('device_id', $param['uid'])->first();
+      $box = Box::where('device_id', $param['uid'])->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->first();
       if($box == null){
-        $res["status"] = "err";
-        $res["message"] = "The box does not exist.";
+        $res["status"] = "unregistered";
         $res["cbox_end"] = "end";
         return $res;
       }
@@ -413,6 +447,64 @@ class DepositController extends BaseController
       $box->minor_version = $minor_version;
       $box->update_flg = 0;
       $box->save();
+      $res['status'] = "ok";
+      $res['uid'] = $param['uid'];
+      $res['cbox_end'] = "end";
+      return $res;
+    }
+
+    public function isSoundUpdateBooked(Request $request){
+      $param = $request->only(['uid']);
+      $validator = Validator::make($param, ['uid'   => 'required|numeric']);
+      if ($validator->fails()) {
+        $res["status"] = "err";
+        $res["message"] = "The data is not correct.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $box = Box::where('device_id', $param['uid'])->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->first();
+      if($box == null){
+        $res["status"] = "unregistered";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $option = Option::where('key', 'user_'.$box->user_id.'_updated_sound')->first();
+      if($option == null || $option->value == config('constants.INTEGER_FALSE')){
+        $res['status'] = "ok";
+        $res['uid'] = $param['uid'];
+        $res['updateBooked'] = "0";
+        $res['cbox_end'] = "end";
+        return $res;
+      }
+      else{
+        $res['status'] = "ok";
+        $res['uid'] = $param['uid'];
+        $res['updateBooked'] = "1";
+        $res['cbox_end'] = "end";
+        return $res;
+      }
+    }
+
+    public function soundUpdated(Request $request){
+      $param = $request->only(['uid']);
+      $validator = Validator::make($param, ['uid'   => 'required|numeric']);
+      if ($validator->fails()) {
+        $res["status"] = "err";
+        $res["message"] = "The data is not correct.";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $box = Box::where('device_id', $param['uid'])->where('del_flg', '<>', config('constants.ITEM_IS_DELETE'))->first();
+      if($box == null){
+        $res["status"] = "unregistered";
+        $res["cbox_end"] = "end";
+        return $res;
+      }
+      $option = Option::where('key', 'user_'.$box->user_id.'_updated_sound')->first();
+      if($option != null){
+        $option->value = config('constants.INTEGER_FALSE');
+        $option->save();
+      }
       $res['status'] = "ok";
       $res['uid'] = $param['uid'];
       $res['cbox_end'] = "end";

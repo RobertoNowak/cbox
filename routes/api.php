@@ -61,6 +61,9 @@ $api->version('v1', function ($api) {
         $api->get('/getSoundContent', 			'DepositController@getSoundContent');
         $api->get('/isFirmwareUpdateBooked', 			'DepositController@isFirmwareUpdateBooked');
         $api->get('/firmwareUpdated', 			'DepositController@firmwareUpdated');
+        $api->get('/isSoundUpdateBooked', 			'DepositController@isSoundUpdateBooked');
+        $api->get('/soundUpdated', 			'DepositController@soundUpdated');
+
 
         $api->get('/resetDevice',		'DepositController@resetDeviceDeposit');
 
@@ -69,6 +72,13 @@ $api->version('v1', function ($api) {
             $api->post('/approve',		'SellController@approveDonate');
             $api->get('/',		'SellController@getCurrentDonate');
         });
+
+        $api->group(['middleware' => ['auth'], 'prefix' => 'sound'], function($api) {
+            $api->get('/',		'SoundController@Find');
+            $api->post('/',		'SoundController@Add');
+            $api->delete('/',		'SoundController@Remove');
+        });
+
         $api->get('/all_donates',		'SellController@getAllDonates');
         $api->group( ['prefix' => 'sell'], function($api) {
             $api->get('/getSellBoxes', 		'SellController@getAllBoxes');

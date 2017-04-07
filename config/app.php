@@ -190,6 +190,8 @@ return [
         Nahid\Talk\TalkServiceProvider::class,
         //Paypal
         Netshell\Paypal\PaypalServiceProvider::class,
+
+        Pbmedia\LaravelFFMpeg\FFMpegServiceProvider::class,
     ],
 
     /*
@@ -247,6 +249,7 @@ return [
 
         //Paypal
         'Paypal' => Netshell\Paypal\Facades\Paypal::class,
+        'FFMpeg' => Pbmedia\LaravelFFMpeg\FFMpegFacade::class
     ],
 
 ];
