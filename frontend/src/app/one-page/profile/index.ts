@@ -5,3 +5,4 @@ export * from './my-box';
 export * from './my-member';
 export * from './my-donate';
 export * from './change-password';
+export * from './my-sound';

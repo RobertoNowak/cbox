@@ -167,6 +167,16 @@ class DepositController extends BaseController
         foreach ($param['data'] as $one) {
           $deposit['device_id'] = $param['uid'];
           $deposit['user_id'] = $user_id;
+          if($one == "50"){
+            $deposit['amount'] = 0.01;
+            $deposit['coin_size'] = 50;
+            $deposit['currencyt'] = config('constants.DEFAULT_CURRENCYT');
+            Deposit::unguard();
+            Deposit::create($deposit);
+            Deposit::reguard();
+            $added_coins ++;
+            continue;
+          }
           $coins = Coin::where('country_code', $cboxs[0]->country_code)->get();
           if (count($coins)==0) {
             continue;

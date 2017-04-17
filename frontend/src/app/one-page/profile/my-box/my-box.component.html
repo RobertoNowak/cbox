@@ -86,11 +86,12 @@
               <td class=""> {{box.deposit_amount}}</td>
               <td class=""> {{box.amount}}</td>
               <td class=""> {{box.major_version}}.{{box.minor_version}}</td>
-              <td>
+              <td style="line-height: 45px;">
                 <button type="button" class="btn btn-primary green" (click)="setModelData(box); dev_index = i; edit_box_dialog.show();">{{tr("EDIT")}}</button>
                 <button type="button" class="btn btn-warning blue" (click)="device_id = box.device_id; dev_index = i; reset_box_dialog.show();">{{tr("RESET")}}</button>
                 <button type="button" class="btn red" (click)="device_id = box.device_id; dev_index = i; remove_box_dialog.show();">{{tr("REMOVE")}}</button>
-                <button type="button" class="btn orange" (click)="dev_index = i; updateFirmware(box.device_id);" [disabled] = "box.update_flag == 1">Firmware Update</button>
+                <button type="button" class="btn orange" (click)="dev_index = i;firmware_update_dialog.show();" [disabled] = "box.update_flag == 1">Firmware Update</button>
+                <button type="button" class="btn orange" (click)="dev_index = i;sound_update_dialog.show();" [disabled] = "box.sound_update_flag == 1">Sound Update</button>
               </td>
             </tr>
           </tbody>
@@ -262,6 +263,40 @@
         <p>{{tr("RESET_MESSAGE")}}</p>
         <button class="btn btn-primary red" (click)="resetBox();reset_box_dialog.hide();">{{tr("RESET")}}</button>
         <button class="btn green" (click)="reset_box_dialog.hide();">{{tr("CANCEL")}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal #firmware_update_dialog="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Firmware" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="firmware_update_dialog.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3><i class="fa fa-warning"></i>Firmware Update</h3>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to update your boxes with the latest firmware version?</p>
+        <button class="btn btn-primary red" (click)="updateFirmware();firmware_update_dialog.hide();">Yes</button>
+        <button class="btn green" (click)="firmware_update_dialog.hide();">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal #sound_update_dialog="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Firmware" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="sound_update_dialog.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3><i class="fa fa-warning"></i>Sound Update</h3>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to update your boxes with the recently uploaded sound?</p>
+        <button class="btn btn-primary red" (click)="updateSound();sound_update_dialog.hide();">Yes</button>
+        <button class="btn green" (click)="sound_update_dialog.hide();">Cancel</button>
       </div>
     </div>
   </div>

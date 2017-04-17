@@ -304,8 +304,8 @@ class SellController extends PaypalPaymentController
       $donate->donate_count = $input['donate_count'];
       $donate->description = $input['description'];
 
-      if (!is_null($request->file('picture'))){
-        $file = $request->file('picture');
+      if (!is_null($request->file('pictureFile'))){
+        $file = $request->file('pictureFile');
         $extension = $file->getClientOriginalExtension(); // getting image extension
 
         $img_path = '/public'.config('constants.IMAGE_PATH');

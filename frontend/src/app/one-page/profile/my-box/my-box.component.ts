@@ -127,7 +127,8 @@ export class MyBoxComponent implements OnInit {
     this.model.minor_version = box.minor_version;
   }
   
-  updateFirmware(device_id){
+  updateFirmware(){
+    let device_id = this.profileService.boxes[this.dev_index].id;
     this.appState.setLoading(this.tr("LOADING_TEXT"));
     this.profileService.updateFirmware(device_id).subscribe(
      result => {
@@ -135,6 +136,22 @@ export class MyBoxComponent implements OnInit {
          this.errorMessage = "";
          this.profileService.boxes[this.dev_index].update_flag = 1;
          this.successMessage = "Firmware update has been booked. Please restart your box to update firmware.";
+       }
+       else
+         this.errorMessage = this.tr("RESET_BOX_FAILED");
+       this.appState.closeLoading();
+     });
+  }
+
+  updateSound(){
+    let device_id = this.profileService.boxes[this.dev_index].id;
+    this.appState.setLoading(this.tr("LOADING_TEXT"));
+    this.profileService.updateSound(device_id).subscribe(
+     result => {
+       if(result){
+         this.errorMessage = "";
+         this.profileService.boxes[this.dev_index].sound_update_flag = 1;
+         this.successMessage = "Sound update has been booked. Please restart your box to update sound.";
        }
        else
          this.errorMessage = this.tr("RESET_BOX_FAILED");

@@ -11,6 +11,7 @@ export class Donate {
   public del_flg: number;
   public isSelected: boolean;
   public quantity: number;
+  public pictureFile: any;
   constructor(){
     this.id = 0;
     this.name = "";

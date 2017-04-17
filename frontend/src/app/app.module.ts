@@ -6,7 +6,7 @@ import { AppRoutingModule}  from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OnePageComponent, HomeComponent, AboutComponent, DirectorBoardComponent, ScoreBoardComponent, SellBoardComponent } from './one-page';
 import { DonateComponent, ContactUsComponent, ContactAdminComponent, ReportComponent, ProfileComponent, MainInfoComponent } from './one-page';
-import { MyBoxComponent, MyMemberComponent, ChangePasswordComponent, MyDonateComponent, ActivateComponent, SellDonateComponent } from './one-page';
+import { MyBoxComponent, MyMemberComponent, ChangePasswordComponent, MyDonateComponent, ActivateComponent, SellDonateComponent, MySoundComponent } from './one-page';
 import { AlertModule, DatepickerModule, PaginationModule, ModalModule, DropdownModule  } from 'ng2-bootstrap';
 import { AuthenticateService } from './authenticate.service';
 import { LanguageService } from './language.service';
@@ -46,7 +46,8 @@ import { Guard } from './guard';
     MyMemberComponent,
     ChangePasswordComponent,
     MyDonateComponent,
-    ActivateComponent
+    ActivateComponent,
+    MySoundComponent
   ],
   providers: [
     AuthenticateService,

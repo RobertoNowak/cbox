@@ -199,4 +199,35 @@ class BoxController extends BaseController
       $res['success'] = true;
       return $res;
     }
+
+    public function UpdateSound(Request $request){
+      $user = Auth::user();
+      if(!$user->can('BOX_MANAGE')) {
+          $res['success'] = false;
+          $res['message'] = 'You have not permission to manage boxes.';
+          return $res;
+      }
+      $boxData = $request->only(['device_id']);
+      $validator = Validator::make($boxData, ['device_id'   => 'required|numeric']);
+      if ($validator->fails()) {
+        $res["success"] = false;
+        $res["message"] = "The data is not correct.";
+        return $res;
+      }
+
+      $option = Option::where('key', 'user_'.$user->id.'_updated_sound')->first();
+      if($option == null){
+        $option_data['key'] = 'user_'.$user->id.'_updated_sound';
+        $option_data['value'] = config('constants.INTEGER_TRUE');
+        Option::unguard();
+        $option = Option::create($option_data);
+        Option::reguard();
+      }
+      else{
+        $option->value = config('constants.INTEGER_TRUE');
+        $option->save();
+      }
+      $res['success'] = true;
+      return $res;
+    }
 }

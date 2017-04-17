@@ -89,7 +89,7 @@ input[type="checkbox"] {
 .portlet>.portlet-title>.caption{
   color: black;
   float: none;
-  background: white;
+  background: #f8f8f8;
   padding: 5px 20px !important;
   font-size: 40px;
 }

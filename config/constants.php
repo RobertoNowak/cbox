@@ -34,6 +34,6 @@ return [
   'MESSAGE_UNREAD' => 0,
   'MESSAGE_READ' => 1,
 
-
+  'DEFAULT_CURRENCYT' => 'USD',
 ];
 ?>

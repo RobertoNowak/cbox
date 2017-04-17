@@ -170,23 +170,6 @@
                   <input class="form-control" name="password" required="true" type="password" [(ngModel)]="model.password">
                 </div>
               </div>
-              <div class="form-group" *ngFor="let box of model.boxes; let i = index;trackBy:customTrackBy">
-                <div class="row" style="margin: 0px; margin-bottom: 15px;">
-                  <label class="col-lg-4 control-label">{{tr("BOX_ID")}}</label>
-                  <div class="col-lg-8">
-                    <input class="form-control" name="boxes[{{i}}]" required="true" type="number" [(ngModel)]="model.boxes[i]">
-                  </div>
-                </div>
-                <div class="row" style="margin: 0px;">
-                  <label class="col-lg-4 control-label">{{tr("SECRET_CODE")}}</label>
-                  <div class="col-lg-8">
-                    <input class="form-control" name="secretCodes[{{i}}]" required="true" type="text" [(ngModel)]="model.secretCodes[i]">
-                  </div>
-                </div>
-              </div>
-              <!-- <div class="form-group" *ngFor = "let secretCode of model.secretCodes; let i = index;trackBy:customTrackBy">
-
-              </div> -->
               <div class="form-group">
                 <label class="col-lg-4 control-label">{{tr("DAILY_GOAL")}}<span class="require">*</span></label>
                 <div class="col-lg-8">
@@ -205,6 +188,24 @@
                   <input class="form-control" name="goal_monthly" required="true" type="number" [(ngModel)]="model.goal_monthly">
                 </div>
               </div>
+              <hr class="seperator">
+              <div class="form-group" *ngFor="let box of model.boxes; let i = index;trackBy:customTrackBy">
+                <div class="row" style="margin: 0px; margin-bottom: 15px;">
+                  <label class="col-lg-4 control-label">{{tr("BOX_ID")}}</label>
+                  <div class="col-lg-8">
+                    <input class="form-control" name="boxes[{{i}}]" required="true" type="number" [(ngModel)]="model.boxes[i]">
+                  </div>
+                </div>
+                <div class="row" style="margin: 0px;">
+                  <label class="col-lg-4 control-label">{{tr("SECRET_CODE")}}</label>
+                  <div class="col-lg-8">
+                    <input class="form-control" name="secretCodes[{{i}}]" required="true" type="text" [(ngModel)]="model.secretCodes[i]">
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="form-group" *ngFor = "let secretCode of model.secretCodes; let i = index;trackBy:customTrackBy">
+
+              </div> -->
             </fieldset>
             <fieldset class="form-group">
               <div class="col-lg-8 col-lg-offset-4">
@@ -277,20 +278,6 @@
                   <input type="text" class="form-control" name="country" required = "true" [(ngModel)]="model.country">
                 </div>
               </div>
-              <div class="form-group" *ngFor="let box of model.boxes; let i = index;trackBy:customTrackBy">
-                <div class="row" style="margin: 0px; margin-bottom: 15px;">
-                  <label class="col-lg-4 control-label">{{tr("BOX_ID")}}</label>
-                  <div class="col-lg-8">
-                    <input class="form-control" name="boxes[{{i}}]" required="true" type="number" [(ngModel)]="model.boxes[i]">
-                  </div>
-                </div>
-                <div class="row" style="margin: 0px;">
-                  <label class="col-lg-4 control-label">{{tr("SECRET_CODE")}}</label>
-                  <div class="col-lg-8">
-                    <input class="form-control" name="secretCodes[{{i}}]" required="true" type="text" [(ngModel)]="model.secretCodes[i]">
-                  </div>
-                </div>
-              </div>
               <div class="form-group">
                 <label class="col-lg-4 control-label">{{tr("DAILY_GOAL")}}<span class="require">*</span></label>
                 <div class="col-lg-8">
@@ -307,6 +294,21 @@
                 <label class="col-lg-4 control-label">{{tr("MONTHLY_GOAL")}}<span class="require">*</span></label>
                 <div class="col-lg-8">
                   <input class="form-control" name="goal_monthly" required="true" type="number" [(ngModel)]="model.goal_monthly">
+                </div>
+              </div>
+              <hr class="seperator">
+              <div class="form-group" *ngFor="let box of model.boxes; let i = index;trackBy:customTrackBy">
+                <div class="row" style="margin: 0px; margin-bottom: 15px;">
+                  <label class="col-lg-4 control-label">{{tr("BOX_ID")}}</label>
+                  <div class="col-lg-8">
+                    <input class="form-control" name="boxes[{{i}}]" required="true" type="number" [(ngModel)]="model.boxes[i]">
+                  </div>
+                </div>
+                <div class="row" style="margin: 0px;">
+                  <label class="col-lg-4 control-label">{{tr("SECRET_CODE")}}</label>
+                  <div class="col-lg-8">
+                    <input class="form-control" name="secretCodes[{{i}}]" required="true" type="text" [(ngModel)]="model.secretCodes[i]">
+                  </div>
                 </div>
               </div>
             </fieldset>

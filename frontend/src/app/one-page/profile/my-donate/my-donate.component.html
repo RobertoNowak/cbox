@@ -31,7 +31,7 @@
           <div class="form-group margin-top:20px">
             <label class="col-md-3 control-label" for="name"><span class="require"></span>Picture</label>
 
-            <div class="col-md-6">
+            <!--<div class="col-md-6">
                 <div class="fileinput fileinput-new" data-provides="fileinput" style="float: left;">
                     <span class="btn green btn-file">
                         <span class="fileinput-new"> Select Picture </span>
@@ -39,6 +39,16 @@
                         <input    accept="image/*" class="imageFile" name="file" type="file"> </span>
                     <span class="fileinput-filename"> </span> &nbsp;
                     <a class="close fileinput-exists" data-dismiss="fileinput" href="javascript:;"> </a>
+                </div>
+            </div>-->
+            <div class="col-md-9" style="text-align: center;">
+                <div class="fileinput fileinput-new pull-left" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail" style="min-width: 200px; min-height: 200px;">
+                      <img id="donate-image-viewer" alt="" style="width: 100%; height: 100%;">
+                    </div>
+                    <div>
+                        <a class="btn green" (click) = "image_box_dialog.show();">Edit Image </a>
+                    </div>
                 </div>
             </div>
           </div>

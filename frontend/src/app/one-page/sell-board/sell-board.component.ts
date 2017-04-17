@@ -139,6 +139,11 @@ export class SellBoardComponent implements OnInit {
     }
   }
 
+  get totalPrice(){
+    let price: number = Math.round(this.buy_count * this.curSellBox.price * 100);
+    return  price / 100;
+  }
+
   selectBox(id:number){
     this.curSellBox = this.sellBoxes[id]
     for (let sb of this.sellBoxes) {

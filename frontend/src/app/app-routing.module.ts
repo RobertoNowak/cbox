@@ -1,6 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OnePageComponent, HomeComponent, AboutComponent, DirectorBoardComponent, ScoreBoardComponent, SellBoardComponent, SellDonateComponent} from './one-page';
+import { OnePageComponent, HomeComponent, AboutComponent, DirectorBoardComponent, ScoreBoardComponent, SellBoardComponent, SellDonateComponent, MySoundComponent} from './one-page';
 import { DonateComponent, ContactUsComponent, ContactAdminComponent, ReportComponent, ProfileComponent, MainInfoComponent, MyBoxComponent, MyMemberComponent, ChangePasswordComponent, MyDonateComponent, ActivateComponent } from './one-page';
 import { Guard } from './guard';
 import { AuthenticateService } from './authenticate.service';
@@ -29,6 +29,7 @@ const routes: Routes = [
           { path: '',      component: MainInfoComponent, },
           { path: 'boxes',      component: MyBoxComponent },
           { path: 'members',      component: MyMemberComponent },
+          { path: 'sounds',      component: MySoundComponent },
           { path: 'changePassword',      component: ChangePasswordComponent },
           { path: 'donate',      component: MyDonateComponent }
         ],

@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Auth;
 use FFMpeg;
+use File;
 class SoundController extends BaseController
 {
 
@@ -27,22 +28,23 @@ class SoundController extends BaseController
     public function Add(Request $request){
       $user = Auth::user();
       $data['user_id'] = $user->id;
-      $sound_path = '/public'.config('constants.SOUND_PATH');
+      $sound_path = '/public/';
       $file = $request->file('file');
       if (!is_null($file)) {
-        $destinationPath = base_path().$sound_path; // upload path
+        $destinationPath = storage_path('app').$sound_path; // upload path
         $extension = "wav";
         $fileName = 'ound_'.$user['id'].'_'.time().'.'.$extension; // renameing image
         $file->move($destinationPath, $fileName); // uploading file to given path
         $audio_format = new FFMpeg\Format\Audio\Wav();
-        $audio_format->setAudioKiloBitrate(256);
-        FFMpeg::fromDisk($destinationPath)
-          ->open($fileName)
+        $audio_format->setAudioKiloBitrate(25020);
+        FFMpeg::fromDisk('local')
+          ->open($sound_path.$fileName)
           ->export()
-          ->toDisk($destinationPath)
+          ->toDisk('local')
           ->inFormat($audio_format)
-          ->save('s'.$fileName);
+          ->save($sound_path.'s'.$fileName);
         $fileName = 's'.$fileName;
+        $move = File::move($destinationPath.$fileName, base_path().$sound_path.config('constants.SOUND_PATH').$fileName);
         // $request->file('image')->move($destinationPath, $fileName); // uploading file to given path
         $data['file_url'] = config('constants.SOUND_PATH').$fileName;
         $data['name'] = $file->getClientOriginalName();
@@ -54,19 +56,6 @@ class SoundController extends BaseController
 
       $res['success'] = true;
       $res['data'] = $sound;
-
-      $option = Option::where('key', 'user_'.$user->id.'_updated_sound')->first();
-      if($option == null){
-        $option_data['key'] = 'user_'.$user->id.'_updated_sound';
-        $option_data['value'] = config('constants.INTEGER_TRUE');
-        Option::unguard();
-        $option = Option::create($option_data);
-        Option::reguard();
-      }
-      else{
-        $option->value = config('constants.INTEGER_TRUE');
-        $option->save();
-      }
       return $res;
     }
 
@@ -93,19 +82,6 @@ class SoundController extends BaseController
       $sound['del_flg'] = config('constants.ITEM_IS_DELETE');
       $sound->save();
       $res['success'] = true;
-
-      $option = Option::where('key', 'user_'.$user->id.'_updated_sound')->first();
-      if($option == null){
-        $option_data['key'] = 'user_'.$user->id.'_updated_sound';
-        $option_data['value'] = config('constants.INTEGER_TRUE');
-        Option::unguard();
-        $option = Option::create($option_data);
-        Option::reguard();
-      }
-      else{
-        $option->value = config('constants.INTEGER_TRUE');
-        $option->save();
-      }
       return $res;
     }
 }

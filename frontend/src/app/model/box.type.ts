@@ -13,6 +13,7 @@ export class Box {
   public major_version: number;
   public minor_version: number;
   public update_flag: number;
+  public sound_update_flag: number;
   constructor(){
     this.id = 0;
     this.device_id = 0;
@@ -28,5 +29,6 @@ export class Box {
     this.major_version = 1;
     this.minor_version = 0;
     this.update_flag = 0;
+    this.sound_update_flag = 0;
   }
 }

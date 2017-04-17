@@ -21,11 +21,11 @@ export class ScoreBoardComponent implements OnInit {
   public current_item: number = 0;
   public searchString: string = "";
   public typeStrings: string[] = [this.tr("INDIVIDUAL"), this.tr("INSTITUTION"), this.tr("SCHOOL")];
-  public sortField: string = "id";
-  public sortDirection: boolean = false;
+  public sortField: string = "daily_count";
+  public sortDirection: boolean = true;
   public loadingCount: number = 0;
   public isDestroyed: boolean = false;
-  public searchFilter: string = "name";
+  public searchFilter: string = "school";
   public USER_SIGNED_INFO: any = USER_SIGNED_INFO;
   public USER_TYPE = USER_TYPE;
   public ageGroup: any = {

@@ -39,6 +39,7 @@ $api->version('v1', function ($api) {
             $api->put('/', 		'BoxController@Update');
             $api->delete('/', 'BoxController@Remove');
             $api->post('/updateBoxFirmware', 'BoxController@UpdateFirmware');
+            $api->post('/updateBoxSound', 'BoxController@UpdateSound');
         });
         $api->group(['middleware' => ['auth'], 'prefix' => 'members'], function($api) {
             $api->get('/', 		'MemberController@Find');

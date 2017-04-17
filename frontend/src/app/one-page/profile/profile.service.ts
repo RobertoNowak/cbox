@@ -131,6 +131,19 @@ export class ProfileService {
         }, error=>{return false;});
   }
 
+  updateSound(device_id): Observable<boolean>{
+    let data:any = {device_id: device_id};
+    let headers = new Headers();
+    return this.authService.post('/api/v1/boxes/updateBoxSound', data)
+        .map((response: Response) => {
+          let res:any = response.json();
+          if (res.success == true) {
+            return true;
+          } else
+            return false;
+        }, error=>{return false;});
+  }
+
   resetBox(box:Box):Observable<boolean>{
     this.initToken();
     let data:any = {uid: box.device_id};
@@ -211,8 +224,11 @@ export class ProfileService {
     this.initToken();
     let headers = new Headers();
     let data = new FormData();
-    for(var key in donate)
+    for(var key in donate){
+      if(key == "picture")
+        continue;
       data.append(key, donate[key]);
+    }
     return this.http.post(this.serverUrl + '/api/v1/donate', data, { withCredentials: true})
         .map((response: Response) => {
           let res:any = response.json();
@@ -222,7 +238,46 @@ export class ProfileService {
             return false;
         }, error=>{return false;});
   }
+  
+  getSounds():Observable<any>{
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.authService.get('/api/v1/sound')
+        .map((response: Response) => {
+            let res:any = response.json();
+            if (res.success == true) {
+                return res.data;
+            } else
+              return false;
+        }, error=>{return false;});
+  }
 
+  saveSoundFiles(soundFile):Observable<any> {
+    this.initToken();
+    let headers = new Headers();
+    let data = new FormData();
+    data.append('file', soundFile);
+    return this.http.post(this.serverUrl + '/api/v1/sound', data, { withCredentials: true})
+        .map((response: Response) => {
+          let res:any = response.json();
+          if (res.success == true) {
+            return res.data;
+          } else
+            return false;
+        }, error=>{return false;});
+  }
+
+  removeSoundFile(id):Observable<boolean> {
+    let headers = new Headers();
+    return this.authService.delete('/api/v1/sound' + '?sound_id=' + id)
+        .map((response: Response) => {
+          let res:any = response.json();
+          if (res.success == true) {
+            return true;
+          } else
+            return false;
+        }, error=>{return false;});
+  }
   approveDonate(donate_id):Observable<boolean> {
     this.initToken();
     let headers = new Headers();
