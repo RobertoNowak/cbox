@@ -30,6 +30,7 @@ $api->version('v1', function ($api) {
             $api->get('/unreadMessages',		'ProfileController@unReadMessages');
             $api->post('/updatePassword',		'ProfileController@updatePassword');
             $api->get('/donateMoney',		'ProfileController@donateForBoxAmount');
+            $api->post('/updateProfileImage', 'ProfileController@updateProfileImage');
         });
         $api->get('/donateMoneyDone',		'ProfileController@payDone');
         $api->get('/donateMoneyCancel',		'ProfileController@payCancel');

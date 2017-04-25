@@ -130,6 +130,12 @@
                 </ul>
 
                 </div>
+                @if (Session::has('flash_message'))
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ Session::get('flash_message') }}
+                        </div>
+                @endif
             </div>
         </div>
         @yield('content')
@@ -142,6 +148,7 @@
     <script src="assets/global/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
     <script src="assets/global/js/owl.carousel.min.js" type="text/javascript"></script>
     <script src="assets/global/js/bootstrap-fileinput.js" type="text/javascript"></script>
-    <script src="/js/app.js"></script>
+    <script src="/js/custom.js"></script>
+    <!--<script src="/js/app.js"></script>-->
 </body>
 </html>

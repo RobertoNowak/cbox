@@ -56,7 +56,6 @@ class RegisterController extends Controller
             'type' => 'required',
             'country' => 'required',
             'city' => 'required',
-            'address' => 'required',
         ]);
     }
 
@@ -72,6 +71,13 @@ class RegisterController extends Controller
             return [];
         }
         //Create User
+        if($data['birthday'] == "")
+            $data['birthday'] = "1900-01-01";
+        if($data['address'] == null)
+            $data['address'] = "";
+        if($data['phone'] == null)
+            $data['phone'] = "";
+        User::unguard();
         $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -79,7 +85,10 @@ class RegisterController extends Controller
             'country' => $data['country'],
             'city' => $data['city'],
             'address' => $data['address'],
+            'phone' => $data['phone'],
+            'birthday' => $data['birthday'],
         ]);
+        User::reguard();
         $user->assignRole($data['type']);
         $user['activation_token'] = md5($user['id'].$user['email']);
         $user->save();

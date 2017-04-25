@@ -317,6 +317,15 @@ class SellController extends PaypalPaymentController
         $file->move($destinationPath, $filename); // uploading file to given path
         $donate->picture = config('constants.IMAGE_PATH').$filename;
       }
+
+      $image_origin = $request->file('image_origin');
+      if (!is_null($image_origin)) {
+        $destinationPath = base_path().$img_path; // upload path
+        $extension = $image_origin->getClientOriginalExtension(); // getting image extension
+        $fileName = md5('donateOrigin'.$userID.$curtime).".".$extension;
+        $image_origin->move($destinationPath, $fileName); // uploading file to given path
+        $donate->image_origin = config('constants.IMAGE_PATH').$fileName;
+      }
       $donate->save();
       $res['success'] = true;
       return $res;

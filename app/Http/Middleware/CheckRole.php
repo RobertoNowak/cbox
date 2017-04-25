@@ -3,7 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use Session;
+use Auth;
 class CheckRole
 {
     /**
@@ -23,13 +24,7 @@ class CheckRole
         if ($request->user()->hasRole($roles) || !$roles) {
             return $next($request);
         }
-
-        return response([
-            'error' => [
-                'code' => 'INSUFFICIENT_ROLE',
-                'description' => 'You are not authorized to access this resource.',
-            ],
-        ], 401);
+        return redirect('/#/home;status=permission_denied');
     }
 
     private function getRequiredRoleForRoute($route)

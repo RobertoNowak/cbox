@@ -76,7 +76,7 @@ class ProfileController extends BaseController
                     ->first()->deposit_count;
           $dataArray['deposit_money'] = DB::table('cbox_member_boxes')
                     ->leftjoin('cbox_deposits', function($join){
-                          $join->on('cbox_member_boxes.box_id', '=', 'cbox_deposits.device_id');
+                          $join->on('cbox_member_boxes.device_id', '=', 'cbox_deposits.device_id');
                     })
                     ->leftjoin('cbox_currencyts', function($join){
                           $join->on('cbox_deposits.currencyt', '=', 'cbox_currencyts.currencyt');
@@ -144,6 +144,32 @@ class ProfileController extends BaseController
     }
 
 
+    public function updateProfileImage(Request $request){
+      $user = Auth::user();
+      $img_path = '/public'.config('constants.IMAGE_PATH');
+      $image = $request->file('image');
+      $image_origin = $request->file('image_origin');
+      if (!is_null($image)) {
+        $destinationPath = base_path().$img_path; // upload path
+        $extension = "jpg";//$image->getClientOriginalExtension(); // getting image extension
+        $fileName = 'img_'.$user['id'].'_'.rand().'.'.$extension; // renameing image
+        $image->move($destinationPath, $fileName); // uploading file to given path
+        // $request->file('image')->move($destinationPath, $fileName); // uploading file to given path
+        $user['image_url'] = config('constants.IMAGE_PATH').$fileName;
+      }
+      if (!is_null($image_origin)) {
+        $destinationPath = base_path().$img_path; // upload path
+        $extension = $image_origin->getClientOriginalExtension(); // getting image extension
+        $fileName = 'img_origin_'.$user['id'].'_'.rand().'.'.$extension; // renameing image
+        $image_origin->move($destinationPath, $fileName); // uploading file to given path
+        $user['image_origin'] = config('constants.IMAGE_PATH').$fileName;
+      }
+      $user->save();
+      $res['success'] = true;
+      $res['data'] = $user;
+      return $res;
+    }
+
     public function Update(Request $request){
 
       $userData = $request->only(['name', 'role', 'age', 'school', 'company', 'address', 'city', 'country', 'birthday', 'phone', 'image', 'goal_daily', 'goal_weekly', 'goal_monthly']);
@@ -181,16 +207,16 @@ class ProfileController extends BaseController
       $user['birthday'] = is_null($userData['birthday'])?"":$userData['birthday'];
       $user['phone'] = is_null($userData['birthday'])?"":$userData['phone'];
 
-      $img_path = '/public'.config('constants.IMAGE_PATH');
-      $image = $request->file('image');
-      if (!is_null($image)) {
-        $destinationPath = base_path().$img_path; // upload path
-        $extension = "jpg";//$image->getClientOriginalExtension(); // getting image extension
-        $fileName = 'img_'.$user['id'].'_'.rand().'.'.$extension; // renameing image
-        $image->move($destinationPath, $fileName); // uploading file to given path
-        // $request->file('image')->move($destinationPath, $fileName); // uploading file to given path
-        $user['image_url'] = config('constants.IMAGE_PATH').$fileName;
-      }
+      // $img_path = '/public'.config('constants.IMAGE_PATH');
+      // $image = $request->file('image');
+      // if (!is_null($image)) {
+      //   $destinationPath = base_path().$img_path; // upload path
+      //   $extension = "jpg";//$image->getClientOriginalExtension(); // getting image extension
+      //   $fileName = 'img_'.$user['id'].'_'.rand().'.'.$extension; // renameing image
+      //   $image->move($destinationPath, $fileName); // uploading file to given path
+      //   // $request->file('image')->move($destinationPath, $fileName); // uploading file to given path
+      //   $user['image_url'] = config('constants.IMAGE_PATH').$fileName;
+      // }
       // if (!is_null($request->file('image_origin'))) {
       //   $destinationPath = base_path().$img_path; // upload path
       //   $extension = $request->file('image_origin')->getClientOriginalExtension(); // getting image extension

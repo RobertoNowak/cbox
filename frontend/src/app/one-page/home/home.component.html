@@ -1,15 +1,6 @@
-<div class="alert alert-success " [class.hidden] = "paySuccess != 0">
-  <button type="button" class="close" (click) = "paySuccess = 2"></button>
-  <p style="text-align:center">Paid Success</p>
-</div>
-<div class="alert alert-danger " [class.hidden] = "paySuccess != 1">
-  <button class="close" (click) = "paySuccess = 2"></button>
-  <p style="text-align:center">Paid Fail</p>
-</div>
-
 <div class="page-content">
   <div class="page-slider" style="    margin-top: -70px;">
-      <iframe class = "col-xs-12 form-control" frameborder="0" allowfullscreen src="https://www.youtube.com/embed/53qj_2FA_4c?autoplay=1"></iframe>
+      <iframe class = "col-xs-12 form-control" frameborder="0" allowfullscreen src="https://www.youtube.com/embed/pOQwaoPsLUI?rel=0"></iframe>
     <!--<div class="fullwidthbanner-container revolution-slider tp-banner-container">
         <div class="fullwidthabnner tp-banner">
             <ul id="revolutionul">
@@ -38,6 +29,16 @@
             </ul>
         </div>
     </div>-->
+  </div>
+  <div class="row">
+    <div class="alert alert-success " [class.hidden] = "paySuccess != 0">
+        <button type="button" class="close" (click) = "paySuccess = 2"></button>
+        <p style="text-align:center">Paid Success</p>
+    </div>
+    <div class="alert alert-danger " [class.hidden] = "paySuccess != 1">
+        <button class="close" (click) = "paySuccess = 2"></button>
+        <p style="text-align:center">Paid Fail</p>
+    </div>
   </div>
   <div class="row server-time-panel">
       <div>
@@ -287,7 +288,7 @@
 
 
 
-<div class="ui-pnotify stack-topright"   *ngIf="userBoxAmount != 0">
+<div class="ui-pnotify stack-topright"   *ngIf="errorMessage != ''">
 <div class="alert ui-pnotify-container alert-danger ui-pnotify-shadow" style="min-height: 16px;">
 <!-- <div class="ui-pnotify-icon">
 <span class="false">
@@ -307,19 +308,14 @@
     <div class="list-wrapper mgtp-10 mgbt-xs-10">
       <div>
         <div class="menu-icon">
-        <i class="fa fa-usd vd_red">
+        <i class="fa fa-warning vd_red">
         </i>
         </div>
         <div class="menu-text">
           <h5>
           <strong>Note</strong>
           </h5>
-          <p class="lh-sm" style="margin:0px;    margin-left: 60px;">You can donate money to organizations.</p>
-          <p style="margin: 5px 50px;">Total Amout: <strong>${{userBoxAmount}}</strong></p>
-
-        </div>
-        <div class="ui-pnotify-button">
-            <a class="btn btn-danger" [routerLink]="['/donate']">Send Now</a>
+          <p class="lh-sm" style="margin:0px;    margin-left: 50px;">{{errorMessage}}</p>
         </div>
       </div>
     </div>

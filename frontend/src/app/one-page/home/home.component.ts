@@ -63,14 +63,14 @@ export class HomeComponent implements OnInit {
         this.curDate = data.date;
       },
       error =>{
-        this.errorMessage = "There's some trouble with network.";
+        // this.errorMessage = "There's some trouble with network.";
       }
     );
     this.generalService.getGeneralInfo().subscribe(result => {
-       if(result)
-         this.errorMessage = "";
-       else
-         this.errorMessage = this.tr("GET_GENERALINFO_FAILED");//"Please check your email and password again.";
+      //  if(result)
+      //    this.errorMessage = "";
+      //  else
+      //    this.errorMessage = this.tr("GET_GENERALINFO_FAILED");//"Please check your email and password again.";
        this.appState.closeLoading();
        this.slider_flag = true;
      });
@@ -131,7 +131,11 @@ export class HomeComponent implements OnInit {
 
     this.route.params.forEach((params: Params) => {
       this.paySuccess = params && params['member_pay_success'];
-      console.log(params);
+      let status = params && params['status'];
+      console.log(status);
+      if(status == 'permission_denied'){
+        this.errorMessage = 'You are not authorized to access this resource.';
+      }
     });
     // this.initRevoSlider();
   }

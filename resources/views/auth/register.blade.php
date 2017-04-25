@@ -48,9 +48,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="phone" class="col-md-4 control-label">Phone Number</label>
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="address" class="col-md-4 control-label">Address</label>
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control" name="address" value="{{ old('address') }}" required>
+                                <input id="address" type="text" class="form-control" name="address" value="{{ old('address') }}">
                             </div>
                         </div>
 
@@ -67,12 +74,26 @@
                                 <input id="country" type="text" class="form-control" name="country" value="{{ old('country') }}" required>
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Birthday</label>
+                            <div class="col-md-6">
+                                <div class="input-group input-medium date date-picker" data-date="2016-09-09" data-date-format="yyyy-mm-dd" data-date-viewmode="years" style="width: 100% !important;">
+                                    <input type="text" class="form-control" readonly="" name="birthday" id="input-birthday" value="{{ old('birthday') }}">
+                                    <span class="input-group-btn">
+                                        <button class="btn default" type="button" style="margin-right: 0px;">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control" name="password" required minlength="6">
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -86,7 +107,7 @@
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required minlength="6">
                             </div>
                         </div>
 

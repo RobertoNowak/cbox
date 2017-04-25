@@ -36,12 +36,18 @@ export class ProfileService {
     let headers = new Headers();
     let data = new FormData();
     for(var key in account){
-      if(key != "image_url")
-      data.append(key, account[key]);
+      if(key != "image_url" && key != 'image' && key != 'image_origin')
+        data.append(key, account[key]);
     }
     return this.http.post(this.serverUrl + '/api/v1/profile', data, {headers: headers, withCredentials: true});
   }
-
+  updateProfileImage(account: RegisterUser): Observable<any> {
+    let headers = new Headers();
+    let data = new FormData();
+    data.append('image', account['image']);
+    data.append('image_origin', account['image_origin']);
+    return this.http.post(this.serverUrl + '/api/v1/profile/updateProfileImage', data, {headers: headers, withCredentials: true});
+  }
   updatePassword(passwords: any):Observable<boolean> {
     this.initToken();
     let headers = new Headers();

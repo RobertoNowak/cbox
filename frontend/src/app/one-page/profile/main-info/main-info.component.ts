@@ -41,6 +41,8 @@ export class MainInfoComponent implements OnInit {
                 jQuery('#input-birthday').val(this.model.birthday);
                 console.log(this.model);
                 jQuery('#profile-image-viewer').attr('src', this.model.image_url);
+                jQuery('#cropper').cropper('replace', this.model.image_origin);
+                jQuery('#cropper').cropper('crop');
               }
         },
         error => {
@@ -80,6 +82,24 @@ export class MainInfoComponent implements OnInit {
     let me = this;
     canvasData.toBlob(function(blob){
       me.model.image = me.blobToFile(blob, "image");
+      me.appState.setLoading(me.tr("LOADING_TEXT"));
+      me.model.image_origin = me.temp_image_origin;
+      me.profileService.updateProfileImage(me.model).subscribe(
+        response => {
+          let result:any = response.json();
+          if(result.success)
+          {
+            me.successMessage = "Your Profile Image has been uploaded successfully.";
+            me.errorMessage = "";
+            me.model.image_url = result.data.image_url;
+            me.authService.validateToken();
+          }
+          else
+          {
+            me.errorMessage = "Please check your network status.";
+          }
+          me.appState.closeLoading();
+      });
     }, "image/jpeg", 0.75);
     jQuery('#profile-image-viewer').attr('src', this.model.image_url);
   }
@@ -142,11 +162,16 @@ export class MainInfoComponent implements OnInit {
         // me.temp_image_data.image = canvasData.toDataURL();
         // jQuery('#crop-preview-pan').attr('src', me.temp_image_data.image);
       },
+      minContainerWidth: 400,
+      minContainerHeight: 400,
       ready: function (e) {
         jQuery('#cropper').cropper('crop');
-        console.log("ASDFASDf");
       }
     });
+    if(this.model.image_origin != null && this.model.image_origin != ''){
+      jQuery('#cropper').cropper('replace', this.model.image_origin);
+      jQuery('#cropper').cropper('crop');
+    }
   }
   tr(tran: string): string
   {

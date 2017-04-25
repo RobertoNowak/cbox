@@ -12,6 +12,7 @@ export class Donate {
   public isSelected: boolean;
   public quantity: number;
   public pictureFile: any;
+  public image_origin: any;
   constructor(){
     this.id = 0;
     this.name = "";
@@ -25,5 +26,6 @@ export class Donate {
     this.del_flg = 0;
     this.isSelected = false;
     this.quantity = 0;
+    this.image_origin = "";
   }
 }

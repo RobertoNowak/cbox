@@ -14,9 +14,9 @@
       <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN">{{scores[current_item].is_current_user_following > 0?"Unfollow": "Follow"}}</button>
       <div class="user-info" *ngIf = "authService.currentUser != null">
         <h4 class="scoreboard-sidebar-header">Your Mitzvot</h4>
-        <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.goal_daily}}/{{authService.currentUser.daily_count}}</span></p>
-        <p class="scoreboard-sidebar-content">This Week <span class="pull-right">{{authService.currentUser.goal_weekly}}/{{authService.currentUser.weekly_count}}</span></p>
-        <p class="scoreboard-sidebar-content">This Month <span class="pull-right">{{authService.currentUser.goal_monthly}}/{{authService.currentUser.monthly_count}}</span></p>
+        <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.daily_count}}/{{authService.currentUser.goal_daily}}</span></p>
+        <p class="scoreboard-sidebar-content">This Week <span class="pull-right">{{authService.currentUser.weekly_count}}/{{authService.currentUser.goal_weekly}}</span></p>
+        <p class="scoreboard-sidebar-content">This Month <span class="pull-right">{{authService.currentUser.monthly_count}}/{{authService.currentUser.goal_monthly}}</span></p>
       </div>
       <div class="user-info" *ngIf = "authService.currentUser != null">
         <h4 class="scoreboard-sidebar-header">Your C-Box</h4>
@@ -76,6 +76,12 @@
                       School
                     </a>
                   </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click) = "searchFilter = 'organization'">
+                      <i class = "fa fa-check green" [class.transparent] = "searchFilter != 'organization'" ></i>
+                      Organization
+                    </a>
+                  </li>
                 </ul>
               </div>
               <div class="caption pull-right search-area">
@@ -104,10 +110,6 @@
                         {{tr("SCHOOL")}}
                         <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'school'" [class.fa-sort-asc]="sortField == 'school' && !sortDirection" [class.fa-sort-desc]="sortField == 'school' && sortDirection"></i>
                     </th>
-                    <th (click) = "sort('box_count')">
-                      {{tr("BOX_COUNT")}}
-                      <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'box_count'" [class.fa-sort-asc]="sortField == 'box_count' && !sortDirection" [class.fa-sort-desc]="sortField == 'box_count' && sortDirection"></i>
-                    </th>
                     <th (click) = "sort('daily_count')">
                       {{tr("DAILY_COUNT")}}
                       <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'daily_count'" [class.fa-sort-asc]="sortField == 'daily_count' && !sortDirection" [class.fa-sort-desc]="sortField == 'daily_count' && sortDirection"></i>
@@ -115,6 +117,10 @@
                     <th (click) = "sort('deposit_count')">
                       {{tr("DEPOSIT_COUNT")}}
                       <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'deposit_count'" [class.fa-sort-asc]="sortField == 'deposit_count' && !sortDirection" [class.fa-sort-desc]="sortField == 'deposit_count' && sortDirection"></i>
+                    </th>
+                    <th (click) = "sort('box_count')">
+                      {{tr("BOX_COUNT")}}
+                      <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'box_count'" [class.fa-sort-asc]="sortField == 'box_count' && !sortDirection" [class.fa-sort-desc]="sortField == 'box_count' && sortDirection"></i>
                     </th>
                 </tr>
             </thead>
@@ -129,9 +135,9 @@
                     <td class="hidden-xs">{{item.city}}</td>
                     <td class="hidden-xs">{{item.school}}</td>
                     <!-- <td class="text-right">{{item.score}}$</td> -->
-                    <td class="text-right">{{item.box_count}}</td>
                     <td class="text-right">{{item.daily_count}}</td>
                     <td class="text-right">{{item.deposit_count}}</td>
+                    <td class="text-right">{{item.box_count}}</td>
                 </tr>
             </tbody>
             <tfoot>

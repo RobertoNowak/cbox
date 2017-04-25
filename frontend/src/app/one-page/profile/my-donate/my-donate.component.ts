@@ -29,6 +29,8 @@ export class MyDonateComponent implements OnInit {
        if(result){
          this.model = profileService.myDonate;
          jQuery('#donate-image-viewer').attr('src', this.model.picture);
+         jQuery('#cropper').cropper('replace', this.model.image_origin);
+         jQuery('#cropper').cropper('crop');
        }
        else
          this.errorMessage = 'Donate Load Error';
@@ -37,6 +39,14 @@ export class MyDonateComponent implements OnInit {
   }
 
   ngOnInit() {
+    jQuery('#cropper').cropper({
+      aspectRatio: 1,
+      minContainerWidth: 400,
+      minContainerHeight: 400,
+      ready: function (e) {
+        jQuery('#cropper').cropper('crop');
+      }
+    });
   }
   saveDonate(contactForm){
     // var imageFile = jQuery(this.elementRef.nativeElement).find('.imageFile')[0];
@@ -49,7 +59,7 @@ export class MyDonateComponent implements OnInit {
     // {
     //   this.model.picture = imageFile.files[0];
     // }
-
+    this.model.image_origin = this.temp_image_origin;
     this.appState.setLoading('Saving...');
     this.profileService.saveDonate(this.model).subscribe(result => {
        if(result){

@@ -167,7 +167,7 @@ class ScoreController extends BaseController
       //Send mails to Admins. 
       $contact = $request->input();
       $data = array('contact'=>$contact);
-      $mail_to = [];
+      $mail_to = [$contact['email']];
       $admins = User::join('role_user', function($join){
                   $join->on('users.id', '=', 'role_user.user_id');
                 })

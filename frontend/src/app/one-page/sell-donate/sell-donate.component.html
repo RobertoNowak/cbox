@@ -136,7 +136,7 @@
         <form class="form-horizontal" role="form" style="display: block;margin-top:10px" #editboxForm = "ngForm" (ngSubmit)="onSubmit()"  ng-submit="expression" action="/api/v1/sell/postPayNow" method="post">
           <input type="hidden" name="sellbox_id" value="{{curSellBox.id}}">
            <!--<input type="hidden" name="buy_count" value="{{buy_count}}"> -->
-          <input type="hidden" name="total_price" value="{{buy_count * curSellBox.price}}">
+          <input type="hidden" name="total_price" value="{{totalPrice}}">
           <input type="hidden" name="donateIds" value="{{donateIds.join(',')}}">
           <input type="hidden" name="donateQuantities" value="{{quantities.join(',')}}">
           <div class="col-md-12">
@@ -160,7 +160,7 @@
               </div>
               <div class="form-group form-group-info">
                 <label class="col-md-3 control-label">{{tr("TOTAL_PRICE")}} : </label>
-                <label class="col-md-9 control-label" style="text-align: left;"><strong>${{buy_count * curSellBox.price}}</strong></label>
+                <label class="col-md-9 control-label" style="text-align: left;"><strong>${{totalPrice}}</strong></label>
               </div>
             </div>
           </div>

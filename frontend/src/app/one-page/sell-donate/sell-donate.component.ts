@@ -211,7 +211,11 @@ export class SellDonateComponent implements OnInit {
      }
      return flag;
    }
-
+  
+   get totalPrice(){
+    let price: number = Math.round(this.buy_count * this.curSellBox.price * 100);
+    return  price / 100;
+   }
    toggleCheckboxes(){
      if(this.profileService.donates == null)
       return;

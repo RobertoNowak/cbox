@@ -45,6 +45,8 @@ export class GeneralService {
   }
 
   getScores(start:number, length: number, sort_item: string, sort_rule: boolean, search: string, filter: string):Observable<boolean> {
+    if(filter == 'organization')
+      filter = 'school';
     let sort_rule_string: string = "asc";
     if(sort_rule)
       sort_rule_string = "desc";

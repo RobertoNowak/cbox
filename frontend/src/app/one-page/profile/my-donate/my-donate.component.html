@@ -7,14 +7,6 @@
     <div class="col-md-12 col-sm-12">
         <fieldset   >
           <legend   ></legend>
-          <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-            <button type="button" class="close" (click) = "errorMessage = ''"></button>
-            <p>{{errorMessage}}</p>
-          </div>
-          <div class="alert alert-success " [class.hidden] = "successMessage == ''">
-            <button type="button" class="close" (click) = "successMessage = ''"></button>
-            <p>{{successMessage}}</p>
-          </div>
           <div class="form-group margin-top:20px">
             <label class="col-md-3 control-label" for="name"><span class="require"></span>Name</label>
             <div class="col-md-6">
@@ -43,7 +35,7 @@
             </div>-->
             <div class="col-md-9" style="text-align: center;">
                 <div class="fileinput fileinput-new pull-left" data-provides="fileinput">
-                    <div class="fileinput-new thumbnail" style="min-width: 200px; min-height: 200px;">
+                    <div class="fileinput-new thumbnail" style="min-width: 200px; min-height: 200px;width: 200px;">
                       <img id="donate-image-viewer" alt="" style="width: 100%; height: 100%;">
                     </div>
                     <div>
@@ -84,6 +76,14 @@
               <input class="form-control ng-untouched ng-pristine ng-valid" id="exist_count"
               name="exist_count" placeholder="" required="" type="number" [(ngModel)]="model.exist_count" readonly="">
             </div>
+          </div>
+          <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
+            <button type="button" class="close" (click) = "errorMessage = ''"></button>
+            <p>{{errorMessage}}</p>
+          </div>
+          <div class="alert alert-success " [class.hidden] = "successMessage == ''">
+            <button type="button" class="close" (click) = "successMessage = ''"></button>
+            <p>{{successMessage}}</p>
           </div>
           <div class="row">
             <div    style="text-align:center;">
@@ -127,7 +127,7 @@
             </fieldset>
             <fieldset style="text-align: right;padding-right: 30px;margin-top: 30px;">
               <div class="">
-                <button class="btn btn-primary green" (click)="saveImage(); image_box_dialog.hide();">Save</button>
+                <button class="btn btn-primary green" (click)="saveImage(); image_box_dialog.hide();">Select</button>
                 <button class="btn red" (click)="image_box_dialog.hide();">Cancel</button>
               </div>
             </fieldset>

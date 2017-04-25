@@ -84,8 +84,7 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <p style="padding: 0px 23px; margin-bottom: 0px;">
-                                Just a second. We will connect immediately.
-                                <i class="fa fa-circle-o-notch fa-spin fa-fw" aria-hidden="true" style="font-size: 24px;top: 50%;position: absolute;color: rgb(253, 129, 163);"></i>
+                                Tryping to connect you to an agent......
                             </p>
                         </div>
                     </div>
