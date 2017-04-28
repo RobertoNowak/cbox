@@ -89,57 +89,6 @@ body.page-header-fixed.page-sidebar-closed-hide-logo{
   margin: 5px;
 }
 
-.ui-pnotify{
-  width: 320px;
-  cursor: auto;
-  right: 30px;
-  top: 65px;
-  position: fixed;
-  height: auto;
-  z-index: 9999;
-}
-.ui-pnotify-container{
-  box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
-  padding: 18px;
-  border: none;
-  height: 100%;
-  margin: 0;
-  border-radius: 4px!important;
-}
-
-.ui-pnotify .content-image .menu-icon {
-  font-size: 36px;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  margin-right: 12px;
-  display: block;
-  float: left;
-  text-align: center;
-  color: #f85d2c !important;
-}
-
-.ui-pnotify-button{
-  margin-top: 10px;
-  text-align: right;
-}
-
-.icon-cross:before {
-    content: "\e678";
-}
-
-.ui-pnotify-closer{
-  cursor: pointer;
-  visibility: visible;
-  right: 8px;
-  position: absolute;
-  top: 4px;
-  font-size: 18px;
-  float: right;
-  margin-left: .2em;
-}
-
-
 #clockdiv{
 	font-family: sans-serif;
 	color: #fff;

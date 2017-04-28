@@ -25,7 +25,7 @@ export class MySoundComponent implements OnInit {
           this.errorMessage = "";
        }
        else
-         this.errorMessage = this.tr("GET_FAILED");
+         this.appState.errorMessage = this.tr("GET_FAILED");
        this.appState.closeLoading();
      });
   }
@@ -55,7 +55,7 @@ export class MySoundComponent implements OnInit {
        }
        else
        {
-         this.errorMessage = "Uploading failed.";
+         this.appState.errorMessage = "Uploading failed.";
        }
        this.appState.closeLoading();
      });
@@ -80,7 +80,7 @@ export class MySoundComponent implements OnInit {
        }
        else
        {
-         this.errorMessage = "Uploading failed.";
+         this.appState.errorMessage = "Uploading failed.";
        }
        this.appState.closeLoading();
      });

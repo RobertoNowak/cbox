@@ -20,7 +20,6 @@ declare var jQuery:any;
 export class SellDonateComponent implements OnInit {
     @ViewChild('pay_box_dialog') pay_box_dialog: any;
 
-    public errorMessage: string = "";
     public sellBoxes:SellBox[] = [];
     public curSellBox:SellBox;
     public buy_count:number = 1;
@@ -49,9 +48,8 @@ export class SellDonateComponent implements OnInit {
          if (result.success) {
              this.sellBoxes = result.data;
              this.curSellBox = this.sellBoxes[0];
-             this.errorMessage = "";
          } else {
-           this.errorMessage = this.tr("GET_FAILED");
+           this.appState.errorMessage = this.tr("GET_FAILED");
          }
          this.appState.closeLoading();
        });
@@ -172,7 +170,7 @@ export class SellDonateComponent implements OnInit {
      this.profileService.approveDonate(donate_id).subscribe(
       result => {
         if(result != true)
-          this.errorMessage = "Can't approve. Please check the site now.";
+          this.appState.errorMessage = "Can't approve. Please check the site now.";
         else
           this.profileService.donates[index].del_flg = 0;
         this.appState.closeLoading();
@@ -196,7 +194,7 @@ export class SellDonateComponent implements OnInit {
      this.profileService.getAllDonates((event.page - 1)*this.itemsPerPage, this.itemsPerPage, this.searchString, this.searchFilter).subscribe(
       result => {
         if(result != true)
-          this.errorMessage = 'Donates Load Error';
+          this.appState.errorMessage = 'Donates Load Error';
         this.totalCount = this.profileService.donate_count;
         this.appState.closeLoading();
       });
@@ -229,5 +227,12 @@ export class SellDonateComponent implements OnInit {
           this.profileService.donates[i].isSelected = true;
         }
      }
+   }
+
+   checkQuantity(donate){
+     if(donate.quantity > 0)
+        donate.isSelected = true;
+     else
+        donate.isSelected = false;
    }
 }

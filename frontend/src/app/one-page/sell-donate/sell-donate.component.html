@@ -18,10 +18,6 @@
         <div class="col-md-12 col-sm-12">
           <div class="product-page">
             <div class="row">
-              <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-                <button class="close" (click) = "errorMessage = ''"></button>
-                <p>{{errorMessage}}</p>
-              </div>
               <div class="col-sm-12">
                 <div class="col-sm-12 portlet light portlet-fit">
                   <div class="portlet-title">
@@ -87,7 +83,7 @@
                         <h4 style="margin: 10px 0px 40px 0px;">Boxes Requested: {{donate.donate_count}}</h4>
                         <div style="display: inline-flex;" >
                           <span style="    font-size: 15px;">Quantity: </span>
-                          <input type="number" [(ngModel)] = "donate.quantity" style = " width: calc(100% - 60px);margin-left: 3px;">
+                          <input type="number" [(ngModel)] = "donate.quantity" style = " width: calc(100% - 60px);margin-left: 3px;" (blur) = "checkQuantity(donate);">
                         </div>
                       </div>
                       <!-- <div class="col-md-2" *ngIf="authenticateService.isLoggedIn() != USER_SIGNED_INFO.SIGNED_IN || (authenticateService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticateService.isAdmin != 1)">

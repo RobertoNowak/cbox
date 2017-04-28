@@ -12,7 +12,6 @@ import { Score } from '../../model/score.type';
   styleUrls: ['score-board.component.css']
 })
 export class ScoreBoardComponent implements OnInit {
-  public errorMessage: string = "";
   public successMessage: string = "";
   public scores: Score[];
   public curPage:number = 1;
@@ -48,7 +47,6 @@ export class ScoreBoardComponent implements OnInit {
      result => {
        if(result)
        {
-         this.errorMessage = "";
          this.totalCount = this.generalService.totalCount;
          this.scores = this.generalService.scores;
          this.loadingCount --;
@@ -60,7 +58,7 @@ export class ScoreBoardComponent implements OnInit {
        }
        else
        {
-         this.errorMessage = this.tr("GET_FAILED");//"Please check your email and password again.";
+         this.appState.errorMessage = this.tr("GET_FAILED");//"Please check your email and password again.";
        }
        this.appState.closeLoading();
      });
@@ -112,7 +110,7 @@ export class ScoreBoardComponent implements OnInit {
       }
     },
     error =>{
-      this.errorMessage = "Network Error.";
+      this.appState.errorMessage = "Network Error.";
       this.appState.closeLoading();
     });
   }

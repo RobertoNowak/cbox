@@ -19,7 +19,6 @@ declare var jQuery:any;
   styleUrls: ['./sell-board.component.css']
 })
 export class SellBoardComponent implements OnInit {
-  public errorMessage: string = "";
   public sellBoxes:SellBox[] = [];
   public curSellBox:SellBox;
   public buy_count:number = 1;
@@ -50,9 +49,9 @@ export class SellBoardComponent implements OnInit {
        if (result.success) {
            this.sellBoxes = result.data;
            this.curSellBox = this.sellBoxes[0];
-           this.errorMessage = "";
+           this.appState.errorMessage = "";
        } else {
-         this.errorMessage = this.tr("GET_FAILED");
+         this.appState.errorMessage = this.tr("GET_FAILED");
        }
        this.appState.closeLoading();
      });
@@ -61,7 +60,7 @@ export class SellBoardComponent implements OnInit {
      this.profileService.getAllDonates(0,5,'', 'name').subscribe(
       result => {
         if(result != true)
-          this.errorMessage = 'Donates Load Error';
+          this.appState.errorMessage = 'Donates Load Error';
         this.appState.closeLoading();
       });
 

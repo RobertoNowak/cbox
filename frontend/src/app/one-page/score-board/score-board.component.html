@@ -11,7 +11,8 @@
         <p class="office-detail-name">{{scores[current_item].name}}</p>
         <p class="office-detail-address">{{scores[current_item].address}}, {{scores[current_item].country}}</p>
       </div>
-      <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN">{{scores[current_item].is_current_user_following > 0?"Unfollow": "Follow"}}</button>
+      <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && scores[current_item].id != authService.currentUser.id">{{scores[current_item].is_current_user_following > 0?"Unfollow": "Follow"}}</button>
+      <a class="btn white follow-btn" [routerLink] = "['/profile/']" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && scores[current_item].id == authService.currentUser.id">My Profile</a>
       <div class="user-info" *ngIf = "authService.currentUser != null">
         <h4 class="scoreboard-sidebar-header">Your Mitzvot</h4>
         <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.daily_count}}/{{authService.currentUser.goal_daily}}</span></p>
@@ -73,13 +74,7 @@
                   <li role="menuitem">
                     <a class="dropdown-item" (click) = "searchFilter = 'school'">
                       <i class = "fa fa-check green" [class.transparent] = "searchFilter != 'school'" ></i>
-                      School
-                    </a>
-                  </li>
-                  <li role="menuitem">
-                    <a class="dropdown-item" (click) = "searchFilter = 'organization'">
-                      <i class = "fa fa-check green" [class.transparent] = "searchFilter != 'organization'" ></i>
-                      Organization
+                      School / Organization
                     </a>
                   </li>
                 </ul>
@@ -98,16 +93,16 @@
                         {{tr("NAME")}}
                         <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'name'" [class.fa-sort-asc]="sortField == 'name' && !sortDirection" [class.fa-sort-desc]="sortField == 'name' && sortDirection"></i>
                     </th>
-                    <th class="hidden-xs" (click) = "sort('country')">
-                        {{tr("COUNTRY")}}
-                        <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'country'" [class.fa-sort-asc]="sortField == 'country' && !sortDirection" [class.fa-sort-desc]="sortField == 'country' && sortDirection"></i>
-                    </th>
                     <th class="hidden-xs" (click) = "sort('type')">
                         City
                         <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'type'" [class.fa-sort-asc]="sortField == 'type' && !sortDirection" [class.fa-sort-desc]="sortField == 'type' && sortDirection"></i>
                     </th>
+                    <th class="hidden-xs" (click) = "sort('country')">
+                        {{tr("COUNTRY")}}
+                        <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'country'" [class.fa-sort-asc]="sortField == 'country' && !sortDirection" [class.fa-sort-desc]="sortField == 'country' && sortDirection"></i>
+                    </th>
                     <th class="hidden-xs" (click) = "sort('school')">
-                        {{tr("SCHOOL")}}
+                        School / Organization
                         <i class="fa font-gray pull-right" [class.fa-sort]="sortField != 'school'" [class.fa-sort-asc]="sortField == 'school' && !sortDirection" [class.fa-sort-desc]="sortField == 'school' && sortDirection"></i>
                     </th>
                     <th (click) = "sort('daily_count')">
@@ -131,8 +126,8 @@
                         <!-- <div class="success" *ngIf = " i < 5"></div> -->
                         <a style="    margin-left: 15px;" (click) = "current_item = i;">{{item.name}}</a>
                     </td>
-                    <td class="hidden-xs">{{item.country}}</td>
                     <td class="hidden-xs">{{item.city}}</td>
+                    <td class="hidden-xs">{{item.country}}</td>
                     <td class="hidden-xs">{{item.school}}</td>
                     <!-- <td class="text-right">{{item.score}}$</td> -->
                     <td class="text-right">{{item.daily_count}}</td>

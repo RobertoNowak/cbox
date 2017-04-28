@@ -11,8 +11,8 @@
             {{tr('HOME')}}
           </a>
         </li>
-        <li class="main-menu-li dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown">
+        <li class="main-menu-li dropdown" [class.active]= "appState.get('one_page_menu_selected') == 7">
+          <a class="dropdown-toggle" data-toggle="dropdown" >
             {{tr('ABOUT')}}
           </a>
           <ul class="dropdown-menu">
@@ -58,7 +58,7 @@
           <ul class="dropdown-menu">
             <li><a [routerLink]="['/profile/']">{{tr('EDIT_PROFILE')}}</a></li>
             <li>
-              <a href="{{SERVER_URL}}/messages">Messages</a>
+              <a href="{{SERVER_URL}}/messages">Chat History</a>
               <span class="badge badge-danger" style="position: absolute; left: auto; bottom: 10px; top: auto; right: 5px;" [class.hidden] = "general.unread_messages == 0">{{general.unread_messages}}</span>
             </li>
             <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER" class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 8" >
@@ -166,3 +166,38 @@
 </div> -->
 
 <router-outlet></router-outlet>
+<div class="ui-pnotify stack-topright"   *ngIf="appState.errorMessage != ''">
+<div class="alert ui-pnotify-container alert-danger ui-pnotify-shadow" style="min-height: 16px;">
+<!-- <div class="ui-pnotify-icon">
+<span class="false">
+</span>
+</div> -->
+<div class="ui-pnotify-closer" style="cursor: pointer; visibility: visible;">
+<button type="button" class="close" name="button" style="margin:10px" onclick="$('.ui-pnotify').hide();"></button>
+</div>
+<div class="ui-pnotify-sticker" style="cursor: pointer; visibility: hidden;">
+  <span class="icon-play" title="Stick">
+  </span>
+</div>
+<h4 class="ui-pnotify-title" style="display: none;">
+</h4>
+<div class="ui-pnotify-text">
+  <div class="content-list content-image">
+    <div class="list-wrapper mgtp-10 mgbt-xs-10">
+      <div>
+        <div class="menu-icon">
+        <i class="fa fa-warning vd_red">
+        </i>
+        </div>
+        <div class="menu-text">
+          <h5>
+          <strong>Note</strong>
+          </h5>
+          <p class="lh-sm" style="margin:0px;    margin-left: 50px;">{{appState.errorMessage}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

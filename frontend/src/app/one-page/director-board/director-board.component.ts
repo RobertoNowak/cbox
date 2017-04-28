@@ -14,7 +14,7 @@ declare var jQuery:any;
 export class DirectorBoardComponent implements OnInit {
   public directors: any[];
   constructor(public lang: LanguageService, public router: Router, public appState: StateService, public generalService: GeneralService) {
-    this.appState.set("one_page_menu_selected", 5);
+    this.appState.set("one_page_menu_selected", 7);
     this.directors = [
       {
         name: "Mr. Bruce J. Schanzer",

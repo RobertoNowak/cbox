@@ -12,7 +12,6 @@ import { Box } from '../../..//model/box.type';
   styleUrls: ['change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
-  public errorMessage: string = "";
   public successMessage: string = "";
   public model: any = {
     curPassword: "",
@@ -28,16 +27,16 @@ export class ChangePasswordComponent implements OnInit {
   updatePassword(profileForm){
     if(!profileForm.form.valid)
     {
-      this.errorMessage = this.tr("FILL_ALL_REQUIRE_FIELDS");
+      this.appState.errorMessage = this.tr("FILL_ALL_REQUIRE_FIELDS");
       return;
     }
     if(this.model.newPassword.length < 6)
     {
-      this.errorMessage = "The password must be at least 6 characters.";
+      this.appState.errorMessage = "The password must be at least 6 characters.";
       return;
     }
     if(this.model.newPassword != this.model.confirmPassword){
-      this.errorMessage = "Confirm Password doesn't match with new password.";
+      this.appState.errorMessage = "Confirm Password doesn't match with new password.";
       return;
     }
     this.appState.setLoading(this.tr("LOADING_TEXT"));
@@ -46,11 +45,11 @@ export class ChangePasswordComponent implements OnInit {
        if(result)
        {
          this.successMessage = "Your password has been successfully updated.";
-         this.errorMessage = "";
+         this.appState.errorMessage = "";
        }
        else
        {
-         this.errorMessage = "Please check your current password.";
+         this.appState.errorMessage = "Please check your current password.";
        }
        this.appState.closeLoading();
      });

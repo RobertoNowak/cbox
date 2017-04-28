@@ -15,7 +15,6 @@ declare var jQuery:any;
 export class ReportComponent implements OnInit {
   @ViewChild('get_paid_dialog') get_paid_dialog: any;
 
-  public errorMessage = "";
   public successMessage = "";
   public avaliable_money:number = 0;
 
@@ -53,7 +52,7 @@ export class ReportComponent implements OnInit {
        }
        else
        {
-         this.errorMessage = "Transaction History Load Error";
+         this.appState.errorMessage = "Transaction History Load Error";
        }
        this.appState.closeLoading();
      });

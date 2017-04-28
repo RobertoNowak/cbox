@@ -188,8 +188,8 @@
                   <input class="form-control" name="goal_monthly" required="true" type="number" [(ngModel)]="model.goal_monthly">
                 </div>
               </div>
-              <hr class="seperator">
               <div class="form-group" *ngFor="let box of model.boxes; let i = index;trackBy:customTrackBy">
+                <hr class="seperator">
                 <div class="row" style="margin: 0px; margin-bottom: 15px;">
                   <label class="col-lg-4 control-label">{{tr("BOX_ID")}}</label>
                   <div class="col-lg-8">
@@ -206,14 +206,6 @@
               <!-- <div class="form-group" *ngFor = "let secretCode of model.secretCodes; let i = index;trackBy:customTrackBy">
 
               </div> -->
-            </fieldset>
-            <fieldset class="form-group">
-              <div class="col-lg-8 col-lg-offset-4">
-                <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-                  <button type="button" class="close" (click) = "errorMessage = ''"></button>
-                  <p>{{errorMessage}}</p>
-                </div>
-              </div>
             </fieldset>
             <fieldset style="text-align: right;margin: 15px;">
               <div class="col-lg-offset-4 col-lg-8">
@@ -309,14 +301,6 @@
                   <div class="col-lg-8">
                     <input class="form-control" name="secretCodes[{{i}}]" required="true" type="text" [(ngModel)]="model.secretCodes[i]">
                   </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset class="form-group">
-              <div class="col-lg-8 col-lg-offset-4">
-                <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-                  <button type="button" class="close" (click) = "errorMessage = ''"></button>
-                  <p>{{errorMessage}}</p>
                 </div>
               </div>
             </fieldset>

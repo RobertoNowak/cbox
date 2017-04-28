@@ -18,10 +18,6 @@
         <div class="col-md-12 col-sm-12">
           <div class="product-page">
             <div class="row" style="margin-top: 30px;">
-              <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-                <button class="close" (click) = "errorMessage = ''"></button>
-                <p>{{errorMessage}}</p>
-              </div>
               <div class="col-md-5 col-sm-5">
                 <div class="product-main-image">
                   <img [src]="curSellBox.main_image" alt="Cool green dress with red bell" class="img-responsive main-box-img" data-BigImgsrc="assets/img/Boxpicture.png">

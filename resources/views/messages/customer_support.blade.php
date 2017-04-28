@@ -83,7 +83,7 @@
                 <div class="modal-dialog" style="text-align: center; top: calc(50% - 60px);">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <p style="padding: 0px 23px; margin-bottom: 0px;">
+                            <p style="padding: 0px 23px; margin-bottom: 0px;" id = "ticket-connecting-message">
                                 Tryping to connect you to an agent......
                             </p>
                         </div>
@@ -123,6 +123,9 @@
         @if ($ticket != null)
             ticketId = <?php echo $ticket->id; ?>;
             isTicketClosed();
+            setTimeout(function(){
+                $('#ticket-connecting-message').html('We are sorry that no one is available at this time. We will send you message in 24 hours.');
+            }, 15000);
         @endif
     </script>
 </body>

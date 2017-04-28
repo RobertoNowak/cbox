@@ -18,7 +18,11 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>ID</th><th>Name</th><th>Email</th><th>Actions</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>IP</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -26,6 +30,7 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td><a href="{{ url('/admin/users', $item->id) }}">{{ $item->name }}</a></td><td>{{ $item->email }}</td>
+                                        <td>{{ $item->ip_address }}</td>
                                         <td>
                                             <a href="{{ url('/admin/users/' . $item->id . '/edit') }}">
                                                 <button type="submit" class="btn btn-primary btn-xs">Update</button>

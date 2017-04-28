@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Config;
+use Illuminate\Http\Request;
+use Auth;
 class LoginController extends Controller
 {
     /*
@@ -36,5 +38,14 @@ class LoginController extends Controller
     {
         $this->redirectTo = url()->previous();
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        //
+        $ip = $request->ip();
+        // var_dump($request);
+        $user->ip_address = $ip;
+        $user->save();
     }
 }

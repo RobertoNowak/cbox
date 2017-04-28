@@ -17,7 +17,6 @@ declare var jQuery:any;
 })
 export class MyDonateComponent implements OnInit {
   @ViewChild('image_box_dialog') image_box_dialog: any;
-  public errorMessage = "";
   public successMessage = "";
   public model:Donate;
   public temp_image_origin: any;
@@ -33,7 +32,7 @@ export class MyDonateComponent implements OnInit {
          jQuery('#cropper').cropper('crop');
        }
        else
-         this.errorMessage = 'Donate Load Error';
+         this.appState.errorMessage = 'Donate Load Error';
        this.appState.closeLoading();
      });
   }
@@ -63,11 +62,10 @@ export class MyDonateComponent implements OnInit {
     this.appState.setLoading('Saving...');
     this.profileService.saveDonate(this.model).subscribe(result => {
        if(result){
-         this.errorMessage = "";
          this.successMessage = "Donate Successfully saved";
        }
        else
-         this.errorMessage = 'Donate Save Error';
+         this.appState.errorMessage = 'Donate Save Error';
        this.appState.closeLoading();
      },
      error=>{
@@ -80,7 +78,7 @@ export class MyDonateComponent implements OnInit {
       return;
     if(input.files[0].size > 4 * 1024 * 1024)
     {
-      this.errorMessage = "You can't upload image which is larger than 4MB.";
+      this.appState.errorMessage = "You can't upload image which is larger than 4MB.";
       this.image_box_dialog.hide();
       return;
     }

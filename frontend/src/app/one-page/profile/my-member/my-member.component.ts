@@ -17,23 +17,20 @@ export class MyMemberComponent implements OnInit {
   @ViewChild('edit_form_box_select') edit_form_box_select: SelectComponent;
   @ViewChild('edit_member_dialog') edit_member_dialog: any;
   @ViewChild('add_member_dialog') add_member_dialog: any;
-  public errorMessage: string = "";
   public successMessage: string = "";
   public dialog_errorMessage: string = "";
   public model: Member;
   public dev_index: number = -1;
   public user_boxes: any[] = [];
-  public country_names = {CNY : "China", USD : "USA", EUR : "Europe"};
-  public country_codes = ["CNY", "USD", "EUR"];
+  public country_names = {CNY : "China", USD : "USA", EUR : "Europe", ILS: "Israel"};
+  public country_codes = ["CNY", "USD", "EUR", "ILS"];
   constructor(public authService:AuthenticateService, public lang: LanguageService, public router: Router, public appState: StateService, public profileService: ProfileService) {
     this.appState.setLoading(this.tr("LOADING_TEXT"));
     this.model = new Member();
     this.profileService.getMembers().subscribe(
      result => {
-       if(result)
-         this.errorMessage = "";
-       else
-         this.errorMessage = this.tr("GET_FAILED");
+       if(!result)
+         this.appState.errorMessage = this.tr("GET_FAILED");
        this.appState.closeLoading();
      });
   }
@@ -41,10 +38,8 @@ export class MyMemberComponent implements OnInit {
   reloadMemberData(){
     this.profileService.getMembers().subscribe(
      result => {
-       if(result)
-         this.errorMessage = "";
-       else
-         this.errorMessage = this.tr("GET_FAILED");
+       if(!result)
+         this.appState.errorMessage = this.tr("GET_FAILED");
        this.appState.closeLoading();
      });
   }
@@ -61,7 +56,7 @@ export class MyMemberComponent implements OnInit {
   createMember(addmemberForm){
     if(!addmemberForm.form.valid)
     {
-      this.errorMessage = this.tr("FILL_ALL_ICON_FIELDS");
+      this.appState.errorMessage = this.tr("FILL_ALL_ICON_FIELDS");
       return;
     }
     let member:Member = new Member();
@@ -73,19 +68,18 @@ export class MyMemberComponent implements OnInit {
     this.profileService.addMember(this.model).subscribe(
      result => {
        if(result.success){
-         this.errorMessage = "";
          this.reloadMemberData();
          this.add_member_dialog.hide();
        }
        else
-         this.errorMessage = result.message;
+         this.appState.errorMessage = result.message;
        this.appState.closeLoading();
      });
   }
   editMember(editmemberForm){
     if(!editmemberForm.form.valid)
     {
-      this.errorMessage = this.tr("FILL_ALL_ICON_FIELDS");
+      this.appState.errorMessage = this.tr("FILL_ALL_ICON_FIELDS");
       return;
     }
     let member:Member = new Member();
@@ -99,12 +93,11 @@ export class MyMemberComponent implements OnInit {
        if(result.success){
          this.profileService.members[this.dev_index].name = this.model.name;
          this.profileService.members[this.dev_index].email = this.model.email;
-         this.errorMessage = "";
          this.edit_member_dialog.hide();
          this.reloadMemberData();
        }
        else
-         this.errorMessage = result.message;
+         this.appState.errorMessage = result.message;
        this.appState.closeLoading();
      });
   }
@@ -114,11 +107,10 @@ export class MyMemberComponent implements OnInit {
     this.profileService.removeMember(member).subscribe(
      result => {
        if(result){
-         this.errorMessage = "";
          this.profileService.members.splice(this.dev_index, 1);
        }
        else
-         this.errorMessage = this.tr("REMOVE_MEMBER_FAILED");
+         this.appState.errorMessage = this.tr("REMOVE_MEMBER_FAILED");
        this.appState.closeLoading();
      });
   }

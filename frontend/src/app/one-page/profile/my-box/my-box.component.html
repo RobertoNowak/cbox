@@ -90,8 +90,8 @@
                 <button type="button" class="btn btn-primary green" (click)="setModelData(box); dev_index = i; edit_box_dialog.show();">{{tr("EDIT")}}</button>
                 <button type="button" class="btn btn-warning blue" (click)="device_id = box.device_id; dev_index = i; reset_box_dialog.show();">{{tr("RESET")}}</button>
                 <button type="button" class="btn red" (click)="device_id = box.device_id; dev_index = i; remove_box_dialog.show();">{{tr("REMOVE")}}</button>
-                <button type="button" class="btn orange" (click)="dev_index = i;firmware_update_dialog.show();" [disabled] = "box.update_flag == 1">Firmware Update</button>
-                <button type="button" class="btn orange" (click)="dev_index = i;sound_update_dialog.show();" [disabled] = "box.sound_update_flag == 1">Sound Update</button>
+                <button type="button" class="btn orange" (click)="device_id = box.device_id; dev_index = i;firmware_update_dialog.show();" [disabled] = "box.update_flag == 1">Firmware Update</button>
+                <button type="button" class="btn orange" (click)="device_id = box.device_id; dev_index = i;sound_update_dialog.show();" [disabled] = "box.sound_update_flag == 1">Sound Update</button>
               </td>
             </tr>
           </tbody>
@@ -151,14 +151,6 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset class="form-group">
-              <div class="col-lg-8 col-lg-offset-4">
-                <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-                  <button type="button" class="close" (click) = "errorMessage = ''"></button>
-                  <p>{{errorMessage}}</p>
-                </div>
-              </div>
-            </fieldset>
             <fieldset style="text-align: right;padding-right: 30px;">
               <div class="">
                 <button class="btn btn-primary green" (click)="createBox(addboxForm);">{{tr("CREATE")}}</button>
@@ -210,14 +202,6 @@
                   <select class="form-control" [(ngModel)]="model.country_code" name="country_code" required>
                     <option value="{{country_code}}" *ngFor="let country_code of country_codes;">{{country_names[country_code]}}</option>
                   </select>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset class="form-group">
-              <div class="col-lg-8 col-lg-offset-4">
-                <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-                  <button type="button" class="close" (click) = "errorMessage = ''"></button>
-                  <p>{{errorMessage}}</p>
                 </div>
               </div>
             </fieldset>

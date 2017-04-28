@@ -19,7 +19,6 @@ export class MainInfoComponent implements OnInit {
   @ViewChild('image_box_dialog') image_box_dialog: any;
     // cropper:ImageCropperComponent;
   public image_data:any = null;
-  public errorMessage: string = "";
   public successMessage: string = "";
   // public cropperSettings: CropperSettings;
   public temp_image_origin: any = null;
@@ -58,7 +57,7 @@ export class MainInfoComponent implements OnInit {
       return;
     if(input.files[0].size > 4 * 1024 * 1024)
     {
-      this.errorMessage = "You can't upload image which is larger than 4MB.";
+      this.appState.errorMessage = "You can't upload image which is larger than 4MB.";
       this.image_box_dialog.hide();
       return;
     }
@@ -90,13 +89,12 @@ export class MainInfoComponent implements OnInit {
           if(result.success)
           {
             me.successMessage = "Your Profile Image has been uploaded successfully.";
-            me.errorMessage = "";
             me.model.image_url = result.data.image_url;
             me.authService.validateToken();
           }
           else
           {
-            me.errorMessage = "Please check your network status.";
+            me.appState.errorMessage = "Please check your network status.";
           }
           me.appState.closeLoading();
       });
@@ -115,7 +113,7 @@ export class MainInfoComponent implements OnInit {
     this.model.birthday = jQuery('#input-birthday').val();
     if(!profileForm.form.valid || this.model.birthday == "")
     {
-      this.errorMessage = this.tr("FILL_ALL_REQUIRE_FIELDS");
+      this.appState.errorMessage = this.tr("FILL_ALL_REQUIRE_FIELDS");
       return;
     }
     // this.model.image = this.image_data;
@@ -129,13 +127,12 @@ export class MainInfoComponent implements OnInit {
        if(result.success)
        {
          this.successMessage = this.tr("SUCCESS_MESSAGE");
-         this.errorMessage = "";
          this.model.image_url = result.data.image_url;
          this.authService.validateToken();
        }
        else
        {
-         this.errorMessage = this.tr("UPDATE_FAILED");//"Please check your email and password again.";
+         this.appState.errorMessage = this.tr("UPDATE_FAILED");//"Please check your email and password again.";
        }
        this.appState.closeLoading();
      });

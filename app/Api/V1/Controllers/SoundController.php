@@ -35,17 +35,9 @@ class SoundController extends BaseController
         $extension = "wav";
         $fileName = 'ound_'.$user['id'].'_'.time().'.'.$extension; // renameing image
         $file->move($destinationPath, $fileName); // uploading file to given path
-        $audio_format = new FFMpeg\Format\Audio\Wav();
-        $audio_format->setAudioKiloBitrate(25020);
-        FFMpeg::fromDisk('local')
-          ->open($sound_path.$fileName)
-          ->export()
-          ->toDisk('local')
-          ->inFormat($audio_format)
-          ->save($sound_path.'s'.$fileName);
-        $fileName = 's'.$fileName;
+        // shell_exec("/usr/local/bin/ffmpeg/ffmpeg -i ".storage_path('app').$sound_path.$fileName." -acodec pcm_s16le -ar 22050 ".storage_path('app').$sound_path.'s'.$fileName);
+        // $fileName = 's'.$fileName;
         $move = File::move($destinationPath.$fileName, base_path().$sound_path.config('constants.SOUND_PATH').$fileName);
-        // $request->file('image')->move($destinationPath, $fileName); // uploading file to given path
         $data['file_url'] = config('constants.SOUND_PATH').$fileName;
         $data['name'] = $file->getClientOriginalName();
       }

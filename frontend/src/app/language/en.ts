@@ -73,7 +73,7 @@ export const en = {
     SELLBOARD: "Purchase",
     SELLDONATE: "Donate",
     CONTACTUS: "Contact Us",
-    REPORT: "Report",
+    REPORT: "Payment History",
     PROFILE: "Profile",
     EDIT_PROFILE: "Edit Profile",
     DONATE: "Ask Donation",
