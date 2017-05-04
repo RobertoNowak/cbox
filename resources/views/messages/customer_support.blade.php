@@ -125,7 +125,7 @@
             isTicketClosed();
             setTimeout(function(){
                 $('#ticket-connecting-message').html('We are sorry that no one is available at this time. We will send you message in 24 hours.');
-            }, 15000);
+            }, 90000);
         @endif
     </script>
 </body>

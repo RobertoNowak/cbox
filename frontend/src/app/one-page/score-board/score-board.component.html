@@ -2,53 +2,6 @@
     <span style="color: #EC307C;">Score</span> Board
 </h4>
 <div class="page-content">
-  <div class="left-panel">
-    <div class="profile-space" *ngIf = " scores.length > 0">
-      <div class="row">
-        <img src="{{scores[current_item].image_url}}" class="avatar" style="border-radius: 50% !important;"/>
-      </div>
-      <div class="row" style="margin-top: 20px;">
-        <p class="office-detail-name">{{scores[current_item].name}}</p>
-        <p class="office-detail-address">{{scores[current_item].address}}, {{scores[current_item].country}}</p>
-      </div>
-      <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && scores[current_item].id != authService.currentUser.id">{{scores[current_item].is_current_user_following > 0?"Unfollow": "Follow"}}</button>
-      <a class="btn white follow-btn" [routerLink] = "['/profile/']" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && scores[current_item].id == authService.currentUser.id">My Profile</a>
-      <div class="user-info" *ngIf = "authService.currentUser != null">
-        <h4 class="scoreboard-sidebar-header">Your Mitzvot</h4>
-        <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.daily_count}}/{{authService.currentUser.goal_daily}}</span></p>
-        <p class="scoreboard-sidebar-content">This Week <span class="pull-right">{{authService.currentUser.weekly_count}}/{{authService.currentUser.goal_weekly}}</span></p>
-        <p class="scoreboard-sidebar-content">This Month <span class="pull-right">{{authService.currentUser.monthly_count}}/{{authService.currentUser.goal_monthly}}</span></p>
-      </div>
-      <div class="user-info" *ngIf = "authService.currentUser != null">
-        <h4 class="scoreboard-sidebar-header">Your C-Box</h4>
-        <p class="scoreboard-sidebar-content" style="border-bottom: none;">Total <span class="pull-right">${{authService.currentUser.deposit_money}}</span></p>
-      </div>
-      <a class="btn btn-primary send-money-btn" *ngIf = "authService.currentUser != null && authService.currentUser.deposit_money > 0 && authService.currentUser.role == USER_TYPE.INDIVIDUAL" [routerLink]="['/donate/']">Send Now!</a>
-      <a class="btn btn-primary send-money-btn" *ngIf = "authService.currentUser != null && authService.currentUser.deposit_money > 0 && authService.currentUser.role == USER_TYPE.MEMBER" href ="/profile/donateMoney?amount={{authService.currentUser.deposit_money}}">>Send Now!</a>
-    </div>
-  </div>
-  <div class="right-panel" *ngIf = "scores.length > 0">
-    <div class="user-info" style=" margin-top: 50px;">
-      <h4 class="scoreboard-sidebar-header">
-        <i class="fa fa-bars"></i>
-        <span style="font-weight: normal;">Following</span> Leaders
-      </h4>
-      <div class="leader-tile" *ngFor = "let leader of generalService.followingUser">
-        <img onerror="this.src='assets/global/img/default_avatar.jpg'" src = "{{leader.image_url}}" class="avatar small" style="border-radius: 50% !important;"/>
-        <div style="width: calc(100% - 75px); padding-bottom: 10px; border-bottom: 1px solid #ccc;">
-          <div class="col-xs-8" style="padding-left: 0px;">
-            <h4>{{leader.name}}</h4>
-            <span>{{leader.address}}, {{leader.country}}</span>
-          </div>
-          <div class="col-xs-4" style="text-align: center;padding: 0px;">
-            <h4>+{{leader.deposit_count}}</h4>
-            <span>Mitzvots</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
@@ -155,6 +108,53 @@
         </table>
       </div>
     </div>
+  </div>
+  <div class="left-panel">
+    <div class="profile-space" *ngIf = " scores.length > 0">
+      <div class="row">
+        <img src="{{scores[current_item].image_url}}" class="avatar" style="border-radius: 50% !important;"/>
+      </div>
+      <div class="row" style="margin-top: 20px;">
+        <p class="office-detail-name">{{scores[current_item].name}}</p>
+        <p class="office-detail-address">{{scores[current_item].address}}, {{scores[current_item].country}}</p>
+      </div>
+      <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && scores[current_item].id != authService.currentUser.id">{{scores[current_item].is_current_user_following > 0?"Unfollow": "Follow"}}</button>
+      <a class="btn white my-profile-btn" [routerLink] = "['/profile/']" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN">My Profile</a>
+      <div class="user-info margin-top-20" *ngIf = "authService.currentUser != null">
+        <h4 class="scoreboard-sidebar-header">Your Mitzvot</h4>
+        <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.daily_count}}/{{authService.currentUser.goal_daily}}</span></p>
+        <p class="scoreboard-sidebar-content">This Week <span class="pull-right">{{authService.currentUser.weekly_count}}/{{authService.currentUser.goal_weekly}}</span></p>
+        <p class="scoreboard-sidebar-content">This Month <span class="pull-right">{{authService.currentUser.monthly_count}}/{{authService.currentUser.goal_monthly}}</span></p>
+      </div>
+      <div class="user-info" *ngIf = "authService.currentUser != null">
+        <h4 class="scoreboard-sidebar-header">Your C-Box</h4>
+        <p class="scoreboard-sidebar-content" style="border-bottom: none;">Total <span class="pull-right">${{authService.currentUser.deposit_money}}</span></p>
+      </div>
+      <a class="btn btn-primary send-money-btn" *ngIf = "authService.currentUser != null && authService.currentUser.deposit_money > 0 && authService.currentUser.role == USER_TYPE.INDIVIDUAL" [routerLink]="['/donate/']">Send Now!</a>
+      <a class="btn btn-primary send-money-btn" *ngIf = "authService.currentUser != null && authService.currentUser.deposit_money > 0 && authService.currentUser.role == USER_TYPE.MEMBER" href ="/profile/donateMoney?amount={{authService.currentUser.deposit_money}}">>Send Now!</a>
+    </div>
+  </div>
+  <div class="right-panel" *ngIf = "scores.length > 0">
+    <div class="user-info" style=" margin-top: 50px;">
+      <h4 class="scoreboard-sidebar-header">
+        <i class="fa fa-bars"></i>
+        <span style="font-weight: normal;">Following</span> Leaders
+      </h4>
+      <div class="leader-tile" *ngFor = "let leader of generalService.followingUser">
+        <img onerror="this.src='assets/global/img/default_avatar.jpg'" src = "{{leader.image_url}}" class="avatar small" style="border-radius: 50% !important;"/>
+        <div style="width: calc(100% - 75px); padding-bottom: 10px; border-bottom: 1px solid #ccc;">
+          <div class="col-xs-8" style="padding-left: 0px;">
+            <h4>{{leader.name}}</h4>
+            <span>{{leader.address}}, {{leader.country}}</span>
+          </div>
+          <div class="col-xs-4" style="text-align: center;padding: 0px;">
+            <h4>+{{leader.deposit_count}}</h4>
+            <span>Mitzvots</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 <div class="page-footer">

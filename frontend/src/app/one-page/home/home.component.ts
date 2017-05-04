@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit {
       let status = params && params['status'];
       console.log(status);
       if(status == 'permission_denied'){
-        this.errorMessage = 'You are not authorized to access this resource.';
+        this.appState.errorMessage = 'You are not authorized to access this resource.';
       }
     });
     // this.initRevoSlider();

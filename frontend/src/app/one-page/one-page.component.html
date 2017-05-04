@@ -132,7 +132,10 @@
         </a>
         <ul class="">
           <li class="mobile-menu-item"><a [routerLink]="['/profile/']" onclick="$('.mobile-navigation').removeClass('in');">{{tr('EDIT_PROFILE')}}</a></li>
-          <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role == USER_TYPE.MEMBER" class="mobile-menu-item"><a [routerLink]="['/profile/donate']" onclick="$('.mobile-navigation').removeClass('in');">{{tr('DONATE')}}</a></li>
+          <li class="mobile-menu-item">
+              <a href="{{SERVER_URL}}/messages" onclick="$('.mobile-navigation').removeClass('in');">Chat History</a>
+              <span class="badge badge-danger" style="position: absolute; left: auto; bottom: 10px; top: auto; right: 5px;" [class.hidden] = "general.unread_messages == 0">{{general.unread_messages}}</span>
+            </li>
           <li *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role != USER_TYPE.INDIVIDUAL && authenticate.currentUser.role != USER_TYPE.MEMBER" class="main-menu-li" [class.active]= "appState.get('one_page_menu_selected') == 8" >
             <a class="" [routerLink]="['/report']">
               {{tr('REPORT')}}
@@ -173,7 +176,7 @@
 </span>
 </div> -->
 <div class="ui-pnotify-closer" style="cursor: pointer; visibility: visible;">
-<button type="button" class="close" name="button" style="margin:10px" onclick="$('.ui-pnotify').hide();"></button>
+<button type="button" class="close" name="button" style="margin:10px" (click)="appState.errorMessage = ''"></button>
 </div>
 <div class="ui-pnotify-sticker" style="cursor: pointer; visibility: hidden;">
   <span class="icon-play" title="Stick">

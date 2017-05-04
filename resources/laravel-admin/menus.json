@@ -1,1 +1,33 @@
-{"menus":[{"section":"User Manager","items":[{"title":"Users","url":"\/admin\/users"},{"title":"Roles","url":"\/admin\/roles"},{"title":"Permissions","url":"\/admin\/permissions"},{"title":"Give Role Permissions","url":"\/admin\/give-role-permissions"}]},{"section":"Donations","items":[{"title":"Approve Donates","url":"\/admin\/donates"}]},{"section":"Uploads","items":[{"title":"Video Upload","url":"\/admin\/upload_video"}, {"title":"Firmware Upload","url":"\/admin\/upload_firmware"}]}, {"section":"Modules","items":[]}]}
+{
+    "menus":[
+        {
+            "section":"User Manager",
+            "items":[
+                {"title":"Users","url":"\/admin\/users"},
+                {"title":"Roles","url":"\/admin\/roles"},
+                {"title":"Permissions","url":"\/admin\/permissions"},
+                {"title":"Give Role Permissions","url":"\/admin\/give-role-permissions"}
+            ]
+        },
+        {
+            "section":"Donations",
+            "items":[
+                {"title":"Approve Donates","url":"\/admin\/donates"}
+            ]
+        },
+        {
+            "section":"Uploads",
+            "items":[
+                {"title":"Video Upload","url":"\/admin\/upload_video"}, 
+                {"title":"Firmware Upload","url":"\/admin\/upload_firmware"}
+            ]
+        },
+        {
+            "section":"Customer Service",
+            "items":[
+                {"title":"Messages from Customers","url":"\/admin\/message_history"}, 
+                {"title":"Chats from Customers","url":"\/messages"}
+            ]
+        }
+    ]
+}

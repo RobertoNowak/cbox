@@ -36,6 +36,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::post('upload_video/', 'AdminController1@upload_video');
     Route::get('upload_firmware/', 'AdminController1@upload_firmware');
     Route::post('upload_firmware/', 'AdminController1@upload_firmware_post');
+    Route::get('message_history/', 'MessageHistoryController@index');
+    Route::get('message_history/reply/{id}', 'MessageHistoryController@reply');
+    Route::post('message_history/reply/{id}', 'MessageHistoryController@replyMessage');
 
     Route::get('acceptticket/{id}', 'AdminController@acceptTicket');
     Route::get('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);

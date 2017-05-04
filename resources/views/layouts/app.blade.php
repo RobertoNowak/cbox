@@ -99,7 +99,7 @@
                             @else
                                 <li><a href="/#/profile/">Edit Profile</a></li>
                                 <li>
-                                    <a href="/messages">Messages</a>
+                                    <a href="/messages">Chat History</a>
                                 </li>
                                 @if(Auth::user()->hasRole('SCHOOL') || Auth::user()->hasRole('INSTITUTION'))
                                 <li class="main-menu-li" >
@@ -109,6 +109,7 @@
                                 </li>
                                 @endif
                                 <li ><a href="/#/profile/boxes">My Boxes</a></li>
+                                <li ><a href="/#/profile/sounds">My Box Sounds</a></li>
                                 @if(Auth::user()->hasRole('SCHOOL') || Auth::user()->hasRole('INSTITUTION'))
                                 <li ><a href="/#/profile/members">My Members</a></li>
                                 @endif

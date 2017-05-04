@@ -8,6 +8,7 @@ use Validator;
 use App\User;
 use App\Models\Box;
 use App\Models\Follow;
+use App\Models\MessageHistory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -179,9 +180,12 @@ class ScoreController extends BaseController
       foreach($admins as $admin){
         $mail_to[] = $admin->email;
       }
-      Mail::send('mail/contact_mail', $data, function($message) use($contact, $mail_to) {
+      MessageHistory::unguard();
+      $message_history = MessageHistory::create($contact);
+      MessageHistory::reguard();
+      Mail::send('mail/contact_mail', $data, function($message) use($message_history, $mail_to) {
          $message->to($mail_to, 'The user wants contact.')->subject
-            ($contact['subject']);
+            ("MESSAGE".$message_history->id);
          $message->from('noreply@milionmitzvot.com','MilionMitzvot');
       });
 

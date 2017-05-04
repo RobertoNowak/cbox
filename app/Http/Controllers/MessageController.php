@@ -148,7 +148,28 @@ class MessageController extends Controller
     public function customerSupport(Request $request){
         $user = Auth::user();
         $ticket = Ticket::where('requester_id', $user->id)->where('del_flg', config('constants.ITEM_IS_LIVE'))->where('accepter_id', 0)->first();
-        
+        if($ticket != null){
+            $mail_to = [];
+            $admins = User::join('role_user', function($join){
+                        $join->on('users.id', '=', 'role_user.user_id');
+                        })
+                        ->join('roles', function($join){
+                        $join->on('roles.id', '=', 'role_user.role_id');
+                        })
+                        ->where('roles.name', '=', config('constants.ADMIN_USER'))
+                        ->get();
+            foreach($admins as $admin){
+                $mail_to[] = $admin->email;
+            }
+            $_message = $ticket->message;
+            $url = url('admin/acceptticket/'.$ticket->id);
+            $data = array('url'=>$url, 'message_1'=>$_message, 'user' => $user);
+            Mail::send('mail/chat_request_mail', $data, function($message) use($mail_to, $ticket) {
+                $message->to($mail_to, 'The user is connecting to customer service.')->subject
+                    ("CHAT".$ticket->id);
+                $message->from('noreply@milionmitzvot.com','MilionMitzvot');
+            });
+        }
         return view('messages.customer_support', compact('ticket'));
     }
 
@@ -161,26 +182,6 @@ class MessageController extends Controller
         Ticket::unguard();
         $ticket = Ticket::create($ticketData);
         Ticket::reguard();
-        $mail_to = [];
-        $admins = User::join('role_user', function($join){
-                    $join->on('users.id', '=', 'role_user.user_id');
-                    })
-                    ->join('roles', function($join){
-                    $join->on('roles.id', '=', 'role_user.role_id');
-                    })
-                    ->where('roles.name', '=', config('constants.ADMIN_USER'))
-                    ->get();
-        foreach($admins as $admin){
-            $mail_to[] = $admin->email;
-        }
-        $_message = $params['message'];
-        $url = url('admin/acceptticket/'.$ticket->id);
-        $data = array('url'=>$url, 'message_1'=>$_message, 'user' => $user);
-        Mail::send('mail/chat_request_mail', $data, function($message) use($mail_to) {
-            $message->to($mail_to, 'The user is connecting to customer service.')->subject
-                ("The user is connecting to customer service.");
-            $message->from('noreply@milionmitzvot.com','MilionMitzvot');
-        });
         // return view('messages.customer_support');
         return redirect('/customer_support');
     }

@@ -3,7 +3,7 @@
 
 <h1>{{tr("MAIN_TITLE")}}</h1>
 <div class="content-form-page">
-  <form class="form-horizontal" role="form" novalidate (ngSubmit) = "sendContactMessage(contactForm);" #contactForm="ngForm">
+  <form class="form-horizontal" role="form" (ngSubmit) = "sendContactMessage(contactForm);" #contactForm="ngForm">
   <div class="row">
     <div class="col-md-12 col-sm-12">
         <fieldset>
@@ -13,7 +13,7 @@
             <p>{{successMessage}}</p>
           </div>
           <div class="alert alert-danger " [class.hidden] = "errorMessage == ''">
-            <button class="close" (click) = "errorMessage = ''"></button>
+            <button type="button" class="close" (click) = "errorMessage = ''"></button>
             <p>{{errorMessage}}</p>
           </div>
           <div class="form-group margin-top:20px">

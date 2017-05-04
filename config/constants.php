@@ -35,5 +35,8 @@ return [
   'MESSAGE_READ' => 1,
 
   'DEFAULT_CURRENCYT' => 'USD',
+
+  'MESSAGE_UN_REPLIED' => 0,
+  'MESSAGE_REPLIED' => 1,
 ];
 ?>

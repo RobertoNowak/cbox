@@ -122,7 +122,14 @@ div.caption>button.search{
   border: 1px solid #ddd;
   border-radius: 5px !important;
   width: calc(100% - 40px);
-  margin: 30px 0px 50px 0px;
+  margin: 30px 0px 0px 0px;
+  font-weight: bold;
+}
+.btn.my-profile-btn{
+  border: 1px solid #ddd;
+  border-radius: 5px !important;
+  width: calc(100% - 40px);
+  margin: 20px 0px 0px 0px;
   font-weight: bold;
 }
 .user-info{
@@ -207,7 +214,11 @@ tr.table-row.selected td{
 }
 @media(max-width: 1000px){
   .left-panel{
-    display: none;
+    width: 100%;
+    padding: 20px;
+    position: inherit;
+    box-shadow: none;
+    background: inherit;
   }
   .container{
     max-width: calc(100% - 40px);

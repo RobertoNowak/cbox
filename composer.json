@@ -9,6 +9,7 @@
         "appzcoder/laravel-admin": "dev-master",
         "barryvdh/laravel-cors": "^0.8.6",
         "dingo/api": "1.0.0-beta8",
+        "doctrine/dbal": "^2.5",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "nahid/talk": "^2.1",
