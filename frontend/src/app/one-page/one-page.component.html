@@ -52,7 +52,7 @@
         </li>
         <li class="main-menu-li dropdown" *ngIf = "authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN" [class.active]= "appState.get('one_page_menu_selected') == 3">
           <a class="dropdown-toggle" data-toggle="dropdown">
-            {{tr('PROFILE')}}
+            My Account
             <span class="badge badge-danger" style="position: absolute; left: auto; bottom: 20px; top: auto; right: 20px;" [class.hidden] = "general.unread_messages == 0">{{general.unread_messages}}</span>
           </a>
           <ul class="dropdown-menu">

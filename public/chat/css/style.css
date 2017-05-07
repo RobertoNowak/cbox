@@ -157,6 +157,8 @@ body {
   margin-bottom: 30px;
   width: 90%;
   position: relative;
+  white-space: pre;
+  
 }
 .chat .chat-history .message:after {
   bottom: 100%;

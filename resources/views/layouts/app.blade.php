@@ -84,12 +84,19 @@
                             Donate
                         </a>
                     </li>
+                    @if(!Auth::guest() && Auth::user()->hasRole('ADMIN'))
+                    <li class="main-menu-li">
+                        <a class="" href="/admin">
+                            Admin
+                        </a>
+                    </li>
+                    @endif
                     <li class="main-menu-li dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">
                             @if (Auth::guest())
                                 Sign In/Up
                             @else
-                                Profile
+                                My Account
                             @endif
                         </a>
                         <ul class="dropdown-menu">
@@ -101,17 +108,19 @@
                                 <li>
                                     <a href="/messages">Chat History</a>
                                 </li>
-                                @if(Auth::user()->hasRole('SCHOOL') || Auth::user()->hasRole('INSTITUTION'))
+                                @if(!Auth::user()->hasRole('INDIVIDUAL') && !Auth::user()->hasRole('MEMBER'))
                                 <li class="main-menu-li" >
                                     <a class="" href="/#/report">
                                         Report
                                     </a>
                                 </li>
                                 @endif
-                                <li ><a href="/#/profile/boxes">My Boxes</a></li>
-                                <li ><a href="/#/profile/sounds">My Box Sounds</a></li>
-                                @if(Auth::user()->hasRole('SCHOOL') || Auth::user()->hasRole('INSTITUTION'))
-                                <li ><a href="/#/profile/members">My Members</a></li>
+                                @if(!Auth::user()->hasRole('MEMBER'))
+                                    <li ><a href="/#/profile/boxes">My Boxes</a></li>
+                                    <li ><a href="/#/profile/sounds">My Box Sounds</a></li>
+                                @endif
+                                @if(!Auth::user()->hasRole('INDIVIDUAL') && !Auth::user()->hasRole('MEMBER'))
+                                    <li ><a href="/#/profile/members">My Members</a></li>
                                 @endif
                                 <li><a href="/#/profile/changePassword">Change Password</a></li>
                                 <li>

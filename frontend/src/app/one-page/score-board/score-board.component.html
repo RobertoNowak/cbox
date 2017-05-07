@@ -77,7 +77,7 @@
                     <td class="text-right" style="text-align: center;">{{i + 1 + (curPage - 1) * 10}}</td>
                     <td class="highlight">
                         <!-- <div class="success" *ngIf = " i < 5"></div> -->
-                        <a style="    margin-left: 15px;" (click) = "current_item = i;">{{item.name}}</a>
+                        <a style="    margin-left: 15px;" (click) = "selectUser(i);">{{item.name}}</a>
                     </td>
                     <td class="hidden-xs">{{item.city}}</td>
                     <td class="hidden-xs">{{item.country}}</td>
@@ -112,14 +112,14 @@
   <div class="left-panel">
     <div class="profile-space" *ngIf = " scores.length > 0">
       <div class="row">
-        <img src="{{scores[current_item].image_url}}" class="avatar" style="border-radius: 50% !important;"/>
+        <img src="{{currentSelectedUser.image_url}}" class="avatar" style="border-radius: 50% !important;"/>
       </div>
       <div class="row" style="margin-top: 20px;">
-        <p class="office-detail-name">{{scores[current_item].name}}</p>
-        <p class="office-detail-address">{{scores[current_item].address}}, {{scores[current_item].country}}</p>
+        <p class="office-detail-name">{{currentSelectedUser.name}}</p>
+        <p class="office-detail-address">{{currentSelectedUser.address}}, {{currentSelectedUser.country}}</p>
       </div>
-      <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && scores[current_item].id != authService.currentUser.id">{{scores[current_item].is_current_user_following > 0?"Unfollow": "Follow"}}</button>
-      <a class="btn white my-profile-btn" [routerLink] = "['/profile/']" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN">My Profile</a>
+      <button type="button" class="btn white follow-btn" (click) = "followUser();" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && currentSelectedUser.id != authService.currentUser.id">{{currentSelectedUser.is_current_user_following > 0?"Unfollow": "Follow"}}</button>
+      <a class="btn white my-profile-btn" *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN" (click) = "showMyProfile();">My Profile</a>
       <div class="user-info margin-top-20" *ngIf = "authService.currentUser != null">
         <h4 class="scoreboard-sidebar-header">Your Mitzvot</h4>
         <p class="scoreboard-sidebar-content">Today <span class="pull-right">{{authService.currentUser.daily_count}}/{{authService.currentUser.goal_daily}}</span></p>

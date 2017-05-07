@@ -168,7 +168,7 @@ class ScoreController extends BaseController
       //Send mails to Admins. 
       $contact = $request->input();
       $data = array('contact'=>$contact);
-      $mail_to = [$contact['email']];
+      $mail_to = [];
       $admins = User::join('role_user', function($join){
                   $join->on('users.id', '=', 'role_user.user_id');
                 })
@@ -183,12 +183,18 @@ class ScoreController extends BaseController
       MessageHistory::unguard();
       $message_history = MessageHistory::create($contact);
       MessageHistory::reguard();
-      Mail::send('mail/contact_mail', $data, function($message) use($message_history, $mail_to) {
+      //To Admins
+      Mail::send('mail/contact_mail', $data, function($message) use($message_history, $mail_to, $contact) {
          $message->to($mail_to, 'The user wants contact.')->subject
+            ("MESSAGE".$message_history->id);
+         $message->from($contact['email'],$contact['name']);
+      });
+      //To Customer
+      Mail::send('mail/contact_mail', $data, function($message) use($message_history, $contact) {
+         $message->to($contact['email'], 'The user wants contact.')->subject
             ("MESSAGE".$message_history->id);
          $message->from('noreply@milionmitzvot.com','MilionMitzvot');
       });
-
       $res['success'] = true;
 
       return $res;

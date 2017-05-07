@@ -164,10 +164,11 @@ class MessageController extends Controller
             $_message = $ticket->message;
             $url = url('admin/acceptticket/'.$ticket->id);
             $data = array('url'=>$url, 'message_1'=>$_message, 'user' => $user);
-            Mail::send('mail/chat_request_mail', $data, function($message) use($mail_to, $ticket) {
+            $requester = User::where('id', $ticket->requester_id)->first();
+            Mail::send('mail/chat_request_mail', $data, function($message) use($mail_to, $ticket, $requester) {
                 $message->to($mail_to, 'The user is connecting to customer service.')->subject
                     ("CHAT".$ticket->id);
-                $message->from('noreply@milionmitzvot.com','MilionMitzvot');
+                $message->from($requester->email, $requester->name);
             });
         }
         return view('messages.customer_support', compact('ticket'));

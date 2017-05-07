@@ -3,6 +3,7 @@ export class Score {
   public name:string;
   public image_url:string;
   public type: number;
+  public address: string;
   public score: number;
   public box_count: number;
   public age: number;
@@ -19,6 +20,7 @@ export class Score {
     this.name = "";
     this.image_url = "";
     this.type = 0;
+    this.address = "";
     this.score = 0;
     this.box_count = 0;
     this.age = 0;

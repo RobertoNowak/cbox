@@ -70,7 +70,7 @@
                             <fieldset>
                                 <div class="form-group margin-top-0 margin-bottom-0">
                                     <div class="col-xs-8" style="width: calc(100% - 95px); padding-right: 0px;">
-                                        <textarea class="form-control" name="message-data" id="message-data" placeholder ="Type your message here" style="height: 80px; resize: none;"></textarea>
+                                        <textarea class="form-control" name="message-data" id="message-data" placeholder ="Type your message here" style="height: 80px; resize: none;" onkeydown = "checkEnter(event);"></textarea>
                                     </div>
                                     <div class="col-xs-4" style="width: 80px;padding: 0px; margin-left: 10px;">
                                         <button class="btn btn-sm btn-primary" type="submit" style="width: 100%; height: 80px;">Send</button>
@@ -110,8 +110,7 @@
             '<span class="message-data-name"> <a href="#" class="talkDeleteMessage" data-message-id="' + data.id + '" title="Delete Messag"><i class="fa fa-close" style="margin-right: 3px;"></i></a>' + data.sender.name + '</span>' +
             '<span class="message-data-time">1 Second ago</span>' +
             '</div>' +
-            '<div class="message my-message">' +
-            data.message +
+            '<div class="message my-message">' + data.message +
             '</div>' +
             '</li>';
 
@@ -120,7 +119,13 @@
                 $('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
             }, 100);
         }
-
+        
+        function checkEnter(event){
+            if( (event.keyCode == 10 || event.keyCode == 13) && !event.shiftKey ){
+                $('form#talkSendMessage').submit();
+                event.preventDefault();
+            }
+        }
     </script>
     {!! talk_live(['user'=>["id"=>auth()->user()->id, 'callback'=>['msgshow']]]) !!}
 

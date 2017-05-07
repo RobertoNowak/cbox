@@ -27,6 +27,7 @@ export class ScoreBoardComponent implements OnInit {
   public searchFilter: string = "school";
   public USER_SIGNED_INFO: any = USER_SIGNED_INFO;
   public USER_TYPE = USER_TYPE;
+  public currentSelectedUser: Score = new Score();
   public ageGroup: any = {
     4: "3~5",
     6: "5~8",
@@ -51,6 +52,7 @@ export class ScoreBoardComponent implements OnInit {
          this.scores = this.generalService.scores;
          this.loadingCount --;
          this.current_item = 0;
+         this.currentSelectedUser = this.scores[0];
          if(this.loadingCount == 0 && !this.isDestroyed){
            let me = this;
           //  setTimeout(function(){me.refreshTable({page: me.curPage});}, 5000);
@@ -84,6 +86,11 @@ export class ScoreBoardComponent implements OnInit {
   search(){
     this.refreshTable({page: this.curPage});
   }
+  
+  selectUser(index){
+    this.current_item = index;
+    this.currentSelectedUser = this.scores[index];
+  }
 
   ngOnInit() {
     this.isDestroyed = false;
@@ -113,6 +120,16 @@ export class ScoreBoardComponent implements OnInit {
       this.appState.errorMessage = "Network Error.";
       this.appState.closeLoading();
     });
+  }
+
+  showMyProfile(){
+    let score: Score = new Score();
+    score.id = this.authService.currentUser.id;
+    score.name = this.authService.currentUser.name;
+    score.address = this.authService.currentUser.address;
+    score.country = this.authService.currentUser.country;
+    score.image_url = this.authService.currentUser.image_url;
+    this.currentSelectedUser = score;
   }
 
   tr(tran: string): string

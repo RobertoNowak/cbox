@@ -26,5 +26,7 @@ export class AppComponent {
   }
   toggleChat(){
     this.appState.set('is_chat_window_open', !this.appState.get('is_chat_window_open'));
+    if(!this.appState.get('is_chat_window_open'))
+      this.appState.errorMessage = "You can find your chat messages in your account information in chat history.";
   }
 }

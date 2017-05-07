@@ -64,7 +64,7 @@
                                 <fieldset>
                                     <div class="form-group margin-top-0 margin-bottom-0">
                                         <div class="col-xs-8" style="width: calc(100% - 75px); padding-right: 0px;">
-                                            <textarea class="form-control" name="message" type="text" placeholder="Type message here" style="height: 80px; resize: none;"></textarea>
+                                            <textarea class="form-control" name="message" type="text" placeholder="Type your initial message here" style="height: 80px; resize: none;" onkeydown = "checkEnter(event);"></textarea>
                                         </div>
                                         <div class="col-xs-4" style="width: 70px;padding-left: 0px;">
                                             <button class="btn btn-sm btn-primary" type="submit" style="width: 100%; height: 80px;">Send</button>
@@ -127,6 +127,12 @@
                 $('#ticket-connecting-message').html('We are sorry that no one is available at this time. We will send you message in 24 hours.');
             }, 90000);
         @endif
+        function checkEnter(event){
+            if( (event.keyCode == 10 || event.keyCode == 13) && !event.shiftKey ){
+                $('#app form').submit();
+                event.preventDefault();
+            }
+        }
     </script>
 </body>
 </html>
