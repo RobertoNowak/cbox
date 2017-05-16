@@ -20,12 +20,13 @@ export class MySoundComponent implements OnInit {
     this.appState.setLoading(this.tr("LOADING_TEXT"));
     this.profileService.getSounds().subscribe(
      result => {
-       if(result != false){
+       if(result === false){
+          this.appState.errorMessage = this.tr("GET_FAILED");
+       }
+       else{
           this.sounds = result;
           this.errorMessage = "";
        }
-       else
-         this.appState.errorMessage = this.tr("GET_FAILED");
        this.appState.closeLoading();
      });
   }

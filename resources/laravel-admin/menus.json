@@ -18,7 +18,7 @@
         {
             "section":"Uploads",
             "items":[
-                {"title":"Video Upload","url":"\/admin\/upload_video"}, 
+                {"title":"Policies and Rules Upload","url":"\/admin\/upload_policies_rules"}, 
                 {"title":"Firmware Upload","url":"\/admin\/upload_firmware"}
             ]
         },

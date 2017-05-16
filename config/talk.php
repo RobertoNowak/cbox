@@ -6,7 +6,7 @@ return [
     ],
     'broadcast' => [
         'enable' => true,
-        'app_name' => 'Millionmitzvot',
+        'app_name' => 'Million acts of charity mitzvot',
         'pusher' => [
             'app_id'        => env('PUSHER_APP_ID'),
             'app_key'       => env('PUSHER_KEY'),

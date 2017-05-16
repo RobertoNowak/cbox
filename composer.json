@@ -14,7 +14,8 @@
         "laravel/tinker": "~1.0",
         "nahid/talk": "^2.1",
         "netshell/paypal": "dev-master",
-        "pbmedia/laravel-ffmpeg": "^1.1"
+        "pbmedia/laravel-ffmpeg": "^1.1",
+        "phpoffice/phpword": "^0.13.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

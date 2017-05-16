@@ -173,8 +173,8 @@ class BoxController extends BaseController
           $res["message"] = "The device doesn't exist.";
           return $res;
       }
-      $box['del_flg'] = config('constants.ITEM_IS_DELETE');
-      $box->save();
+      // $box['del_flg'] = config('constants.ITEM_IS_DELETE');
+      $box->delete();
       $res['success'] = true;
       return $res;
     }

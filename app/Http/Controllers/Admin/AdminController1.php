@@ -8,6 +8,8 @@ use App\Models\Option;
 use Illuminate\Http\Request;
 use Session;
 use Validator;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
 class AdminController1 extends Controller
 {
     /**
@@ -17,7 +19,7 @@ class AdminController1 extends Controller
      */
     public function index()
     {
-        return view('admin.uploads.video');
+        return view('admin.uploads.rule');
     }
 
     /**
@@ -27,17 +29,24 @@ class AdminController1 extends Controller
      *
      * @return void
      */
-    public function upload_video(Request $request)
+    public function upload_rule(Request $request)
     {
-        $video_path = '/public/assets/video/';
-        $video = $request->file('video');
-        if (!is_null($video)) {
-            $destinationPath = base_path().$video_path; // upload path
-            $fileName = '1.mp4';
-            $video->move($destinationPath, $fileName); // uploading file to given path
+        $rule_path = '/public/rule/';
+        $file = $request->file('rule');
+        // dd($file);
+        if (!is_null($file)) {
+            $destinationPath = base_path().$rule_path; // upload path
+            $fileName = 'rule.pdf';
+            $file->move($destinationPath, $fileName); // uploading file to given path
+            // $phpWord = new PHPWord();
+            // $document = $phpWord->loadTemplate($destinationPath.$fileName);
+            // $document->saveAs('temp');
+            // $phpWord = \PhpOffice\PhpWord\IOFactory::load('temp'); 
+            // $objWriter = IOFactory::createWriter($phpWord, 'PDF');
+            // $objWriter->save($destinationPath.'rule.PDF');
         }
-        Session::flash('flash_message', 'Video has been uploaded successfully!');
-        return view('admin.uploads.video');
+        Session::flash('flash_message', 'Rule has been uploaded successfully!');
+        return view('admin.uploads.rule');
     }
 
     public function upload_firmware(Request $request){

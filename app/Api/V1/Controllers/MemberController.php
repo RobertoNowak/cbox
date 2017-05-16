@@ -175,7 +175,7 @@ class MemberController extends PaypalPaymentController
             ->where('email' ,  '='  , $MemberData['email'])
             ->exists()) {
           $res["success"] = false;
-          $res["message"] = "Member already exists";
+          $res["message"] = "That email already exists";
           return $res;
       }
       // add device
@@ -386,8 +386,7 @@ class MemberController extends PaypalPaymentController
 
       $userID = $user->id;
 
-      $Member = User::where('del_flg'  , '<>'  , config('constants.ITEM_IS_DELETE'))
-            ->where('id' ,  '='  , $MemberData['id'])
+      $Member = User::where('id' ,  '='  , $MemberData['id'])
             ->first();
 
       if ($Member === null) {
@@ -395,8 +394,9 @@ class MemberController extends PaypalPaymentController
           $res["message"] = "The Member doesn't exist";
           return $res;
       }
-      $Member['del_flg'] = config('constants.ITEM_IS_DELETE');
-      $Member->save();
+      // $Member['del_flg'] = config('constants.ITEM_IS_DELETE');
+
+      $Member->delete();
       $res['success'] = true;
       return $res;
     }

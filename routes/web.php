@@ -32,8 +32,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::resource('donates', 'DonatesController');
     Route::post('donates/approve/{id}', 'DonatesController@approve');
     Route::post('donates/unapprove/{id}', 'DonatesController@unapprove');
-    Route::get('upload_video/', 'AdminController1@index');
-    Route::post('upload_video/', 'AdminController1@upload_video');
+    Route::get('upload_policies_rules/', 'AdminController1@index');
+    Route::post('upload_policies_rules/', 'AdminController1@upload_rule');
     Route::get('upload_firmware/', 'AdminController1@upload_firmware');
     Route::post('upload_firmware/', 'AdminController1@upload_firmware_post');
     Route::get('message_history/', 'MessageHistoryController@index');
