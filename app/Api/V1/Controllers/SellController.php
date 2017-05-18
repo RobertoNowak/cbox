@@ -17,7 +17,7 @@ use App\Models\BoxImage;
 use App\Models\Buyer;
 use App\Models\Invoice;
 use App\Models\Donate;
-
+use Auth;
 use Paypal;
 use Mail;
 class SellController extends PaypalPaymentController
@@ -122,7 +122,7 @@ class SellController extends PaypalPaymentController
       $transaction->setAmount($amount);
       $transaction->setDescription('C-Box');
 
-      $redirectUrls = PayPal:: RedirectUrls();
+      $redirectUrls = PayPal::RedirectUrls();
       $redirectUrls->setReturnUrl(url('/api/v1/sell/postPayDone?invoice_key='.$invoice_key));
       $redirectUrls->setCancelUrl(url('/api/v1/sell/postPayCancel'));
 
@@ -184,7 +184,7 @@ class SellController extends PaypalPaymentController
       ]);
       $donate = Donate::where('id', $payData['donateId'])->first();
       $amount = $payData['amount'];
-      $user_id = $this->getCurrentUser()->id;
+      $user_id = Auth::user()->id;
       
       $invoiceData['user_id'] = $donate->org_id;
       $invoiceData['buyer_id'] = $user_id;//This is hackable way
@@ -203,7 +203,7 @@ class SellController extends PaypalPaymentController
       $payer = PayPal::Payer();
       $payer->setPaymentMethod('paypal');
 
-      $pp_amount = PayPal:: Amount();
+      $pp_amount = PayPal::Amount();
       $pp_amount->setCurrency('USD');
       $pp_amount->setTotal($amount); // This is the simple way,
       // you can alternatively describe everything in the order separately;
@@ -213,7 +213,7 @@ class SellController extends PaypalPaymentController
       $transaction->setAmount($pp_amount);
       $transaction->setDescription('C-Box Donation');
 
-      $redirectUrls = PayPal:: RedirectUrls();
+      $redirectUrls = PayPal::RedirectUrls();
       $redirectUrls->setReturnUrl(url('/api/v1/sell/donateDone?invoice_key='.$invoice_key));
       $redirectUrls->setCancelUrl(url('/api/v1/sell/donateCancel'));
 
@@ -291,7 +291,7 @@ class SellController extends PaypalPaymentController
     public function saveDonate(Request $request){
       // $data = $request->only(['name', 'city', 'country', 'commitment', 'donate_count', 'exist_count'])
       $input = $request->input();
-      $userID = $this->getCurrentUser()->id;
+      $userID = Auth::user()->id;
       $donate = Donate::where('org_id', $userID)->first();
       if ($donate === null) {
         $donate = new Donate();
@@ -356,7 +356,7 @@ class SellController extends PaypalPaymentController
     }
 
     public function getCurrentDonate(Request $request){
-        $userID = $this->getCurrentUser()->id;
+        $userID = Auth::user()->id;
         $donate = Donate::where('org_id', $userID)->first();
         if ($donate === null) {
           $donate = null;
