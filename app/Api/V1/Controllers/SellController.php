@@ -188,7 +188,6 @@ class SellController extends PaypalPaymentController
           $new_order_count = count($donateIds);
         }
         else{
-            $org = User::find($donate->org_id);
             $order['donate_id'] = 0;
             $order['amount'] = $buy_count;
             $order['name'] = $buyer->name;
