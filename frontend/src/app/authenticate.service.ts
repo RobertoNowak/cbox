@@ -16,7 +16,8 @@ export const USER_TYPE = {
   INSTITUTION: "INSTITUTION",
   SCHOOL: "SCHOOL",
   MEMBER: "MEMBER",
-  ADMIN: "ADMIN"
+  ADMIN: "ADMIN",
+  SHIPPER: "DROP_SHIPPER"
 };
 
 @Injectable()

@@ -50,6 +50,11 @@
             Admin
           </a>
         </li>
+        <li class="main-menu-li" *ngIf="authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && authenticate.currentUser.role == USER_TYPE.SHIPPER">
+          <a class="" href="{{SERVER_URL}}/shipper">
+            Ship
+          </a>
+        </li>
         <li class="main-menu-li dropdown" *ngIf = "authenticate.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN" [class.active]= "appState.get('one_page_menu_selected') == 3">
           <a class="dropdown-toggle" data-toggle="dropdown">
             My Account

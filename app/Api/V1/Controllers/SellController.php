@@ -15,6 +15,7 @@ use App\Models\SellBox;
 use App\Models\SellOrder;
 use App\Models\BoxImage;
 use App\Models\Buyer;
+use App\Models\Order;
 use App\Models\Invoice;
 use App\Models\Donate;
 use Auth;
@@ -79,7 +80,7 @@ class SellController extends PaypalPaymentController
       if(!isset($payData['donateIds']))
         $payData['donateIds'] = '';
       if(!isset($payData['donateQuantities']))
-        $payData['donateQuantities'] = '';
+        $payData['donateQuantities'] = $payData['buy_count'];
       if(!isset($payData['user_id']))
         $payData['user_id'] = 0;
       // save to buyer
@@ -164,6 +165,7 @@ class SellController extends PaypalPaymentController
         $invoice->save();
         $buy_count = $invoice->count;
         $buyer = Buyer::where('id', $invoice->buyer_id)->first();
+        $new_order_count = 1;
         if ( $buyer->donateIds != '') {
           $donateIds = explode(",", $buyer->donateIds);
           $quantities = explode(",", $buyer->donateQuantities);
@@ -171,8 +173,55 @@ class SellController extends PaypalPaymentController
             $donate = Donate::where('id', $donateIds[$i])->first();
             $donate->exist_count += $quantities[$i];
             $donate->save();
+            $org = User::find($donate->org_id);
+            $order['donate_id'] = $donateIds[$i];
+            $order['amount'] = $quantities[$i];
+            $order['name'] = $donate->name;
+            $order['email'] = $org->email;
+            $order['address'] = $donate->address;
+            $order['city'] = $donate->city;
+            $order['state'] = $donate->country;
+            Order::unguard();
+            $order = Order::create($order);
+            Order::reguard();
           }
+          $new_order_count = count($donateIds);
         }
+        else{
+            $org = User::find($donate->org_id);
+            $order['donate_id'] = 0;
+            $order['amount'] = $buy_count;
+            $order['name'] = $buyer->name;
+            $order['email'] = $buyer->email;
+            $order['address'] = $buyer->address;
+            $order['city'] = $buyer->city;
+            $order['state'] = $buyer->state;
+            Order::unguard();
+            $order = Order::create($order);
+            Order::reguard();
+        }
+        //Send email to Admins and Droppers
+        $mail_to = [];
+        $admin_droppers = User::join('role_user', function($join){
+                    $join->on('users.id', '=', 'role_user.user_id');
+                  })
+                  ->join('roles', function($join){
+                    $join->on('roles.id', '=', 'role_user.role_id');
+                  })
+                  ->where(function($query) use($user){
+                      $query->orwhere('roles.name', config('constants.ADMIN_USER'));
+                      $query->orwhere('roles.name', config('constants.SHIPPER_USER'));
+                  })
+                  ->get();
+        foreach($admin_droppers as $_user){
+          $mail_to[] = $_user->email;
+        }
+        $mail_data = array('new_order_cnt'=>$new_order_count);
+        Mail::send('mail/new_order_mail', $mail_data, function($message) {
+           $message->to($mail_to)->subject
+              ('New orders have been arrived.');
+           $message->from('noreply@milionmitzvot.com','MilionMitzvot');
+        });
         return redirect('/#/home/sell;pay_success=0');
     }
 
@@ -298,6 +347,7 @@ class SellController extends PaypalPaymentController
         $donate->org_id = $userID;
       }
       $donate->name = $input['name'];
+      $donate->address = $input['address'];
       $donate->city = $input['city'];
       $donate->country = $input['country'];
       $donate->commitment = $input['commitment'];

@@ -3,6 +3,7 @@ export class Donate {
   public name:      string;
   public picture:     any;
   public description:     string;
+  public address: string;
   public city:   string;
   public country:   string;
   public commitment:   string;
@@ -18,6 +19,7 @@ export class Donate {
     this.name = "";
     this.picture = "";
     this.description="";
+    this.address = "";
     this.city = "";
     this.country = "";
     this.commitment = "";

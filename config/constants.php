@@ -19,6 +19,7 @@ return [
   'INSTITUTION_USER'    => "INSTITUTION",
   'SCHOOL_USER'         => "SCHOOL",
   'MEMBER_USER'         => "MEMBER",
+  'SHIPPER_USER'        => 'DROP_SHIPPER',
 
   'AGE_ITEM_ARRAY'     =>[4, 6, 9, 12, 15, 20],
 
@@ -38,5 +39,9 @@ return [
 
   'MESSAGE_UN_REPLIED' => 0,
   'MESSAGE_REPLIED' => 1,
+
+  'BOX_SHIP_APPOINTED' => 0,
+  'BOX_SHIP_CANCELLED' => 1,
+  'BOX_SHIP_DONE' => 2,
 ];
 ?>

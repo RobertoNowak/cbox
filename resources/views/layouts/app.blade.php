@@ -91,6 +91,13 @@
                         </a>
                     </li>
                     @endif
+                    @if(!Auth::guest() && Auth::user()->hasRole('DROP_SHIPPER'))
+                    <li class="main-menu-li">
+                        <a class="" href="/shipper">
+                            Ship
+                        </a>
+                    </li>
+                    @endif
                     <li class="main-menu-li dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">
                             @if (Auth::guest())

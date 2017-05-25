@@ -44,6 +44,20 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::get('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
     Route::post('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
 });
+
+Route::group(['namespace' => 'Shipper', 'prefix' => 'shipper', 'middleware' => ['auth', 'roles'], 'roles' => 'DROP_SHIPPER'], function () {
+    Route::get('/', 'ShipperController@index');
+    Route::get('/orders', 'ShipperController@orders');
+    Route::get('/order/{id}', 'ShipperController@editOrder');
+    Route::post('/order/{id}', 'ShipperController@ship');
+    Route::get('/warehouses', 'ShipperController@warehouses');
+    Route::get('/warehouses/create', 'ShipperController@createWareHouse');
+    Route::post('/warehouses', 'ShipperController@createNewHouse');
+    Route::put('/warehouses/{id}', 'ShipperController@editCurrentHouse');
+    Route::delete('/warehouses/{id}', 'ShipperController@deleteHouse');
+    Route::get('/warehouse/{id}/edit', 'ShipperController@editWareHouse');
+
+});
 Route::get('customer_support', 'MessageController@customerSupport');
 Route::post('customer_support', 'MessageController@newMessage');
 Route::get('isTicketClosed/{id}', 'MessageController@isTicketClosed');
