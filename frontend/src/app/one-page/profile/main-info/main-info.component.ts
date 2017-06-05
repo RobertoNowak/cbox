@@ -52,6 +52,37 @@ export class MainInfoComponent implements OnInit {
    this.temp_image_data = {};
   }
 
+  getYoutubeId(url) {
+      let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      let match = url.match(regExp);
+
+      if (match && match[2].length == 11) {
+          return match[2];
+      } else {
+          return 'error';
+      }
+  }
+
+  checkVideoURL(): boolean{
+      if(!this.model.weekly_mail_video)
+          return false;
+      let provider1, provider2;
+      try{
+          provider1 = this.model.weekly_mail_video.match(/http:\/\/(:?www.)?(\w*)/)?this.model.weekly_mail_video.match(/http:\/\/(:?www.)?(\w*)/)[2]: null;
+          provider2 = this.model.weekly_mail_video.match(/https:\/\/(:?www.)?(\w*)/)?this.model.weekly_mail_video.match(/https:\/\/(:?www.)?(\w*)/)[2]: null;
+      }
+      catch(e){
+          console.log(e);
+      }
+      if(provider1 == "youtube" || provider2 == "youtube"){
+          this.model.weekly_mail_video = "https://www.youtube.com/embed/" + this.getYoutubeId(this.model.weekly_mail_video);
+          return true;
+      }
+      if(provider1 == "vimeo" || provider2 == "vimeo")
+          return true;
+      return false;
+  }
+
   fileChange(input){
     if(input.files.length < 1)
       return;

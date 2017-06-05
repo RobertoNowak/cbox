@@ -25,7 +25,7 @@
                                         <div class="col-md-6">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" style="float: left;">
                                                 <span class="btn green btn-file">
-                                                    <input class="imageFile" name="rule" type="file" accept="Document/pdf"> </span>
+                                                    <input class="imageFile" name="rule" type="file" accept=".docx"> </span>
                                                 <span class="fileinput-filename"> </span> &nbsp;
                                                 <a class="close fileinput-exists" data-dismiss="fileinput" href="javascript:;"> </a>
                                             </div>

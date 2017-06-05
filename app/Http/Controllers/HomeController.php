@@ -36,5 +36,8 @@ class HomeController extends Controller
       $user->save();
       return redirect('/#/activateAccount;success=true');
     }
-
+    
+    public function privatePolicy(Request $request){
+        return view('policy');
+    }
 }

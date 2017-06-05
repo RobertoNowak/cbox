@@ -172,7 +172,7 @@ class ProfileController extends BaseController
 
     public function Update(Request $request){
 
-      $userData = $request->only(['name', 'role', 'age', 'school', 'company', 'address', 'city', 'country', 'birthday', 'phone', 'image', 'goal_daily', 'goal_weekly', 'goal_monthly']);
+      $userData = $request->only(['name', 'role', 'age', 'school', 'company', 'address', 'city', 'country', 'birthday', 'phone', 'image', 'goal_daily', 'goal_weekly', 'goal_monthly', 'weekly_mail_ignore', 'weekly_mail_video']);
       $validator = Validator::make($userData, [
           'name' => 'required',
           'role' => 'required',
@@ -183,7 +183,9 @@ class ProfileController extends BaseController
           'birthday' => 'required',
           'goal_daily' => 'required|numeric',
           'goal_weekly' => 'required|numeric',
-          'goal_monthly' => 'required|numeric'
+          'goal_monthly' => 'required|numeric',
+          'weekly_mail_video' => 'required',
+          'weekly_mail_ignore' => 'required|numeric'
       ]);
       if ($validator->fails()) {
         $res['success'] = false;
@@ -206,6 +208,8 @@ class ProfileController extends BaseController
       $user['country'] = is_null($userData['country'])?"":$userData['country'];
       $user['birthday'] = is_null($userData['birthday'])?"":$userData['birthday'];
       $user['phone'] = is_null($userData['birthday'])?"":$userData['phone'];
+      $user['weekly_mail_video'] = is_null($userData['weekly_mail_video'])?"":$userData['weekly_mail_video'];
+      $user['weekly_mail_ignore'] = is_null($userData['weekly_mail_ignore'])?"":$userData['weekly_mail_ignore'];
 
       // $img_path = '/public'.config('constants.IMAGE_PATH');
       // $image = $request->file('image');

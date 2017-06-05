@@ -7,7 +7,7 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Users</div>
+                    <div class="panel-heading">Houses</div>
                     <div class="panel-body">
 
                         <a href="{{ url('/shipper/warehouses/create') }}" class="btn btn-primary pull-right btn-sm">Add New House</a>
@@ -26,6 +26,7 @@
                                         <th>Address</th>
                                         <th>City</th>
                                         <th>State</th>
+                                        <th>Country</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -40,6 +41,7 @@
                                         <td>{{ $item->address }}</td>
                                         <td>{{ $item->city }}</td>
                                         <td>{{ $item->state }}</td>
+                                        <td>{{ $item->country }}</td>
                                         <td>
                                             <a href="{{ url('/shipper/warehouse/' . $item->id . '/edit') }}">
                                                 <button type="submit" class="btn btn-primary btn-xs">Update</button>
@@ -50,7 +52,13 @@
                                                 'style' => 'display:inline'
                                             ]) !!}
                                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
-                                            {!! Form::close() !!}
+                                            {!! Form::close() !!} /
+                                            <a href="{{ url('/shipper/warehouse/' . $item->id . '/addInventory') }}">
+                                                <button type="submit" class="btn btn-primary btn-xs">Add Inventory</button>
+                                            </a>
+                                            <a href="{{ url('/shipper/warehouse/' . $item->id . '/history') }}">
+                                                <button type="submit" class="btn btn-primary btn-xs">IO History</button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -7,25 +7,12 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Make Order</div>
+                    <div class="panel-heading">Add or Remove Inventory for House</div>
                     <div class="panel-body">
-                        {!! Form::model($order, [
+                        {!! Form::model($house, [
                             'method' => 'POST',
-                            'url' => ['/shipper/order', $order->id],
+                            'url' => ['/shipper/warehouses/inventory', $house->id],
                             'class' => 'form-horizontal']) !!}
-                            <div class="form-group">
-                                {!! Form::label('id', 'Control Number: ', ['class' => 'col-md-4 control-label']) !!}
-                                <div class="col-md-6">
-                                    {!! Form::text('id', null, ['class' => 'form-control', 'disabled']) !!}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('date', 'Date: ', ['class' => 'col-md-4 control-label']) !!}
-                                <div class="col-md-6">
-                                    {!! Form::text('date', null, ['class' => 'form-control', 'disabled']) !!}
-                                </div>
-                            </div>
-                            
                             <div class="form-group">
                                 {!! Form::label('name', 'Name: ', ['class' => 'col-md-4 control-label']) !!}
                                 <div class="col-md-6">
@@ -33,9 +20,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                {!! Form::label('email', 'Email: ', ['class' => 'col-md-4 control-label']) !!}
+                                {!! Form::label('manager', 'Manager Name: ', ['class' => 'col-md-4 control-label']) !!}
                                 <div class="col-md-6">
-                                    {!! Form::text('email', null, ['class' => 'form-control', 'disabled']) !!}
+                                    {!! Form::text('manager', null, ['class' => 'form-control', 'disabled']) !!}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('manager_email', 'Manager Email: ', ['class' => 'col-md-4 control-label']) !!}
+                                <div class="col-md-6">
+                                    {!! Form::email('manager_email', null, ['class' => 'form-control', 'disabled']) !!}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -63,44 +56,22 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                {!! Form::label('amount', 'Amount: ', ['class' => 'col-md-4 control-label']) !!}
+                                {!! Form::label('amount', 'Inventory Count: ', ['class' => 'col-md-4 control-label']) !!}
                                 <div class="col-md-6">
-                                    {!! Form::text('amount', null, ['class' => 'form-control', 'disabled']) !!}
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                {!! Form::label('house', 'WareHouse: ', ['class' => 'col-md-4 control-label']) !!}
-                                <div class="col-md-6">
-                                    {!! Form::select('house', $houses, null, ['class' => 'form-control', 'required' => 'required']) !!}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('amount', 'Amount: ', ['class' => 'col-md-4 control-label']) !!}
-                                <div class="col-md-6">
-                                    {!! Form::number('amount', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                    {!! Form::number('amount', null, ['class' => 'form-control', 'required' => 'true']) !!}
                                 </div>
                             </div>
                             <div class="form-group">
                                 {!! Form::label('comment', 'Comment: ', ['class' => 'col-md-4 control-label']) !!}
                                 <div class="col-md-6">
-                                    {!! Form::text('comment', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                    {!! Form::text('comment', null, ['class' => 'form-control', 'required' => 'true']) !!}
                                 </div>
                             </div>
-                            @if($order->del_flg == 0)
                             <div class="form-group">
                                 <div class="col-md-offset-4 col-md-4">
-                                    {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Ship', ['class' => 'btn btn-primary']) !!}
+                                    {!! Form::submit('Add Inventory', ['class' => 'btn btn-primary']) !!}
                                 </div>
                             </div>
-                            @else
-                            <div class="form-group">
-                                {!! Form::label('shipped', 'Shipped: ', ['class' => 'col-md-4 control-label']) !!}
-                                <div class="col-md-6">
-                                    {!! Form::text('shipped', null, ['class' => 'form-control', 'disabled']) !!}
-                                </div>
-                            </div>
-                            @endif
                         {!! Form::close() !!}
                     </div>
                 </div>

@@ -21,6 +21,7 @@ Route::get('logout', function (){
     return redirect('/login');
 });
 Route::get('/activateUser', 'HomeController@activateUser');
+Route::get('/policy', 'HomeController@privatePolicy');
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'ADMIN'], function () {
     Route::get('/', 'AdminController@index');
@@ -56,6 +57,9 @@ Route::group(['namespace' => 'Shipper', 'prefix' => 'shipper', 'middleware' => [
     Route::put('/warehouses/{id}', 'ShipperController@editCurrentHouse');
     Route::delete('/warehouses/{id}', 'ShipperController@deleteHouse');
     Route::get('/warehouse/{id}/edit', 'ShipperController@editWareHouse');
+    Route::get('/warehouse/{id}/addInventory', 'ShipperController@addInventory');
+    Route::get('/warehouse/{id}/history', 'ShipperController@ioHistory');
+    Route::post('/warehouses/inventory/{id}', 'ShipperController@add_remove_inventory');
 
 });
 Route::get('customer_support', 'MessageController@customerSupport');

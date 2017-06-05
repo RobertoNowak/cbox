@@ -97,7 +97,7 @@
                 </div>
             </div>
           </div>
-          <legend>{{tr("GOALS_DETAILS")}}</legend>
+          <legend>Your Goals</legend>
           <div class="form-group">
             <label class="col-md-4 control-label">{{tr("DAILY_GOAL")}}</label>
             <div class="col-md-6">
@@ -119,10 +119,28 @@
             </div>
             <label class="col-md-2 control-label">{{(model.monthly_count - model.goal_monthly > 0)?"+":""}}{{model.monthly_count - model.goal_monthly}}</label>
           </div>
+          <div *ngIf = "authService.isLoggedIn() == USER_SIGNED_INFO.SIGNED_IN && (authService.currentUser.role == USER_TYPE.SCHOOL || authService.currentUser.role == USER_TYPE.INSTITUTION)">
+            <legend>Weekly Digest Email</legend>
+            <div class="form-group">
+              <label class="col-md-4 control-label">Video URL</label>
+              <div class="col-md-8">
+                <input type="text" class="form-control" name="weekly_mail_video" [(ngModel)]="model.weekly_mail_video" placeholder="Please put youtube url here." (blur) = "checkVideoURL();">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label">Ignore Mail</label>
+              <div class="col-md-8">
+                <select class="form-control placeholder-no-fix padding-left-5" name="weekly_mail_ignore" [(ngModel)]="model.weekly_mail_ignore" style="padding-left: 6px;color: #aaa;">
+                  <option value=1>Ignore</option>
+                  <option value=0>Allow</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </fieldset>
         <div class="row">
           <div class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20" style="text-align:center;">
-            <button type="submit" class="btn btn-primary green" (click) = "updateProfile(profileForm);">{{tr("UPDATE_PROFILE")}}</button>
+            <button type="submit" class="btn btn-primary green" (click) = "updateProfile(profileForm);">Update Profile</button>
           </div>
         </div>
     </div>

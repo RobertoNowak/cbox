@@ -43,5 +43,7 @@ return [
   'BOX_SHIP_APPOINTED' => 0,
   'BOX_SHIP_CANCELLED' => 1,
   'BOX_SHIP_DONE' => 2,
+
+  'WEEKLY_MAIL_IGNORE' => 1,
 ];
 ?>

@@ -36,14 +36,14 @@ class AdminController1 extends Controller
         // dd($file);
         if (!is_null($file)) {
             $destinationPath = base_path().$rule_path; // upload path
-            $fileName = 'rule.pdf';
+            $fileName = 'rule.docx';
             $file->move($destinationPath, $fileName); // uploading file to given path
-            // $phpWord = new PHPWord();
-            // $document = $phpWord->loadTemplate($destinationPath.$fileName);
-            // $document->saveAs('temp');
-            // $phpWord = \PhpOffice\PhpWord\IOFactory::load('temp'); 
-            // $objWriter = IOFactory::createWriter($phpWord, 'PDF');
-            // $objWriter->save($destinationPath.'rule.PDF');
+            $phpWord = new PHPWord();
+            $document = $phpWord->loadTemplate($destinationPath.$fileName);
+            $document->saveAs('temp');
+            $phpWord = \PhpOffice\PhpWord\IOFactory::load('temp'); 
+            $objWriter = IOFactory::createWriter($phpWord, 'HTML');
+            $objWriter->save(base_path().'/resources/views/'.'rule.blade.php');
         }
         Session::flash('flash_message', 'Rule has been uploaded successfully!');
         return view('admin.uploads.rule');

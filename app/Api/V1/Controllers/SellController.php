@@ -67,7 +67,7 @@ class SellController extends PaypalPaymentController
     }
 
     public function payNow(Request $request){
-      $payData = $request->only(['user_id', 'donateIds', 'donateQuantities', 'sellbox_id', 'buy_count', 'total_price', 'payer_name', 'payer_email', 'payer_address', 'payer_comment']);
+      $payData = $request->only(['user_id', 'donateIds', 'donateQuantities', 'sellbox_id', 'buy_count', 'total_price', 'payer_name', 'payer_email', 'payer_address', 'payer_city', 'payer_state', 'payer_country', 'payer_comment']);
       $validator = Validator::make($payData, [
           'sellbox_id' => 'required|numeric',
           'buy_count' => 'required|numeric',
@@ -90,6 +90,9 @@ class SellController extends PaypalPaymentController
       $buyerData['name'] = $payData['payer_name'];
       $buyerData['email'] = $payData['payer_email'];
       $buyerData['address'] = $payData['payer_address'];
+      $buyerData['city'] = $payData['payer_city'];
+      $buyerData['state'] = $payData['payer_state'];
+      $buyerData['country'] = $payData['payer_country'];
       $buyerData['comment'] = $payData['payer_comment'];
 
       Buyer::unguard();
@@ -180,7 +183,8 @@ class SellController extends PaypalPaymentController
             $order['email'] = $org->email;
             $order['address'] = $donate->address;
             $order['city'] = $donate->city;
-            $order['state'] = $donate->country;
+            $order['state'] = $donate->state;
+            $order['country'] = $donate->country;
             Order::unguard();
             $order = Order::create($order);
             Order::reguard();
@@ -195,6 +199,7 @@ class SellController extends PaypalPaymentController
             $order['address'] = $buyer->address;
             $order['city'] = $buyer->city;
             $order['state'] = $buyer->state;
+            $order['country'] = $buyer->country;
             Order::unguard();
             $order = Order::create($order);
             Order::reguard();
@@ -207,7 +212,7 @@ class SellController extends PaypalPaymentController
                   ->join('roles', function($join){
                     $join->on('roles.id', '=', 'role_user.role_id');
                   })
-                  ->where(function($query) use($user){
+                  ->where(function($query){
                       $query->orwhere('roles.name', config('constants.ADMIN_USER'));
                       $query->orwhere('roles.name', config('constants.SHIPPER_USER'));
                   })
@@ -216,9 +221,8 @@ class SellController extends PaypalPaymentController
           $mail_to[] = $_user->email;
         }
         $mail_data = array('new_order_cnt'=>$new_order_count);
-        Mail::send('mail/new_order_mail', $mail_data, function($message) {
-           $message->to($mail_to)->subject
-              ('New orders have been arrived.');
+        Mail::send('mail/new_order_mail', $mail_data, function($message) use($mail_to){
+           $message->to($mail_to)->subject('New orders have been arrived.');
            $message->from('noreply@milionmitzvot.com','MilionMitzvot');
         });
         return redirect('/#/home/sell;pay_success=0');

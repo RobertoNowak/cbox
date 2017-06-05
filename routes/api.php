@@ -21,6 +21,7 @@ $api->version('v1', function ($api) {
         $api->get('/getGeneralInfo', 'CurrencytController@getInfo');
         $api->get('/getAdminUsers', 'CurrencytController@getAdminUsers');
         $api->get('/getScore', 'ScoreController@getScore');
+        $api->get('/sendWeeklyEmail', 'JobController@sendMailtoMembersWeekly');
         $api->group(['middleware' => ['auth'], 'prefix' => 'profile'], function($api) {
             $api->get('/', 		'ProfileController@Find');
             $api->get('/getUserAmount', 'ProfileController@getUserAmountInBox');

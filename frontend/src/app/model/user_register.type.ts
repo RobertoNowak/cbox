@@ -23,6 +23,8 @@ export class RegisterUser {
   public weekly_count:number;
   public monthly_count:number;
   public role: string;
+  public weekly_mail_video: string;
+  public weekly_mail_ignore: number;
 
   constructor(){
     this.name = "";
@@ -49,5 +51,7 @@ export class RegisterUser {
     this.monthly_count = 0;
     this.admin = 0;
     this.role = "";
+    this.weekly_mail_ignore = 1;
+    this.weekly_mail_video = "";
   }
 }

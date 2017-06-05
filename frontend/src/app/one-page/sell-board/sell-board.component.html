@@ -161,6 +161,24 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="col-md-5 control-label">City : </label>
+            <div class='col-md-5'>
+              <input class='col-md-7 form-control' type="text" name="payer_city" value="" style="text-align: left;" required="true">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-5 control-label">State : </label>
+            <div class='col-md-5'>
+              <input class='col-md-7 form-control' type="text" name="payer_state" value="" style="text-align: left;" required="true">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-5 control-label">Country : </label>
+            <div class='col-md-5'>
+              <input class='col-md-7 form-control' type="text" name="payer_country" value="" style="text-align: left;" required="true">
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-md-5 control-label">Comment : </label>
             <div class='col-md-5'>
               <textarea class='col-md-7 form-control' name="payer_comment" value="" style="text-align: left;" ></textarea>
@@ -169,7 +187,7 @@
           <div class="aKm"></div>
           <fieldset style="text-align: right;padding-right: 30px;">
             <div class="">
-              <button class="btn btn-primary green">{{tr("PAY_NOW")}}</button>
+              <button type="submit" class="btn btn-primary green">{{tr("PAY_NOW")}}</button>
               <button type="button" class="btn red" (click)="pay_box_dialog.hide();">{{tr("CANCEL")}}</button>
             </div>
           </fieldset>
