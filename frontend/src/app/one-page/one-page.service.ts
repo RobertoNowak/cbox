@@ -107,4 +107,14 @@ export class OnePageService {
           return res.success
         }, error=>{return false;});
   }
+
+  getDiscountPercent(code: string){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(this.serverUrl + '/api/v1/getDiscountPercent?code=' + code, {headers: headers})
+        .map((response: Response) => {
+            let res:any = response.json();
+            return res;
+        });
+  }
 }

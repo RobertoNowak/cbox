@@ -16,6 +16,12 @@
             ]
         },
         {
+            "section":"Discounts",
+            "items":[
+                {"title":"Manage Discount Codes","url":"\/admin\/discounts"}
+            ]
+        },
+        {
             "section":"Uploads",
             "items":[
                 {"title":"Policies and Rules Upload","url":"\/admin\/upload_policies_rules"}, 

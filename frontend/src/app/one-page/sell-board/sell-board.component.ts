@@ -27,6 +27,8 @@ export class SellBoardComponent implements OnInit {
   public paySuccess:number;
   public selDonate:Donate;
   public serverUrl: string = environment.serverUrl;
+  public discountPercent: number = 0;
+  public isLoadingDiscountPercent: boolean = false;
   // public card_number:string="";
   // public cvv_code:string="";
   // public exp_year:string="2016";
@@ -139,12 +141,14 @@ export class SellBoardComponent implements OnInit {
   }
 
   get totalPrice(){
-    let price: number = Math.round(this.buy_count * this.curSellBox.price * 100);
+    if(this.discountPercent < 0 || this.discountPercent >= 100)
+      return 0;
+    let price: number = Math.round(this.buy_count * this.curSellBox.price * (100 - this.discountPercent));
     return  price / 100;
   }
 
   selectBox(id:number){
-    this.curSellBox = this.sellBoxes[id]
+    this.curSellBox = this.sellBoxes[id];
     for (let sb of this.sellBoxes) {
         if (sb.id == id) {
             this.curSellBox = sb;
@@ -161,4 +165,23 @@ export class SellBoardComponent implements OnInit {
         }
     }
   }
+
+  refreshDiscount(){
+    let code = jQuery('#sell_board_discount_code').val();
+    if(code == ""){
+      this.discountPercent = 0;
+      return;
+    }
+    this.isLoadingDiscountPercent = true;
+    this.onePageService.getDiscountPercent(code).subscribe(
+      result => {
+       if (result.success) {
+           this.discountPercent = result.percent;
+       }
+       this.isLoadingDiscountPercent = false;
+      },
+      error => {this.isLoadingDiscountPercent = false;}
+    );
+  }
+
 }

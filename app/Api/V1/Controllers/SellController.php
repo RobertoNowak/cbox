@@ -18,6 +18,7 @@ use App\Models\Buyer;
 use App\Models\Order;
 use App\Models\Invoice;
 use App\Models\Donate;
+use App\Models\Discount;
 use Auth;
 use Paypal;
 use Mail;
@@ -67,13 +68,13 @@ class SellController extends PaypalPaymentController
     }
 
     public function payNow(Request $request){
-      $payData = $request->only(['user_id', 'donateIds', 'donateQuantities', 'sellbox_id', 'buy_count', 'total_price', 'payer_name', 'payer_email', 'payer_address', 'payer_city', 'payer_state', 'payer_country', 'payer_comment']);
+      $payData = $request->only(['user_id', 'donateIds', 'donateQuantities', 'sellbox_id', 'buy_count', 'total_price', 'payer_name', 'payer_email', 'payer_address', 'payer_city', 'payer_state', 'payer_country', 'payer_comment', 'discount_code']);
       $validator = Validator::make($payData, [
           'sellbox_id' => 'required|numeric',
           'buy_count' => 'required|numeric',
           'total_price' => 'required|numeric',
           'payer_name' => 'required',
-          'payer_email' => 'required',
+          'payer_email' => 'required'
       ]);
 
       $sellbox = SellBox::where('id', $payData['sellbox_id'])->first();
@@ -83,6 +84,8 @@ class SellController extends PaypalPaymentController
         $payData['donateQuantities'] = $payData['buy_count'];
       if(!isset($payData['user_id']))
         $payData['user_id'] = 0;
+      if(!isset($payData['discount_code']) || $payData['discount_code'] == '')
+        $payData['discount_code'] = '';
       // save to buyer
       $buyerData['donateIds'] = $payData['donateIds'];
       $buyerData['donateQuantities'] = $payData['donateQuantities'];
@@ -95,6 +98,11 @@ class SellController extends PaypalPaymentController
       $buyerData['country'] = $payData['payer_country'];
       $buyerData['comment'] = $payData['payer_comment'];
 
+      //Calculate Total price again
+      $discount = Discount::where('code', $payData['discount_code'])->first();
+      $payData['total_price'] = $payData['buy_count'] * $sellbox->price;
+      if($discount)
+        $payData['total_price'] = round($payData['total_price'] * (100 - $discount->percent) / 100, 2);
       Buyer::unguard();
       $buyer = Buyer::create($buyerData);
       Buyer::reguard();
@@ -448,4 +456,14 @@ class SellController extends PaypalPaymentController
         return $res;
     }
 
+    public function getDiscountPercent(Request $request){
+        $data = $request->only(['code']);
+        $discount = Discount::where('code', $data['code'])->first();
+        $res['success'] = true;
+        if($discount)
+          $res['percent'] = $discount->percent;
+        else
+          $res['percent'] = 0;
+        return $res;
+    }
 }
