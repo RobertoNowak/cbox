@@ -168,8 +168,18 @@ class DepositController extends BaseController
           $deposit['device_id'] = $param['uid'];
           $deposit['user_id'] = $user_id;
           if($one == "50"){
-            $deposit['amount'] = 0.01;
+            $deposit['amount'] = 1;
             $deposit['coin_size'] = 50;
+            $deposit['currencyt'] = config('constants.DEFAULT_CURRENCYT');
+            Deposit::unguard();
+            Deposit::create($deposit);
+            Deposit::reguard();
+            $added_coins ++;
+            continue;
+          }
+          if($one == "100"){
+            $deposit['amount'] = 0.0;
+            $deposit['coin_size'] = 100;
             $deposit['currencyt'] = config('constants.DEFAULT_CURRENCYT');
             Deposit::unguard();
             Deposit::create($deposit);
